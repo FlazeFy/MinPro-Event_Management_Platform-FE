@@ -4,6 +4,7 @@
   --background: #f9f8ff;
   --foreground: #171717;
 
+  --white: #fff;
   --primary: #445ece;
   --primaryShadow: #00359c;
 
@@ -53,13 +54,14 @@ body {
 }
 
 button {
-  background: var(--secondary);
   border-radius: var(--roundedSM);
   padding: var(--spaceXMD);
   cursor: pointer;
+  background: var(--primary);
+  color: var(--background);
 }
-button:hover {
-  transform: scale(1.05);
+.container button {
+  background: var(--secondary);
 }
 
 h1 {
@@ -78,6 +80,14 @@ h3 {
   letter-spacing: 1.25px;
 }
 
+.font-primary {
+  color: var(--primary);
+}
+
 p[data-slot="form-message"] {
   font-style: italic;
+}
+
+footer {
+  background: var(--white);
 }

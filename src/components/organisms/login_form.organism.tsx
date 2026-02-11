@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { useRouter } from "next/navigation"
-import AtomText from '../atoms/a_text'
+import AtomText from '../atoms/text.atom'
 
 // Validation
 const loginSchema = Yup.object({
