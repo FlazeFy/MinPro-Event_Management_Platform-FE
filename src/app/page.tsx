@@ -1,4 +1,5 @@
-import OrganismsBenefitBox from "@/components/organisms/benefit_box.organism";
+import OrganismsBenefitList from "@/components/organisms/benefit_list.organism";
+import OrganismsBookingStepList from "@/components/organisms/booking_step_list.organism";
 import OrganismsLoginForm from "@/components/organisms/login_form.organism";
 import OrganismsWelcomeBox from "@/components/organisms/welcome_box.organism";
 
@@ -13,8 +14,11 @@ export default function Home() {
           <OrganismsLoginForm/>
         </div>
       </div>
+      <div className="mt-[20vh] bg-orange-100 w-full p-5 lg:p-10">
+        <OrganismsBookingStepList/>
+      </div>
       <div className="mt-[20vh] bg-blue-100 w-full p-5 lg:p-10">
-        <OrganismsBenefitBox/>
+        <OrganismsBenefitList/>
       </div>
     </div>
   )
