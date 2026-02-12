@@ -7,8 +7,8 @@ interface AtomText {
 }
 
 const AtomText: React.FC<AtomText> = ({ type, text, extraClass }) => {
-    if (type === 'title') {
-        return <h1 className={`${extraClass} mb-2`}>{text}</h1>
+    if (type === 'title' || type === 'title-huge') {
+        return <h1 className={`mb-2 ${extraClass} ${type}`}>{text}</h1>
     } else if (type === 'sub-title') {
         return <h2 className={extraClass}>{text}</h2>
     } else if (type === 'sub-title-small') {
