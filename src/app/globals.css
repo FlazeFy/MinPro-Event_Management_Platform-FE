@@ -9,6 +9,9 @@
   --primaryShadow: #00359c;
 
   --secondary: #ff8b73;
+  --warning: #ffc25c;
+  --danger: #c5283f;
+  --success: #1dc198;
 
   /* Typography */
   --textJumbo : 32px;
@@ -93,6 +96,15 @@ h4 {
 
 .bg-secondary{
   background: var(--secondary);
+}
+.bg-warning{
+  background: var(--warning);
+}
+.bg-danger{
+  background: var(--danger);
+}
+.bg-success{
+  background: var(--success);
 }
 .text-primary {
   color: var(--primary);
