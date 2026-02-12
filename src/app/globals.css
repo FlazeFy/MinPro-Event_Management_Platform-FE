@@ -1,26 +1,119 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f9f8ff;
   --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --white: #fff;
+  --primary: #445ece;
+  --primaryShadow: #00359c;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --secondary: #ff8b73;
+  --warning: #ffc25c;
+  --danger: #c5283f;
+  --success: #1dc198;
+
+  /* Typography */
+  --textJumbo : 32px;
+  --textXLG : 26px;
+  --textLG : 22px;
+  --textXMD : 20px;
+  --textMD : 16px;
+  --textSM : 14px;
+  --textXSM : 12px;
+
+  /* Rounded */
+  --roundedCircle : 100%;
+  --roundedXLG : 26px;
+  --roundedLG : 22px;
+  --roundedMD : 18px;
+  --roundedSM : 14px;
+
+  /* Spacing */
+  --spaceJumbo : 36px;
+  --spaceXLG : 30px;
+  --spaceLG : 26px;
+  --spaceXMD : 20px;
+  --spaceMD : 16px;
+  --spaceSM : 14px;
+  --spaceXSM : 10px;
+  --spaceXXSM : 8px;
+  --spaceMini : 2px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  color: var(--background);
+  background: var(--primary);
+  padding: var(--spaceLG);
+  border-radius: var(--roundedLG);
+  border: var(--spaceMini) solid var(--primaryShadow);
+  border-bottom: var(--spaceMD) solid var(--primaryShadow);
+}
+
+button {
+  border-radius: var(--roundedSM);
+  padding: var(--spaceXMD);
+  cursor: pointer;
+  background: var(--primary);
+  color: var(--background);
+}
+button:hover {
+  transform: scale(1.075);
+}
+.container button {
+  background: var(--secondary);
+}
+
+h1 {
+  font-size: var(--textJumbo);
+  font-weight: 800;
+  letter-spacing: 1.75px;
+}
+h1.title-huge {
+  font-size: calc(var(--textJumbo)*2);
+}
+h2 {
+  font-size: var(--textXLG);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+h3 {
+  font-size: var(--textLG);
+  font-weight: 600;
+  letter-spacing: 1.25px;
+}
+h4 {
+  font-size: var(--textXMD);
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.bg-secondary{
+  background: var(--secondary);
+}
+.bg-warning{
+  background: var(--warning);
+}
+.bg-danger{
+  background: var(--danger);
+}
+.bg-success{
+  background: var(--success);
+}
+.text-primary {
+  color: var(--primary);
+}
+
+p[data-slot="form-message"] {
+  font-style: italic;
+}
+
+footer {
+  background: var(--white);
 }
