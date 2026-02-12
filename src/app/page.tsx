@@ -1,3 +1,4 @@
+import OrganismsAskJoinBox from "@/components/organisms/ask_join_box.organism";
 import OrganismsBenefitList from "@/components/organisms/benefit_list.organism";
 import OrganismsBookingStepList from "@/components/organisms/booking_step_list.organism";
 import OrganismsLoginForm from "@/components/organisms/login_form.organism";
@@ -19,6 +20,9 @@ export default function Home() {
       </div>
       <div className="mt-[20vh] bg-blue-100 w-full p-5 lg:p-10">
         <OrganismsBenefitList/>
+      </div>
+      <div className="my-[20vh]  w-full p-5 lg:p-10">
+        <OrganismsAskJoinBox/>
       </div>
     </div>
   )
