@@ -17,3 +17,9 @@ export const loginRepo = async (payload: LoginPayload): Promise<LoginResponsePay
 
     return res.data.data
 }
+
+export const refreshAuthToken = async (): Promise<LoginResponsePayload> => {
+    const res = await apiCall.get(`${MODULE_URL}/refresh`)
+
+    return res.data.data
+}
