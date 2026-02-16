@@ -5,6 +5,8 @@
   --foreground: #171717;
 
   --white: #fff;
+  --grey: #dbdee4;
+  --darkGrey: #9b9b9b;
   --primary: #445ece;
   --primaryShadow: #00359c;
 
@@ -98,6 +100,9 @@ h4 {
   font-weight: 500;
   letter-spacing: 1px;
 }
+label {
+  color: var(--darkGrey);
+}
 
 .bg-secondary{
   background: var(--secondary);
@@ -121,4 +126,10 @@ p[data-slot="form-message"] {
 
 footer {
   background: var(--white);
+}
+
+.box-bordered {
+  padding: var(--spaceLG);
+  border: 1.5px solid var(--grey);
+  border-radius: var(--roundedLG);
 }
