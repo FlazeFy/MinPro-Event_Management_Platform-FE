@@ -5,10 +5,9 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from '../ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot, faRotateBack } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../ui/input'
 import MoleculeTransactionBox from '../molecules/transaction_molecule'
-import { convertUTCToLocal } from '@/helpers/converter.helper'
 import { Button } from '../ui/button'
 
 interface IOrganismsRecentTransactionListProps {
@@ -82,7 +81,7 @@ const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTr
                         <TableHead>Event</TableHead>
                         <TableHead>Date</TableHead>
                         <TableHead>{ role === "event_organizer" ? <>Customer</> : <>Status</> }</TableHead>
-                        <TableHead>{ role === "event_organizer" ? <>Attendees</> : <>Method</> }</TableHead>
+                        <TableHead>{ role === "event_organizer" ? <>History</> : <>Method</> }</TableHead>
                         <TableHead>Amount</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -112,7 +111,7 @@ const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTr
                                     </TableCell>
                                     <TableCell>
                                         {
-                                            role === "customer" ? dt.payment_method : <Button><FontAwesomeIcon icon={faUsers}/></Button>
+                                            role === "customer" ? dt.payment_method : <Button><FontAwesomeIcon icon={faRotateBack}/></Button>
                                         }
                                     </TableCell>
                                     <TableCell>

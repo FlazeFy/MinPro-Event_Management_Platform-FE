@@ -1,4 +1,5 @@
 'use client'
+import OrganismsEventMonitoringList from '@/components/organisms/event_monitoring_list.organism'
 import OrganismsPeriodicGrowthBox from '@/components/organisms/periodic_growth.organism'
 import OrganismsRecentTransactionList from '@/components/organisms/recent_transaction_list.organism'
 import OrganismsSummaryEventList from '@/components/organisms/summary_event_list.organism'
@@ -17,6 +18,9 @@ export default function TransactionPage() {
                     <OrganismsPeriodicGrowthBox/>
                     <br/>
                     <OrganismsRecentTransactionList role={role}/>
+                    {
+                        role === "customer" && <><br/><OrganismsEventMonitoringList/></>
+                    }
                 </div>
                 <div className="w-full md:w-4/12 lg:w-3/12">
 
