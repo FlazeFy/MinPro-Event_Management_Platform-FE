@@ -9,9 +9,10 @@ interface MoleculeTransactionBoxProps {
     title: string 
     desc: string 
     profileImage?: string
+    withPoint: boolean
 }
 
-const MoleculeTransactionBox: React.FC<MoleculeTransactionBoxProps> = ({ title, desc, profileImage }) => {
+const MoleculeTransactionBox: React.FC<MoleculeTransactionBoxProps> = ({ title, desc, profileImage, withPoint = true }) => {
     return (
         <div className='flex mb-3 items-center justify-between'>
             <div className='flex gap-3'>
@@ -28,7 +29,7 @@ const MoleculeTransactionBox: React.FC<MoleculeTransactionBoxProps> = ({ title, 
                     <AtomText type='label' text={desc}/>
                 </div>
             </div>
-            <Badge className='bg-green-200 text-green-700'>+200 Pts</Badge>
+            { withPoint && <Badge className='bg-green-200 text-green-700'>+200 Pts</Badge> }
         </div>
     )
 }

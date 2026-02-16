@@ -7,8 +7,8 @@ import { Badge } from '../ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot, faPieChart, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../ui/input'
-import MoleculeTransactionBox from '../molecules/transaction_molecule'
 import { Button } from '../ui/button'
+import OrganismEventAttendee from './event_attendee_list.organism'
 
 interface IOrganismsEventMonitoringListProps {}
 
@@ -29,7 +29,7 @@ const OrganismsEventMonitoringList: React.FunctionComponent<IOrganismsEventMonit
             total_revenue: 20000
         },
         {
-            id: "INV001",
+            id: "INV002",
             event_title: "Concert B",
             venue_name: "GBK",
             event_category: "concert",
@@ -102,7 +102,7 @@ const OrganismsEventMonitoringList: React.FunctionComponent<IOrganismsEventMonit
                                         </div>  
                                     </TableCell>
                                     <TableCell className='flex gap-2'>
-                                        <Button><FontAwesomeIcon icon={faUsers}/></Button>
+                                        <OrganismEventAttendee/>
                                         <Button><FontAwesomeIcon icon={faPieChart}/></Button>
                                     </TableCell>
                                     <TableCell><FontAwesomeIcon icon={faUser}/> {dt.seat.booked} / {dt.seat.max}</TableCell>
@@ -113,7 +113,7 @@ const OrganismsEventMonitoringList: React.FunctionComponent<IOrganismsEventMonit
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={5}>Remaining Seat</TableCell>
+                        <TableCell colSpan={6}>Remaining Seat</TableCell>
                         <TableCell><FontAwesomeIcon icon={faUsers}/> 30</TableCell>
                     </TableRow>
                 </TableFooter>
