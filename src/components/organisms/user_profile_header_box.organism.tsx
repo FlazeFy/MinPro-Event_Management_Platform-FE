@@ -10,7 +10,7 @@ interface IOrganismsUserProfileHeaderBoxProps {}
 
 const OrganismsUserProfileHeaderBox: React.FunctionComponent<IOrganismsUserProfileHeaderBoxProps> = () => {
     return (
-        <div className="w-full relative rounded-2xl bg-gradient-to-r from-blue-200 via-gray-200 to-orange-200 p-8 shadow-sm">
+        <div className="w-full relative rounded-2xl bg-gradient-to-r from-blue-300 via-gray-300 to-orange-300 p-8 shadow-sm">
             <div className="flex items-center justify-between">                    
                 <div className="flex items-center gap-6">
                     <div className="relative">

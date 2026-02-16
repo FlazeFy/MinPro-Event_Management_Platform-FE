@@ -1,3 +1,4 @@
+import OrganismsPointRefCodeBox from "@/components/organisms/point_ref_code_box.organism";
 import OrganismsUserProfileContactBox from "@/components/organisms/user_profile_contact_box.organism";
 import OrganismsUserProfileHeaderBox from "@/components/organisms/user_profile_header_box.organism";
 
@@ -11,6 +12,8 @@ export default function ProfilePage() {
                 </div>
                 <div className="w-full md:w-4/12 lg:w-3/12">
                     <OrganismsUserProfileContactBox/>
+                    <br/>
+                    <OrganismsPointRefCodeBox/>
                 </div>
             </div>
         </div>
