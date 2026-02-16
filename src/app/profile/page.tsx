@@ -41,7 +41,7 @@ export default function ProfilePage() {
                         <OrganismsUserProfileHeaderBox username={profileItem.username} role={role} birth_date={profileItem.birth_date}/>
                         <div className="flex flex-wrap mt-5">
                             <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
-                                <OrganismsRecentTransactionList/>
+                                <OrganismsRecentTransactionList role={role}/>
                             </div>
                             <div className="w-full md:w-4/12 lg:w-3/12">
                                 <OrganismsUserProfileContactBox fullname={profileItem.fullname} email={profileItem.email} phone_number={profileItem.phone_number} address={profileItem.address} role={role}/>
