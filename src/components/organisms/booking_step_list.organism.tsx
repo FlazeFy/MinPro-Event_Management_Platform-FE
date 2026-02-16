@@ -3,9 +3,9 @@ import AtomText from '../atoms/text.atom';
 import MoleculeStepBox from '../molecules/step_box.molecule';
 import { faCalendar, faCreditCard, faTicket } from '@fortawesome/free-solid-svg-icons';
 
-interface IOrganismsBookingStepListProps {}
+interface IOrganismBookingStepListProps {}
 
-const OrganismsBookingStepList: React.FunctionComponent<IOrganismsBookingStepListProps> = () => {
+const OrganismBookingStepList: React.FunctionComponent<IOrganismBookingStepListProps> = () => {
     
     return (
         <div className="w-full mt-[10vh] p-5 pb-20 lg:p-10 lg:pb-40 text-center">
@@ -27,4 +27,4 @@ const OrganismsBookingStepList: React.FunctionComponent<IOrganismsBookingStepLis
     )
 }
 
-export default OrganismsBookingStepList;
+export default OrganismBookingStepList;

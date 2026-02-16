@@ -2,11 +2,11 @@ import * as React from 'react'
 import MoleculeLineChart from '../molecules/line_chart.molecule';
 import AtomText from '../atoms/text.atom';
 
-interface IOrganismsPeriodicGrowthBoxProps {
+interface IOrganismPeriodicGrowthBoxProps {
     
 }
 
-const OrganismsPeriodicGrowthBox: React.FunctionComponent<IOrganismsPeriodicGrowthBoxProps> = () => {
+const OrganismPeriodicGrowthBox: React.FunctionComponent<IOrganismPeriodicGrowthBoxProps> = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
             <div className="col-span-1 md:col-span-3 p-5 rounded-2xl shadow-lg">
@@ -53,4 +53,4 @@ const OrganismsPeriodicGrowthBox: React.FunctionComponent<IOrganismsPeriodicGrow
     )
 }
 
-export default OrganismsPeriodicGrowthBox;
+export default OrganismPeriodicGrowthBox;

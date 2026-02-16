@@ -4,9 +4,9 @@ import AtomText from '../atoms/text.atom'
 import { Button } from '../ui/button'
 import Link from "next/link"
 
-interface IOrganismsWelcomeBoxProps {}
+interface IOrganismWelcomeBoxProps {}
 
-const OrganismsWelcomeBox: React.FunctionComponent<IOrganismsWelcomeBoxProps> = (props) => {
+const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = (props) => {
     
     return (
         <div>
@@ -27,4 +27,4 @@ const OrganismsWelcomeBox: React.FunctionComponent<IOrganismsWelcomeBoxProps> = 
     )
 }
 
-export default OrganismsWelcomeBox;
+export default OrganismWelcomeBox;

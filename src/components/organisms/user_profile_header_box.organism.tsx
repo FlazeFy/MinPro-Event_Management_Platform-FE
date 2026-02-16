@@ -11,13 +11,13 @@ import useAuthStore from '@/store/s_auth'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 
-interface IOrganismsUserProfileHeaderBoxProps {
+interface IOrganismUserProfileHeaderBoxProps {
     username: string
     role: string
     birth_date?: string | null
 }
 
-const OrganismsUserProfileHeaderBox: React.FunctionComponent<IOrganismsUserProfileHeaderBoxProps> = ({ username, role, birth_date }) => {
+const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfileHeaderBoxProps> = ({ username, role, birth_date }) => {
     const onLogOutStore = useAuthStore((state) => state.onLogOutStore)
     const router = useRouter()
 
@@ -85,4 +85,4 @@ const OrganismsUserProfileHeaderBox: React.FunctionComponent<IOrganismsUserProfi
     )
 }
 
-export default OrganismsUserProfileHeaderBox;
+export default OrganismUserProfileHeaderBox;

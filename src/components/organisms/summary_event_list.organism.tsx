@@ -2,11 +2,11 @@ import * as React from 'react'
 import MoleculeIdentityBox from '../molecules/identity_box.molecule';
 import { faCalendar, faCoins, faMoneyCheck, faPercentage, faStar, faTicket, faUsers } from '@fortawesome/free-solid-svg-icons';
 
-interface IOrganismsSummaryEventListProps {
+interface IOrganismSummaryEventListProps {
     isFull: boolean
 }
 
-const OrganismsSummaryEventList: React.FunctionComponent<IOrganismsSummaryEventListProps> = ({ isFull = true }) => {
+const OrganismSummaryEventList: React.FunctionComponent<IOrganismSummaryEventListProps> = ({ isFull = true }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className='bg-blue-100 p-5 pb-3 rounded-2xl'>
@@ -37,4 +37,4 @@ const OrganismsSummaryEventList: React.FunctionComponent<IOrganismsSummaryEventL
     )
 }
 
-export default OrganismsSummaryEventList;
+export default OrganismSummaryEventList;

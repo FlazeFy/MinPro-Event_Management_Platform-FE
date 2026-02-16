@@ -1,9 +1,9 @@
 'use client'
-import OrganismsPointRefCodeBox from "@/components/organisms/point_ref_code_box.organism";
-import OrganismsRecentTransactionList from "@/components/organisms/recent_transaction_list.organism";
-import OrganismsRefCodeList from "@/components/organisms/ref_code_list.organism";
-import OrganismsUserProfileContactBox from "@/components/organisms/user_profile_contact_box.organism";
-import OrganismsUserProfileHeaderBox from "@/components/organisms/user_profile_header_box.organism";
+import OrganismPointRefCodeBox from "@/components/organisms/point_ref_code_box.organism";
+import OrganismRecentTransactionList from "@/components/organisms/recent_transaction_list.organism";
+import OrganismRefCodeList from "@/components/organisms/ref_code_list.organism";
+import OrganismUserProfileContactBox from "@/components/organisms/user_profile_contact_box.organism";
+import OrganismUserProfileHeaderBox from "@/components/organisms/user_profile_header_box.organism";
 import { getMyProfile, MyProfileResponse } from "@/repositories/r_auth";
 import useAuthStore from "@/store/s_auth";
 import React, { useEffect, useState } from 'react'
@@ -38,20 +38,20 @@ export default function ProfilePage() {
             {
                 !loading && profileItem && (
                     <>
-                        <OrganismsUserProfileHeaderBox username={profileItem.username} role={role} birth_date={profileItem.birth_date}/>
+                        <OrganismUserProfileHeaderBox username={profileItem.username} role={role} birth_date={profileItem.birth_date}/>
                         <div className="flex flex-wrap mt-5">
                             <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
-                                <OrganismsRecentTransactionList role={role}/>
+                                <OrganismRecentTransactionList role={role}/>
                             </div>
                             <div className="w-full md:w-4/12 lg:w-3/12">
-                                <OrganismsUserProfileContactBox fullname={profileItem.fullname} email={profileItem.email} phone_number={profileItem.phone_number} address={profileItem.address} role={role}/>
+                                <OrganismUserProfileContactBox fullname={profileItem.fullname} email={profileItem.email} phone_number={profileItem.phone_number} address={profileItem.address} role={role}/>
                                 <br/>
                                 {
                                     role === "customer" && profileItem.points && profileItem.referral_code && (
                                         <>
-                                            <OrganismsPointRefCodeBox points={profileItem.points} referral_code={profileItem.referral_code}/>
+                                            <OrganismPointRefCodeBox points={profileItem.points} referral_code={profileItem.referral_code}/>
                                             <br/>
-                                            <OrganismsRefCodeList customers={profileItem.owner_referral_code_histories}/>
+                                            <OrganismRefCodeList customers={profileItem.owner_referral_code_histories}/>
                                         </>
                                     )
                                 }

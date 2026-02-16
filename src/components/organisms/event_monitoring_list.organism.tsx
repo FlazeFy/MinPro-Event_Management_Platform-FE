@@ -9,10 +9,11 @@ import { faLocationDot, faPieChart, faUser, faUsers } from '@fortawesome/free-so
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import OrganismEventAttendee from './event_attendee_list.organism'
+import OrganismDashboardList from './event_dashboard_list.organism'
 
-interface IOrganismsEventMonitoringListProps {}
+interface IOrganismEventMonitoringListProps {}
 
-const OrganismsEventMonitoringList: React.FunctionComponent<IOrganismsEventMonitoringListProps> = () => {
+const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitoringListProps> = () => {
     const invoices = [
         {
             id: "INV001",
@@ -103,7 +104,7 @@ const OrganismsEventMonitoringList: React.FunctionComponent<IOrganismsEventMonit
                                     </TableCell>
                                     <TableCell className='flex gap-2'>
                                         <OrganismEventAttendee/>
-                                        <Button><FontAwesomeIcon icon={faPieChart}/></Button>
+                                        <OrganismDashboardList/>
                                     </TableCell>
                                     <TableCell><FontAwesomeIcon icon={faUser}/> {dt.seat.booked} / {dt.seat.max}</TableCell>
                                 </TableRow>
@@ -122,4 +123,4 @@ const OrganismsEventMonitoringList: React.FunctionComponent<IOrganismsEventMonit
     )
 }
 
-export default OrganismsEventMonitoringList;
+export default OrganismEventMonitoringList;

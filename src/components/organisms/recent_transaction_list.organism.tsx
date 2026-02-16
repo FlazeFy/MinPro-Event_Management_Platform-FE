@@ -10,11 +10,11 @@ import { Input } from '../ui/input'
 import MoleculeTransactionBox from '../molecules/transaction_molecule'
 import { Button } from '../ui/button'
 
-interface IOrganismsRecentTransactionListProps {
+interface IOrganismRecentTransactionListProps {
     role: string
 }
 
-const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTransactionListProps> = ({ role }) => {
+const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTransactionListProps> = ({ role }) => {
     const invoices = [
         {
             id: "INV001",
@@ -136,4 +136,4 @@ const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTr
     )
 }
 
-export default OrganismsRecentTransactionList;
+export default OrganismRecentTransactionList;

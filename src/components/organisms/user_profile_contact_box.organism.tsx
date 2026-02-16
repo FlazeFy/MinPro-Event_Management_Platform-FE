@@ -4,7 +4,7 @@ import AtomDivider from '../atoms/divider.atom';
 import { faEnvelope, faLocationDot, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
 import MoleculeIdentityBox from '../molecules/identity_box.molecule';
 
-interface IOrganismsUserProfileContactBoxProps {
+interface IOrganismUserProfileContactBoxProps {
     fullname: string 
     email: string 
     phone_number: string
@@ -12,7 +12,7 @@ interface IOrganismsUserProfileContactBoxProps {
     role: string
 }
 
-const OrganismsUserProfileContactBox: React.FunctionComponent<IOrganismsUserProfileContactBoxProps> = ({ fullname, email, phone_number, address, role }) => {
+const OrganismUserProfileContactBox: React.FunctionComponent<IOrganismUserProfileContactBoxProps> = ({ fullname, email, phone_number, address, role }) => {
     return (
         <div className="box-bordered">
             <AtomText type='sub-title-small' text='Contact'/>
@@ -27,4 +27,4 @@ const OrganismsUserProfileContactBox: React.FunctionComponent<IOrganismsUserProf
     )
 }
 
-export default OrganismsUserProfileContactBox;
+export default OrganismUserProfileContactBox;

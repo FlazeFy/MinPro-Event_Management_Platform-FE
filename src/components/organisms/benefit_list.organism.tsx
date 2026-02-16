@@ -4,9 +4,9 @@ import { faCalendar, faBell, faLineChart, faUser } from '@fortawesome/free-solid
 import Image from "next/image"
 import MoleculeBenefitBox from '../molecules/benefit_box.molecule'
 
-interface IOrganismsBenefitListProps {}
+interface IOrganismBenefitListProps {}
 
-const OrganismsBenefitList: React.FunctionComponent<IOrganismsBenefitListProps> = () => {
+const OrganismBenefitList: React.FunctionComponent<IOrganismBenefitListProps> = () => {
     return (
         <div className="flex flex-wrap w-full mt-[10vh] p-5 pb-20 lg:p-10 lg:pb-40 items-center" id='feature-section'>
             <div className="w-full md:w-1/2 flex justify-center items-center relative h-[400px] pr-20">
@@ -24,4 +24,4 @@ const OrganismsBenefitList: React.FunctionComponent<IOrganismsBenefitListProps> 
     )
 }
 
-export default OrganismsBenefitList;
+export default OrganismBenefitList;

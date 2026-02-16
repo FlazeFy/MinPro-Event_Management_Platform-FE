@@ -8,8 +8,6 @@ import MoleculeTransactionBox from '../molecules/transaction_molecule'
 interface IOrganismEventAttendeeProps {}
 
 const OrganismEventAttendee: React.FunctionComponent<IOrganismEventAttendeeProps> = () => {
-    const [open, setOpen] = React.useState(false)
-
     return (
         <Dialog>
             <DialogTrigger asChild>
