@@ -60,8 +60,13 @@ button {
   border-radius: var(--roundedSM);
   padding: var(--spaceXMD);
   cursor: pointer;
-  background: var(--primary);
   color: var(--background);
+}
+button {
+  background: var(--primary);
+}
+button[data-variant="destructive"] {
+  background: var(--danger);
 }
 button:hover {
   transform: scale(1.075);
