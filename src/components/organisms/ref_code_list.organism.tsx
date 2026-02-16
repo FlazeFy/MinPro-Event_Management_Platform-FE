@@ -2,17 +2,29 @@
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
 import MoleculeTransactionBox from '../molecules/transaction_molecule'
+import { convertUTCToLocal } from '@/helpers/converter.helper'
+import { OwnerReferralCodeHistory } from '@/repositories/r_auth'
+import MoleculeNotDataBox from '../molecules/no_data_box.molecule'
 
-interface IOrganismsRefCodeListProps {}
+interface IOrganismsRefCodeListProps {
+    customers: OwnerReferralCodeHistory[]
+}
 
-const OrganismsRefCodeList: React.FunctionComponent<IOrganismsRefCodeListProps> = () => {
+const OrganismsRefCodeList: React.FunctionComponent<IOrganismsRefCodeListProps> = ({ customers }) => {
     return (
         <div className="box-bordered">
             <AtomText type='sub-title-small' text='Referral History'/>
             <br/>
-            <MoleculeTransactionBox title='Budi' desc='Joined at 2 Feb 2026' profileImage='/images/user.jpg'/>
-            <MoleculeTransactionBox title='Audy' desc='Joined at 10 Jan 2026'/>
-            <MoleculeTransactionBox title='Lisa' desc='Joined at 9 Dec 2025'/>
+            {
+                customers.length > 0 ? 
+                    customers.map((dt, idx) => (
+                        <MoleculeTransactionBox key={idx} 
+                            title={dt.customer_user.username} desc={`Joined at ${convertUTCToLocal(dt.customer_user.created_at, true, false)}`} 
+                            profileImage={dt.customer_user.profile_pic ?? '/images/user.jpg'}/>
+                    ))
+                :
+                    <MoleculeNotDataBox title="Your referral code hasn't been used yet"/>
+            }
         </div>
     )
 }

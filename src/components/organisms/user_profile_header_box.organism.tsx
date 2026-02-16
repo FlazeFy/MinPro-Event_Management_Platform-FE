@@ -5,10 +5,15 @@ import Image from "next/image"
 import { Button } from '../ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Badge } from '../ui/badge'
+import { convertAgeFromBornDate, convertUTCToLocal } from '@/helpers/converter.helper'
 
-interface IOrganismsUserProfileHeaderBoxProps {}
+interface IOrganismsUserProfileHeaderBoxProps {
+    username: string
+    role: string
+    birth_date?: string | null
+}
 
-const OrganismsUserProfileHeaderBox: React.FunctionComponent<IOrganismsUserProfileHeaderBoxProps> = () => {
+const OrganismsUserProfileHeaderBox: React.FunctionComponent<IOrganismsUserProfileHeaderBoxProps> = ({ username, role, birth_date }) => {
     return (
         <div className="w-full relative rounded-2xl bg-gradient-to-r from-blue-300 via-gray-300 to-orange-300 p-8 shadow-sm">
             <div className="flex items-center justify-between">                    
@@ -19,10 +24,12 @@ const OrganismsUserProfileHeaderBox: React.FunctionComponent<IOrganismsUserProfi
                         </div> 
                     </div>
                     <div>
-                        <AtomText type='sub-title-small' text='Alex Rivera'/>
-                        <AtomText type='sub-content' text='6 Jul 2001 | 25 y.o'/>
+                        <AtomText type='sub-title-small' text={username}/>
+                        {
+                            birth_date && <AtomText type='sub-content' text={`${convertUTCToLocal(birth_date, false, false)} | ${convertAgeFromBornDate(birth_date)} y.o`}/>
+                        }
                         <div className="flex gap-3 mt-3">
-                            <Badge className="px-3 py-1 bg-blue-100 text-blue-600">Organizer</Badge>
+                            <Badge className="px-3 py-1 bg-blue-100 text-blue-600">{role}</Badge>
                             <Badge className="px-3 py-1 bg-orange-100 text-orange-500 font-medium">Supporter</Badge>
                         </div>
                     </div>
