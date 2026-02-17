@@ -4,7 +4,7 @@ import AtomText from '../atoms/text.atom'
 import MoleculeTransactionBox from '../molecules/transaction_molecule'
 import { convertUTCToLocal } from '@/helpers/converter.helper'
 import { OwnerReferralCodeHistory } from '@/repositories/r_auth'
-import MoleculeNotDataBox from '../molecules/no_data_box.molecule'
+import MoleculeNoDataBox from '../molecules/no_data_box.molecule'
 
 interface IOrganismRefCodeListProps {
     customers: OwnerReferralCodeHistory[]
@@ -23,7 +23,7 @@ const OrganismRefCodeList: React.FunctionComponent<IOrganismRefCodeListProps> = 
                             profileImage={dt.customer_user.profile_pic ?? '/images/user.jpg'}/>
                     ))
                 :
-                    <MoleculeNotDataBox title="Your referral code hasn't been used yet"/>
+                    <MoleculeNoDataBox title="Your referral code hasn't been used yet"/>
             }
         </div>
     )
