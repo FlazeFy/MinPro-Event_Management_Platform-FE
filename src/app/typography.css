@@ -27,6 +27,9 @@ label {
 .text-primary {
     color: var(--primary);
 }
+.sub-content {
+    font-size: var(--textXSM);
+}
 p[data-slot="form-message"] {
     font-style: italic;
 }

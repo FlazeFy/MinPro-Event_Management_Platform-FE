@@ -11,3 +11,15 @@ export interface DatasetTemplate {
     borderColor?: string
     backgroundColor?: any
 }
+
+export interface VenueData {
+    venue_name: string
+    venue_coordinate: string
+}
+
+export interface TransactionMeta {
+    page: number
+    limit: number
+    total: number
+    total_page: number
+}

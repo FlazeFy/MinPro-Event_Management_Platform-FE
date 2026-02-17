@@ -1,5 +1,5 @@
 "use client"
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import AtomText from '../atoms/text.atom'
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -9,47 +9,35 @@ import { faLocationDot, faRotateBack } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../ui/input'
 import MoleculeTransactionBox from '../molecules/transaction_molecule'
 import { Button } from '../ui/button'
+import { AllTransactionResponse, getAllTransaction } from '@/repositories/r_transaction'
+import { convertUTCToLocal } from '@/helpers/converter.helper'
+import MoleculeCopyBox from '../molecules/copy_box.molecule'
 
 interface IOrganismRecentTransactionListProps {
     role: string
 }
 
 const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTransactionListProps> = ({ role }) => {
-    const invoices = [
-        {
-            id: "INV001",
-            event_title: "Concert A",
-            venue_name: "GBK",
-            status: "paid",
-            amount: 100000,
-            payment_method: "Credit Card",
-            created_at: "10 Jan 2026 10:20",
-            is_discounted: true,
-            customer_user: {
-                id: "123",
-                username: "Person A",
-                profile_pic: null,
-                created_at: "10 Jan 26"
-            }
-        },
-        {
-            id: "INV002",
-            event_title: "Concert A",
-            venue_name: "GBK",
-            status: "attended",
-            amount: 200000,
-            payment_method: "PayPal",
-            created_at: "10 Jan 2026 10:20",
-            is_discounted: false,
-            username: "User B",
-            customer_user: {
-                id: "123",
-                username: "Person B",
-                profile_pic: null,
-                created_at: "10 Jan 26"
+    const [item, setItem] = useState<AllTransactionResponse>()
+    const [loading, setLoading] = useState(true)
+    const [average, setAverage] = useState(0)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        const fetchAllTransaction = async () => {
+            try {
+                const data = await getAllTransaction()
+                setItem(data)
+                setAverage(data.average_transaction)
+            } catch (err: any) {
+                setError(err?.response?.data?.message || "Something went wrong")
+            } finally { 
+                setLoading(false)
             }
         }
-    ]
+
+        fetchAllTransaction()
+    }, [])
     
     return (
         <div className="box-bordered">
@@ -87,26 +75,28 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                 </TableHeader>
                 <TableBody>
                     {
-                        invoices.map((dt) => {
+                        item?.data.map((dt, idx) => {
                             const statusColor = dt.status === 'paid' ? 'green' : dt.status === 'attended' ? 'blue' : 'red'
 
                             return (
-                                <TableRow key={dt.id}>
-                                    <TableCell className="font-medium">{dt.id}</TableCell>
-                                    <TableCell>
-                                        <AtomText type='content' text={dt.event_title} extraClass='mb-1'/>
-                                        <Badge variant="outline"><FontAwesomeIcon icon={faLocationDot}/> {dt.venue_name}</Badge>
+                                <TableRow key={idx}>
+                                    <TableCell className="font-medium">
+                                        <MoleculeCopyBox value={dt.id} context='Transaction ID' isWithGrid={false}/>
                                     </TableCell>
-                                    <TableCell>{dt.created_at}</TableCell>
+                                    <TableCell>
+                                        <AtomText type='content' text={dt.event.event_title} extraClass='mb-1'/>
+                                        <Badge variant="outline"><FontAwesomeIcon icon={faLocationDot}/> {dt.event.event_schedule[0].venue.venue_name}</Badge>
+                                    </TableCell>
+                                    <TableCell><AtomText type='sub-content' text={convertUTCToLocal(dt.created_at)}/></TableCell>
                                     <TableCell>
                                         {
                                             role === "event_organizer" && <MoleculeTransactionBox 
-                                                title={dt.customer_user.username} desc={`Payment using ${dt.payment_method}`} 
-                                                profileImage={dt.customer_user.profile_pic ?? '/images/user.jpg'}/>
+                                                title={dt.customer.username} desc={dt.payment_method.replaceAll('_',' ')}
+                                                profileImage={dt.customer.profile_pic ?? '/images/user.jpg'} withPoint={false}/>
                                         }
                                         <div className='flex gap-2'>
                                             <Badge className={`bg-${statusColor}-200 text-${statusColor}-700`}>{dt.status}</Badge>
-                                            { dt.is_discounted && <Badge className="bg-green-200 text-green-700">Discounted</Badge> }
+                                            { dt.is_discount && <Badge className="bg-green-200 text-green-700">Discount</Badge> }
                                         </div>
                                     </TableCell>
                                     <TableCell>
@@ -116,7 +106,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                     </TableCell>
                                     <TableCell>
                                         <div className='flex gap-2'>
-                                            Rp. {dt.amount.toLocaleString()}
+                                            <AtomText type='sub-content' text={<>Rp. {dt.amount.toLocaleString()}</>}/>
                                             { role === "customer" && <Badge className='bg-green-200 text-green-700'>+{dt.amount / 10000} Pts</Badge> } 
                                         </div>  
                                     </TableCell>
@@ -127,8 +117,8 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={5}>Total</TableCell>
-                        <TableCell>Rp. 300,000</TableCell>
+                        <TableCell colSpan={5}>Average Transaction Amount</TableCell>
+                        <TableCell>Rp. {average.toLocaleString()}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
