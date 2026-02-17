@@ -27,8 +27,10 @@ export interface AllTransactionResponse {
     meta: TransactionMeta
     average_transaction: number
 }
-export const getAllTransaction = async (): Promise<AllTransactionResponse> => {
-    const res = await apiCall.get(`${MODULE_URL}`)
+export const getAllTransaction = async (page: number, search: string | null, status: string | null): Promise<AllTransactionResponse> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const statusArgs = status ? `&status=${status}` : ''
+    const res = await apiCall.get(`${MODULE_URL}?page=${page}${searchArgs}${statusArgs}`)
     
     return res.data
 }

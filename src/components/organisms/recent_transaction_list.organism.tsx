@@ -12,6 +12,8 @@ import { Button } from '../ui/button'
 import { AllTransactionResponse, getAllTransaction } from '@/repositories/r_transaction'
 import { convertUTCToLocal } from '@/helpers/converter.helper'
 import MoleculeCopyBox from '../molecules/copy_box.molecule'
+import Skeleton from 'react-loading-skeleton'
+import MoleculeNoDataBox from '../molecules/no_data_box.molecule'
 
 interface IOrganismRecentTransactionListProps {
     role: string
@@ -22,30 +24,42 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
     const [loading, setLoading] = useState(true)
     const [average, setAverage] = useState(0)
     const [error, setError] = useState<string | null>(null)
+    // For state management
+    const [search, setSearch] = useState<string>("")
+    const [status, setStatus] = useState<string>("all")
+    const [page, setPage] = useState(0)
+
+    const fetchAllTransaction = async (page: number, search: string | null, status: string | null) => {
+        try {
+            const data = await getAllTransaction(page, search, status)
+            setItem(data)
+            setAverage(data.average_transaction)
+        } catch (err: any) {
+            setError(err?.response?.data?.message || "Something went wrong")
+        } finally { 
+            setLoading(false)
+        }
+    }
 
     useEffect(() => {
-        const fetchAllTransaction = async () => {
-            try {
-                const data = await getAllTransaction()
-                setItem(data)
-                setAverage(data.average_transaction)
-            } catch (err: any) {
-                setError(err?.response?.data?.message || "Something went wrong")
-            } finally { 
-                setLoading(false)
-            }
-        }
-
-        fetchAllTransaction()
+        fetchAllTransaction(page, null, null)
     }, [])
-    
+
+    // Search action
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => fetchAllTransaction(page, search.length > 0 ? search : null, status)
+    // Filter action
+    const handleStatusChange = (value: string) => {
+        setStatus(value)
+        fetchAllTransaction(page, search.length > 0 ? search : null, value)
+    }
+
     return (
         <div className="box-bordered">
             <AtomText type='sub-title-small' text='Recent Transaction'/>
             <div className='flex mb-5 justify-end gap-2'>
                 <div>
                     <AtomText type='content' text='Filter by Status'/>
-                    <Select>
+                    <Select value={status} onValueChange={handleStatusChange}>
                         <SelectTrigger className="w-[200px] text-foreground">
                             <SelectValue placeholder="Status" />
                         </SelectTrigger>
@@ -59,7 +73,9 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                 </div>
                 <div>
                     <AtomText type='content' text='Search transaction'/>
-                    <Input type="text" placeholder="Search by event title or venue name" style={{minWidth:"340px"}}/>
+                    <Input type="text" placeholder="Search by event title or venue name" style={{minWidth:"340px"}}
+                        value={search} onChange={(e) => setSearch(e.target.value)} onBlur={handleSearch}
+                    />
                 </div>
             </div>
             <Table>
@@ -74,8 +90,26 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                     </TableRow>
                 </TableHeader>
                 <TableBody>
+                    { 
+                        loading && (
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <Skeleton style={{ height: "100px" }} />
+                                </TableCell>
+                            </TableRow>
+                        )
+                    }
                     {
-                        item?.data.map((dt, idx) => {
+                        (!loading && error) || (!loading && item?.data.length === 0) && (
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    }
+                    {
+                        !loading && !error && item?.data.map((dt, idx) => {
                             const statusColor = dt.status === 'paid' ? 'green' : dt.status === 'attended' ? 'blue' : 'red'
 
                             return (
@@ -95,7 +129,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                                 profileImage={dt.customer.profile_pic ?? '/images/user.jpg'} withPoint={false}/>
                                         }
                                         <div className='flex gap-2'>
-                                            <Badge className={`bg-${statusColor}-200 text-${statusColor}-700`}>{dt.status}</Badge>
+                                            <Badge className={`bg-${statusColor}-200 text-${statusColor}-700 capitalize`}>{dt.status}</Badge>
                                             { dt.is_discount && <Badge className="bg-green-200 text-green-700">Discount</Badge> }
                                         </div>
                                     </TableCell>
