@@ -15,3 +15,17 @@ export const getEventOrganizerSummary = async (): Promise<EventOrganizerSummaryR
     
     return res.data.data
 }
+
+interface LineChartDataset {
+    label: string 
+    data: number[]
+}
+export interface LineChartResponse {
+    labels: string[]
+    datasets: LineChartDataset[]
+}
+export const getPeriodicRevenue = async (): Promise<LineChartResponse> => {
+    const res = await apiCall.get(`${MODULE_URL}/periodic/revenue`)
+    
+    return res.data.data
+}

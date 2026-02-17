@@ -48,10 +48,10 @@ const OrganismSummaryEventList: React.FunctionComponent<IOrganismSummaryEventLis
                 isFull && (
                     <>
                         <div className='bg-blue-100 p-5 pb-3 rounded-2xl flex items-center'>
-                            <MoleculeIdentityBox icon={faCoins} label='Revenue' value={`Rp. ${item?.total_actual_revenue.toLocaleString()}`}/>
+                            <MoleculeIdentityBox icon={faCoins} label='Revenue' value={`Rp. ${item?.total_revenue.toLocaleString()}`}/>
                         </div>
                         <div className='bg-orange-100 p-5 pb-3 rounded-2xl flex items-center'>
-                            <MoleculeIdentityBox icon={faPercentage} label='Revenue (After Discount Cut)' value={`Rp. ${item?.total_revenue.toLocaleString()}`} color='orange'/>
+                            <MoleculeIdentityBox icon={faPercentage} label='Revenue (After Discount Cut)' value={`Rp. ${item?.total_actual_revenue.toLocaleString()}`} color='orange'/>
                         </div>
                     </>
                 )
