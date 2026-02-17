@@ -13,11 +13,12 @@ import Swal from 'sweetalert2'
 
 interface IOrganismUserProfileHeaderBoxProps {
     username: string
+    bio: string | null
     role: string
-    birth_date?: string | null
+    birth_date: string | null
 }
 
-const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfileHeaderBoxProps> = ({ username, role, birth_date }) => {
+const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfileHeaderBoxProps> = ({ username, role, birth_date, bio }) => {
     const onLogOutStore = useAuthStore((state) => state.onLogOutStore)
     const router = useRouter()
 
@@ -68,11 +69,14 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
                     <div>
                         <AtomText type='sub-title-small' text={username}/>
                         {
-                            birth_date && <AtomText type='sub-content' text={`${convertUTCToLocal(birth_date, false, false)} | ${convertAgeFromBornDate(birth_date)} y.o`}/>
+                            role === "customer" && birth_date && <AtomText type='sub-content' text={`${convertUTCToLocal(birth_date, false, false)} | ${convertAgeFromBornDate(birth_date)} y.o`}/>
+                        }
+                        {
+                            role === "event_organizer" && bio && <AtomText type='sub-content' text={bio}/>
                         }
                         <div className="flex gap-3 mt-3">
-                            <Badge className="px-3 py-1 bg-blue-100 text-blue-600">{role}</Badge>
-                            <Badge className="px-3 py-1 bg-orange-100 text-orange-500 font-medium">Supporter</Badge>
+                            <Badge className="px-3 py-1 bg-blue-100 text-blue-600 capitalize">{role.replace("_"," ")}</Badge>
+                            <Badge className="px-3 py-1 bg-orange-100 text-orange-500 font-medium capitalize">Supporter</Badge>
                         </div>
                     </div>
                 </div>

@@ -28,10 +28,16 @@ export const refreshAuthToken = async (): Promise<LoginResponsePayload> => {
 export interface OwnerReferralCodeHistory {
     customer_user: UserShortInfo
 }
+export interface SocialMedia {
+    social_media_platform: string
+    social_media_url: string
+}
 export interface MyProfileResponse extends LoginResponsePayload {
     username: string
     fullname: string
+    organizer_name: string
     email: string
+    bio: string | null
     phone_number: string
     points: number | null
     profile_image: string | null
@@ -41,6 +47,7 @@ export interface MyProfileResponse extends LoginResponsePayload {
     updated_at: string
     referral_code: string | null
     owner_referral_code_histories: OwnerReferralCodeHistory[]
+    social_medias: SocialMedia[]
 }
 export const getMyProfile = async (): Promise<MyProfileResponse> => {
     const res = await apiCall.get(`${MODULE_URL}/profile`)
