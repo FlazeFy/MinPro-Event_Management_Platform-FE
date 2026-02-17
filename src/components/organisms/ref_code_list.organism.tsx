@@ -6,11 +6,11 @@ import { convertUTCToLocal } from '@/helpers/converter.helper'
 import { OwnerReferralCodeHistory } from '@/repositories/r_auth'
 import MoleculeNotDataBox from '../molecules/no_data_box.molecule'
 
-interface IOrganismsRefCodeListProps {
+interface IOrganismRefCodeListProps {
     customers: OwnerReferralCodeHistory[]
 }
 
-const OrganismsRefCodeList: React.FunctionComponent<IOrganismsRefCodeListProps> = ({ customers }) => {
+const OrganismRefCodeList: React.FunctionComponent<IOrganismRefCodeListProps> = ({ customers }) => {
     return (
         <div className="box-bordered">
             <AtomText type='sub-title-small' text='Referral History'/>
@@ -29,4 +29,4 @@ const OrganismsRefCodeList: React.FunctionComponent<IOrganismsRefCodeListProps> 
     )
 }
 
-export default OrganismsRefCodeList;
+export default OrganismRefCodeList;

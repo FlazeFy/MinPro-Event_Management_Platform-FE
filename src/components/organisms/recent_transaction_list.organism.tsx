@@ -5,13 +5,16 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from '../ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot, faRotateBack } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../ui/input'
+import MoleculeTransactionBox from '../molecules/transaction_molecule'
+import { Button } from '../ui/button'
 
-interface IOrganismsRecentTransactionListProps {}
+interface IOrganismRecentTransactionListProps {
+    role: string
+}
 
-const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTransactionListProps> = () => {
-
+const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTransactionListProps> = ({ role }) => {
     const invoices = [
         {
             id: "INV001",
@@ -21,6 +24,13 @@ const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTr
             amount: 100000,
             payment_method: "Credit Card",
             created_at: "10 Jan 2026 10:20",
+            is_discounted: true,
+            customer_user: {
+                id: "123",
+                username: "Person A",
+                profile_pic: null,
+                created_at: "10 Jan 26"
+            }
         },
         {
             id: "INV002",
@@ -30,6 +40,14 @@ const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTr
             amount: 200000,
             payment_method: "PayPal",
             created_at: "10 Jan 2026 10:20",
+            is_discounted: false,
+            username: "User B",
+            customer_user: {
+                id: "123",
+                username: "Person B",
+                profile_pic: null,
+                created_at: "10 Jan 26"
+            }
         }
     ]
     
@@ -62,8 +80,8 @@ const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTr
                         <TableHead className="w-[100px]">ID</TableHead>
                         <TableHead>Event</TableHead>
                         <TableHead>Date</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Method</TableHead>
+                        <TableHead>{ role === "event_organizer" ? <>Customer</> : <>Status</> }</TableHead>
+                        <TableHead>{ role === "event_organizer" ? <>History</> : <>Method</> }</TableHead>
                         <TableHead>Amount</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -81,13 +99,25 @@ const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTr
                                     </TableCell>
                                     <TableCell>{dt.created_at}</TableCell>
                                     <TableCell>
-                                        <Badge className={`bg-${statusColor}-200 text-${statusColor}-700`}>{dt.status}</Badge>
+                                        {
+                                            role === "event_organizer" && <MoleculeTransactionBox 
+                                                title={dt.customer_user.username} desc={`Payment using ${dt.payment_method}`} 
+                                                profileImage={dt.customer_user.profile_pic ?? '/images/user.jpg'}/>
+                                        }
+                                        <div className='flex gap-2'>
+                                            <Badge className={`bg-${statusColor}-200 text-${statusColor}-700`}>{dt.status}</Badge>
+                                            { dt.is_discounted && <Badge className="bg-green-200 text-green-700">Discounted</Badge> }
+                                        </div>
                                     </TableCell>
-                                    <TableCell>{dt.payment_method}</TableCell>
+                                    <TableCell>
+                                        {
+                                            role === "customer" ? dt.payment_method : <Button><FontAwesomeIcon icon={faRotateBack}/></Button>
+                                        }
+                                    </TableCell>
                                     <TableCell>
                                         <div className='flex gap-2'>
                                             Rp. {dt.amount.toLocaleString()}
-                                            <Badge className='bg-green-200 text-green-700'>+{dt.amount / 10000} Pts</Badge>  
+                                            { role === "customer" && <Badge className='bg-green-200 text-green-700'>+{dt.amount / 10000} Pts</Badge> } 
                                         </div>  
                                     </TableCell>
                                 </TableRow>
@@ -106,4 +136,4 @@ const OrganismsRecentTransactionList: React.FunctionComponent<IOrganismsRecentTr
     )
 }
 
-export default OrganismsRecentTransactionList;
+export default OrganismRecentTransactionList;

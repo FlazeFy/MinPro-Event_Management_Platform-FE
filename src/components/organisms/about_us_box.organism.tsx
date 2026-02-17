@@ -1,9 +1,9 @@
 import * as React from 'react'
 import AtomText from '../atoms/text.atom';
 
-interface IOrganismsAboutUsBoxProps {}
+interface IOrganismAboutUsBoxProps {}
 
-const OrganismsAboutUsBox: React.FunctionComponent<IOrganismsAboutUsBoxProps> = () => {
+const OrganismAboutUsBox: React.FunctionComponent<IOrganismAboutUsBoxProps> = () => {
     return (
         <div className="max-w-[720px] w-full mt-[10vh] p-5 pb-20 lg:p-10 lg:pb-40 text-center mx-auto">
             <AtomText type='title-huge' text="EventKu" extraClass='mb-0'/>
@@ -12,4 +12,4 @@ const OrganismsAboutUsBox: React.FunctionComponent<IOrganismsAboutUsBoxProps> = 
     )
 }
 
-export default OrganismsAboutUsBox;
+export default OrganismAboutUsBox;

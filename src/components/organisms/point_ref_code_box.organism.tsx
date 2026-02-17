@@ -5,12 +5,12 @@ import AtomDivider from '../atoms/divider.atom'
 import MoleculeNominalBox from '../molecules/nominal_box.molecule'
 import MoleculeCopyBox from '../molecules/copy_box.molecule'
 
-interface IOrganismsPointRefCodeBoxProps {
+interface IOrganismPointRefCodeBoxProps {
     points: number
     referral_code: string
 }
 
-const OrganismsPointRefCodeBox: React.FunctionComponent<IOrganismsPointRefCodeBoxProps> = ({ points, referral_code }) => {
+const OrganismPointRefCodeBox: React.FunctionComponent<IOrganismPointRefCodeBoxProps> = ({ points, referral_code }) => {
     return (
         <div className='container'>
             <AtomText type='sub-title' text='Your Rewards' extraClass='mb-2'/>
@@ -22,4 +22,4 @@ const OrganismsPointRefCodeBox: React.FunctionComponent<IOrganismsPointRefCodeBo
     )
 }
 
-export default OrganismsPointRefCodeBox;
+export default OrganismPointRefCodeBox;

@@ -4,9 +4,9 @@ import AtomText from '../atoms/text.atom'
 import { Button } from '../ui/button'
 import Link from "next/link"
 
-interface IOrganismsAskJoinBoxProps {}
+interface IOrganismAskJoinBoxProps {}
 
-const OrganismsAskJoinBox: React.FunctionComponent<IOrganismsAskJoinBoxProps> = (props) => {
+const OrganismAskJoinBox: React.FunctionComponent<IOrganismAskJoinBoxProps> = (props) => {
     
     return (
         <div className='text-center container mx-auto'>
@@ -21,4 +21,4 @@ const OrganismsAskJoinBox: React.FunctionComponent<IOrganismsAskJoinBoxProps> = 
     )
 }
 
-export default OrganismsAskJoinBox;
+export default OrganismAskJoinBox;

@@ -7,7 +7,7 @@ button {
 button {
     background: var(--primary);
 }
-button[data-variant="destructive"] {
+button[data-variant="destructive"], button[data-slot="dialog-close"] {
     background: var(--danger);
 }
 button:hover {
