@@ -2,7 +2,6 @@ import * as React from 'react'
 import AtomText from '../atoms/text.atom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '../ui/button'
-import { faClock } from '@fortawesome/free-solid-svg-icons'
 
 interface IMoleculeOfferBoxProps {
     icon: any

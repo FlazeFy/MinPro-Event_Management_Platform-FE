@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google"
-import "./globals.css";
+import "./typography.css"
+import "./form.css"
+import "./globals.css"
 import MoleculeFooterBar from "@/components/molecules/footer_bar.molecule";
 import MoleculeNavigationBar from "@/components/molecules/navigation_bar.molecule";
+import { AuthProvider } from "@/providers/auth.provider";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -18,9 +21,11 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${poppins.className} bg-red-500`}>
-        <MoleculeNavigationBar/>
-        {children}
-        <MoleculeFooterBar/>
+        <AuthProvider>
+          <MoleculeNavigationBar/>
+          {children}
+          <MoleculeFooterBar/>
+        </AuthProvider>
       </body>
     </html>
   );

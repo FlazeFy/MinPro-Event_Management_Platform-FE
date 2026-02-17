@@ -4,9 +4,9 @@ import { faCalendar, faCheckCircle, faUser, } from '@fortawesome/free-solid-svg-
 import MoleculeOfferBox from '../molecules/our_offer_box.molecule';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface IOrganismsOurOfferListProps {}
+interface IOrganismOurOfferListProps {}
 
-const OrganismsOurOfferList: React.FunctionComponent<IOrganismsOurOfferListProps> = () => {
+const OrganismOurOfferList: React.FunctionComponent<IOrganismOurOfferListProps> = () => {
     return (
         <div className="w-full p-5 pb-20 lg:p-10 lg:pb-40 text-center">
             <AtomText type='title-huge' text="What We Do?" extraClass='mb-0'/>
@@ -41,4 +41,4 @@ const OrganismsOurOfferList: React.FunctionComponent<IOrganismsOurOfferListProps
     )
 }
 
-export default OrganismsOurOfferList;
+export default OrganismOurOfferList;

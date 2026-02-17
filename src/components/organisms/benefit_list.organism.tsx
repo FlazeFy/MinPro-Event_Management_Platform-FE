@@ -1,16 +1,14 @@
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
-import { faCalendar, faBell, faUsers, faLineChart, faUser } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button } from '../ui/button'
+import { faCalendar, faBell, faLineChart, faUser } from '@fortawesome/free-solid-svg-icons'
 import Image from "next/image"
 import MoleculeBenefitBox from '../molecules/benefit_box.molecule'
 
-interface IOrganismsBenefitListProps {}
+interface IOrganismBenefitListProps {}
 
-const OrganismsBenefitList: React.FunctionComponent<IOrganismsBenefitListProps> = () => {
+const OrganismBenefitList: React.FunctionComponent<IOrganismBenefitListProps> = () => {
     return (
-        <div className="flex flex-wrap w-full mt-[10vh] p-5 pb-20 lg:p-10 lg:pb-40 items-center">
+        <div className="flex flex-wrap w-full mt-[10vh] p-5 pb-20 lg:p-10 lg:pb-40 items-center" id='feature-section'>
             <div className="w-full md:w-1/2 flex justify-center items-center relative h-[400px] pr-20">
                 <Image src="/images/event.jpg" alt="/images/event.jpg" width={1200} height={800} className="w-full h-auto rounded-2xl shadow-2xl" style={{ transform: "rotate(-5deg)" }}/>
             </div>
@@ -26,4 +24,4 @@ const OrganismsBenefitList: React.FunctionComponent<IOrganismsBenefitListProps> 
     )
 }
 
-export default OrganismsBenefitList;
+export default OrganismBenefitList;

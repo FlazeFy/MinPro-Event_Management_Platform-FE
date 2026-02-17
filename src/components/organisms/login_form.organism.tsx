@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { useRouter } from "next/navigation"
 import AtomText from '../atoms/text.atom'
+import { loginRepo } from '@/repositories/r_auth'
+import Swal from "sweetalert2"
+import useAuthStore from '@/store/s_auth'
 
 // Validation
 const loginSchema = Yup.object({
@@ -21,13 +24,44 @@ const loginSchema = Yup.object({
 
 type LoginFormValues = Yup.InferType<typeof loginSchema>
 
-interface IOrganismsLoginFormProps {}
+interface IOrganismLoginFormProps {}
 
-const OrganismsLoginForm: React.FunctionComponent<IOrganismsLoginFormProps> = (props) => {
+const OrganismLoginForm: React.FunctionComponent<IOrganismLoginFormProps> = (props) => {
     const router = useRouter()
+    const { onLoginStore } = useAuthStore()
     const form = useForm<LoginFormValues>({ resolver: yupResolver(loginSchema), defaultValues: { email: "", password: "" }})
 
-    const onSubmit = async (values: LoginFormValues) => {}
+    const onSubmit = async (values: LoginFormValues) => {
+        try {
+            // Call repository for login
+            const res = await loginRepo({
+                email: values.email,
+                password: values.password,
+            })
+
+            Swal.fire({
+                icon: "success",
+                title: "Done",
+                text: `Welcome ${res.name}!`,
+                confirmButtonText: "Explore now!",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            }).then((result:any) => {
+                // Store local data
+                localStorage.setItem('token_key', res.token)
+                onLoginStore({ email: res.email, name: res.name, role: res.role })
+
+                // Navigate
+                router.push("/")
+            })
+        } catch (err: any) {
+            Swal.fire({
+                icon: "error",
+                title: "I'm sorry",
+                text: err.response.data.message,
+            })
+        }
+    }
     
     return (
         <div className='container'>
@@ -69,4 +103,4 @@ const OrganismsLoginForm: React.FunctionComponent<IOrganismsLoginFormProps> = (p
     )
 }
 
-export default OrganismsLoginForm;
+export default OrganismLoginForm;
