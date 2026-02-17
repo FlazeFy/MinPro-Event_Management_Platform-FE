@@ -29,3 +29,8 @@ export const getPeriodicRevenue = async (): Promise<LineChartResponse> => {
     
     return res.data.data
 }
+export const getPeriodicAttendee = async (): Promise<LineChartResponse> => {
+    const res = await apiCall.get(`${MODULE_URL}/periodic/attendee`)
+    
+    return res.data.data
+}

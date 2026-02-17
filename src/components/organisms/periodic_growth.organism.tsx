@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import MoleculeLineChart from '../molecules/line_chart.molecule';
 import AtomText from '../atoms/text.atom';
-import { getPeriodicRevenue, LineChartResponse } from '@/repositories/r_stats';
+import { getPeriodicAttendee, getPeriodicRevenue, LineChartResponse } from '@/repositories/r_stats';
 import Skeleton from 'react-loading-skeleton';
 
 interface IOrganismPeriodicGrowthBoxProps {
@@ -13,6 +13,9 @@ const OrganismPeriodicGrowthBox: React.FunctionComponent<IOrganismPeriodicGrowth
     const [itemRevenue, setItemRevenue] = useState<LineChartResponse>()
     const [loadingRevenue, setLoadingRevenue] = useState(true)
     const [errorRevenue, setErrorRevenue] = useState<string | null>(null)
+    const [itemAttendee, setItemAttendee] = useState<LineChartResponse>()
+    const [loadingAttendee, setLoadingAttendee] = useState(true)
+    const [errorAttendee, setErrorAttendee] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchPeriodicRevenue = async () => {
@@ -25,8 +28,19 @@ const OrganismPeriodicGrowthBox: React.FunctionComponent<IOrganismPeriodicGrowth
                 setLoadingRevenue(false)
             }
         }
+        const fetchPeriodicAttendee = async () => {
+            try {
+                const data = await getPeriodicAttendee()
+                setItemAttendee(data)
+            } catch (err: any) {
+                setErrorAttendee(err?.response?.data?.message || "Something went wrong")
+            } finally { 
+                setLoadingAttendee(false)
+            }
+        }
 
         fetchPeriodicRevenue()
+        fetchPeriodicAttendee()
     }, [])
 
     return (
@@ -38,23 +52,8 @@ const OrganismPeriodicGrowthBox: React.FunctionComponent<IOrganismPeriodicGrowth
             </div>
             <div className="col-span-1 md:col-span-3 box-bordered">
                 <AtomText text='Total Attendee' type='content-title'/>
-                <MoleculeLineChart
-                    labels={['Jan','Feb','Mar','Apr','May']}
-                    datasets={[
-                        {
-                            label: 'Concert',
-                            data: [2, 3, 4, 3, 5],
-                            borderColor: '#3B82F6',
-                            backgroundColor: '#3B82F6',
-                        },
-                        {
-                            label: 'Seminar',
-                            data: [3, 2, 3, 4, 4],
-                            borderColor: '#F97316',
-                            backgroundColor: '#F97316',
-                        },
-                    ]}
-                />
+                { loadingAttendee && <Skeleton className="h-[200px] w-full rounded-xl"/> }
+                { !loadingAttendee && itemAttendee && <MoleculeLineChart labels={itemAttendee?.labels} datasets={itemAttendee.datasets}/> }
             </div>
         </div>
     )
