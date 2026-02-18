@@ -13,7 +13,7 @@ import { convertUTCToLocal } from '@/helpers/converter.helper'
 import MoleculeCopyBox from '../molecules/copy_box.molecule'
 import Skeleton from 'react-loading-skeleton'
 import MoleculeNoDataBox from '../molecules/no_data_box.molecule'
-import OrganismCustomerTransaction from './customer_transaction_list'
+import OrganismCustomerTransactionList from './customer_transaction_list'
 
 interface IOrganismRecentTransactionListProps {
     role: string
@@ -135,7 +135,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                     </TableCell>
                                     <TableCell>
                                         {
-                                            role === "customer" ? dt.payment_method : <OrganismCustomerTransaction customer={dt.customer}/>
+                                            role === "customer" ? dt.payment_method : <OrganismCustomerTransactionList customer={dt.customer}/>
                                         }
                                     </TableCell>
                                     <TableCell>

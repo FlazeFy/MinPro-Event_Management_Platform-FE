@@ -15,18 +15,18 @@ export default function ProfilePage() {
     const [error, setError] = useState<string | null>(null)
     const { role } = useAuthStore()
 
-    useEffect(() => {
-        const fetchMyProfile = async () => {
-            try {
-                const data = await getMyProfile()
-                setProfileItem(data)
-            } catch (err: any) {
-                setError(err?.response?.data?.message || "Something went wrong")
-            } finally { 
-                setLoading(false)
-            }
+    const fetchMyProfile = async () => {
+        try {
+            const data = await getMyProfile()
+            setProfileItem(data)
+        } catch (err: any) {
+            setError(err?.response?.data?.message || "Something went wrong")
+        } finally { 
+            setLoading(false)
         }
+    }
 
+    useEffect(() => {
         fetchMyProfile()
     }, [])
 
@@ -38,7 +38,7 @@ export default function ProfilePage() {
             {
                 !loading && profileItem && (
                     <>
-                        <OrganismUserProfileHeaderBox username={profileItem.username} role={role} birth_date={profileItem.birth_date} bio={profileItem.bio}/>
+                        <OrganismUserProfileHeaderBox user={profileItem} fetchMyProfile={fetchMyProfile}/>
                         <div className="flex flex-wrap mt-5">
                             <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
                                 {

@@ -15,11 +15,11 @@ import MoleculeNoDataBox from '../molecules/no_data_box.molecule'
 import Skeleton from 'react-loading-skeleton'
 import AtomDivider from '../atoms/divider.atom'
 
-interface IOrganismCustomerTransactionProps {
+interface IOrganismCustomerTransactionListProps {
     customer: UserShortInfo
 }
 
-const OrganismCustomerTransaction: React.FunctionComponent<IOrganismCustomerTransactionProps> = ({ customer }) => {
+const OrganismCustomerTransactionList: React.FunctionComponent<IOrganismCustomerTransactionListProps> = ({ customer }) => {
     const [item, setItem] = useState<CustomerTransactionByEventOrganizer[]>()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -81,4 +81,4 @@ const OrganismCustomerTransaction: React.FunctionComponent<IOrganismCustomerTran
     )
 }
 
-export default OrganismCustomerTransaction
+export default OrganismCustomerTransactionList

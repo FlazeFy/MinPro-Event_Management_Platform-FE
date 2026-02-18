@@ -37,15 +37,15 @@ export interface MyProfileResponse extends LoginResponsePayload {
     fullname: string
     organizer_name: string
     email: string
-    bio: string | null
+    bio: string
     phone_number: string
-    points: number | null
-    profile_image: string | null
-    address: string | null
-    birth_date: string | null
+    points: number
+    profile_image: string
+    address: string 
+    birth_date: string
     created_at: string
     updated_at: string
-    referral_code: string | null
+    referral_code: string
     owner_referral_code_histories: OwnerReferralCodeHistory[]
     social_medias: SocialMedia[]
 }
@@ -53,4 +53,20 @@ export const getMyProfile = async (): Promise<MyProfileResponse> => {
     const res = await apiCall.get(`${MODULE_URL}/profile`)
     
     return res.data.data
+}
+
+export interface UpdateProfilePayload {
+    email: string
+    username: string,
+    organizer_name: string | null | undefined,
+    address: string | null | undefined,
+    bio: string | null | undefined,
+    phone_number: string
+    fullname: string | null | undefined
+    birth_date: string | null | undefined
+}
+export const putUpdateProfileRepo = async (payload: any): Promise<string> => {
+    const res = await apiCall.put(`${MODULE_URL}/profile`, payload)
+
+    return res.data.message
 }
