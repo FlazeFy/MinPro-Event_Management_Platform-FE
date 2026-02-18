@@ -11,6 +11,7 @@ interface IOrganismSummaryEventListProps {
 }
 
 const OrganismSummaryEventList: React.FunctionComponent<IOrganismSummaryEventListProps> = ({ isFull = true }) => {
+    // For repo fetching
     const [item, setItem] = useState<EventOrganizerSummaryResponse>()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)

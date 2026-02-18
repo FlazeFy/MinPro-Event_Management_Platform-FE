@@ -15,6 +15,7 @@ interface Props {
     setOpen: (val: boolean) => void
 }
 
+// Validator
 const schema = Yup.object({
     email: Yup.string().required().min(10).test(
         "is-gmail", "Email must end with @gmail.com", 

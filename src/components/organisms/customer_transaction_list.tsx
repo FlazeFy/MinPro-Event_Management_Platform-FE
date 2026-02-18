@@ -20,6 +20,7 @@ interface IOrganismCustomerTransactionListProps {
 }
 
 const OrganismCustomerTransactionList: React.FunctionComponent<IOrganismCustomerTransactionListProps> = ({ customer }) => {
+    // For repo fetching
     const [item, setItem] = useState<CustomerTransactionByEventOrganizer[]>()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)

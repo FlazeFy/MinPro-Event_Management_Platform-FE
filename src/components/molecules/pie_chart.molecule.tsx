@@ -1,4 +1,3 @@
-'use client'
 import * as React from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, ChartOptions } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
@@ -29,7 +28,7 @@ const MoleculePieChart: React.FunctionComponent<IMoleculePieChartProps> = ({ lab
         },
     }
 
-  return <Pie data={data} options={options}/>
+    return <Pie data={data} options={options}/>
 }
 
 export default MoleculePieChart

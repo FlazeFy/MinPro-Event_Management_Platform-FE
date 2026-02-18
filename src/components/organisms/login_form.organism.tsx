@@ -27,8 +27,10 @@ type LoginFormValues = Yup.InferType<typeof loginSchema>
 interface IOrganismLoginFormProps {}
 
 const OrganismLoginForm: React.FunctionComponent<IOrganismLoginFormProps> = (props) => {
-    const router = useRouter()
+    // For global state
     const { onLoginStore } = useAuthStore()
+    // For state management
+    const router = useRouter()
     const form = useForm<LoginFormValues>({ resolver: yupResolver(loginSchema), defaultValues: { email: "", password: "" }})
 
     const onSubmit = async (values: LoginFormValues) => {

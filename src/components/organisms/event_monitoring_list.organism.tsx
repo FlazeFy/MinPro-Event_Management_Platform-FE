@@ -5,9 +5,8 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from '../ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot, faPieChart, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../ui/input'
-import { Button } from '../ui/button'
 import OrganismEventAttendee from './event_attendee_list.organism'
 import OrganismDashboardList from './event_dashboard_list.organism'
 

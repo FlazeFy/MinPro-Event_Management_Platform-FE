@@ -20,6 +20,7 @@ interface IOrganismRecentTransactionListProps {
 }
 
 const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTransactionListProps> = ({ role }) => {
+    // For repo fetching
     const [item, setItem] = useState<AllTransactionResponse>()
     const [loading, setLoading] = useState(true)
     const [average, setAverage] = useState(0)
@@ -125,7 +126,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                     <TableCell>
                                         {
                                             role === "event_organizer" && <MoleculeTransactionBox 
-                                                title={dt.customer.username} desc={dt.payment_method.replaceAll('_',' ')}
+                                                title={dt.customer.username} desc={<div className='capitalize'>{dt.payment_method.replaceAll('_',' ')}</div>}
                                                 profileImage={dt.customer.profile_pic ?? '/images/user.jpg'} withPoint={false}/>
                                         }
                                         <div className='flex gap-2'>
@@ -135,13 +136,13 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                     </TableCell>
                                     <TableCell>
                                         {
-                                            role === "customer" ? dt.payment_method : <OrganismCustomerTransactionList customer={dt.customer}/>
+                                            role === "customer" ? <div className='capitalize'>{dt.payment_method.replaceAll("_", " ")}</div> : <OrganismCustomerTransactionList customer={dt.customer}/>
                                         }
                                     </TableCell>
                                     <TableCell>
                                         <div className='flex gap-2'>
                                             <AtomText type='sub-content' text={<>Rp. {dt.amount.toLocaleString()}</>}/>
-                                            { role === "customer" && <Badge className='bg-green-200 text-green-700'>+{dt.amount / 10000} Pts</Badge> } 
+                                            { role === "customer" && <Badge className='bg-green-200 text-green-700'>+{Math.floor(dt.amount / 10000)} Pts</Badge> } 
                                         </div>  
                                     </TableCell>
                                 </TableRow>

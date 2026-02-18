@@ -1,4 +1,3 @@
-"use client"
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
 import MoleculeTransactionBox from '../molecules/transaction_molecule'
@@ -18,9 +17,9 @@ const OrganismRefCodeList: React.FunctionComponent<IOrganismRefCodeListProps> = 
             {
                 customers.length > 0 ? 
                     customers.map((dt, idx) => (
-                        <MoleculeTransactionBox key={idx} 
-                            title={dt.customer_user.username} desc={`Joined at ${convertUTCToLocal(dt.customer_user.created_at, true, false)}`} 
-                            profileImage={dt.customer_user.profile_pic ?? '/images/user.jpg'}/>
+                        <MoleculeTransactionBox key={idx}
+                        title={dt.customer_user.username} desc={`Joined at ${convertUTCToLocal(dt.customer_user.created_at, true, false)}`}
+                        profileImage={dt.customer_user.profile_pic ?? '/images/user.jpg'} withPoint={false}/>
                     ))
                 :
                     <MoleculeNoDataBox title="Your referral code hasn't been used yet"/>

@@ -1,4 +1,3 @@
-"use client"
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
 import AtomDivider from '../atoms/divider.atom'

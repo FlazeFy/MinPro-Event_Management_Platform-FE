@@ -17,7 +17,6 @@ const MoleculeOfferBox: React.FunctionComponent<IMoleculeOfferBoxProps> = ({ ico
             </Button>
             <AtomText type='content-title' text={title}/>
             {content}
-            
         </div>
     )
 }

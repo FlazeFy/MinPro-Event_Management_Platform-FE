@@ -1,4 +1,3 @@
-"use client"
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
 import { Button } from '../ui/button'
@@ -7,7 +6,6 @@ import Link from "next/link"
 interface IOrganismAskJoinBoxProps {}
 
 const OrganismAskJoinBox: React.FunctionComponent<IOrganismAskJoinBoxProps> = (props) => {
-    
     return (
         <div className='text-center container mx-auto'>
             <div className='p-10 align-center'>

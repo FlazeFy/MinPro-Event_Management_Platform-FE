@@ -14,9 +14,10 @@ interface IOrganismUpdateProfileFormProps {
 }
 
 const OrganismUpdateProfileForm: React.FC<IOrganismUpdateProfileFormProps> = ({ user, fetchMyProfile }) => {
-    const [open, setOpen] = useState(false)
+    // For global state
     const { onLoginStore } = useAuthStore()
-
+    // For state management
+    const [open, setOpen] = useState(false)
     const isOrganizer = user.role === "event_organizer"
 
     return (

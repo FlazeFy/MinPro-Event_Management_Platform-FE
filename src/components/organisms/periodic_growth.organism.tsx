@@ -5,11 +5,10 @@ import AtomText from '../atoms/text.atom';
 import { getPeriodicAttendee, getPeriodicRevenue, LineChartResponse } from '@/repositories/r_stats';
 import Skeleton from 'react-loading-skeleton';
 
-interface IOrganismPeriodicGrowthBoxProps {
-    
-}
+interface IOrganismPeriodicGrowthBoxProps {}
 
 const OrganismPeriodicGrowthBox: React.FunctionComponent<IOrganismPeriodicGrowthBoxProps> = () => {
+    // For repo fetching
     const [itemRevenue, setItemRevenue] = useState<LineChartResponse>()
     const [loadingRevenue, setLoadingRevenue] = useState(true)
     const [errorRevenue, setErrorRevenue] = useState<string | null>(null)
