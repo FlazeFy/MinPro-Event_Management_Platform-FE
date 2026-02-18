@@ -45,8 +45,9 @@ export interface CustomerTransactionByEventOrganizerItemWithMeta {
     data: CustomerTransactionByEventOrganizer[]
     meta: PaginationMeta
 }
-export const getCustomerTransactionByEventOrganizer = async (customerId: string): Promise<CustomerTransactionByEventOrganizerItemWithMeta> => {
-    const res = await apiCall.get(`${MODULE_URL}/transaction/${customerId}`)
+export const getCustomerTransactionByEventOrganizer = async (page: number, customerId: string, search: string | null): Promise<CustomerTransactionByEventOrganizerItemWithMeta> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const res = await apiCall.get(`${MODULE_URL}/transaction/${customerId}?page=${page}${searchArgs}`)
     const { data, meta } = res.data
 
     return { data, meta }

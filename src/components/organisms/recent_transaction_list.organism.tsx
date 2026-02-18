@@ -27,7 +27,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
     // For state management
     const [search, setSearch] = useState<string>("")
     const [status, setStatus] = useState<string>("all")
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(1)
 
     const fetchAllTransaction = async (page: number, search: string | null, status: string | null) => {
         try {
