@@ -9,10 +9,11 @@ interface MoleculeTransactionBoxProps {
     title: string 
     desc: string 
     profileImage?: string
+    icon?: any
     withPoint: boolean
 }
 
-const MoleculeTransactionBox: React.FC<MoleculeTransactionBoxProps> = ({ title, desc, profileImage, withPoint = true }) => {
+const MoleculeTransactionBox: React.FC<MoleculeTransactionBoxProps> = ({ title, desc, profileImage, withPoint = true, icon }) => {
     return (
         <div className='flex mb-3 items-center justify-between'>
             <div className='flex gap-3'>
@@ -21,7 +22,7 @@ const MoleculeTransactionBox: React.FC<MoleculeTransactionBoxProps> = ({ title, 
                         profileImage ? 
                             <Image src={profileImage} alt='profile' width={40} height={40} className='w-10 h-10 rounded-lg object-cover' />
                         : 
-                            <FontAwesomeIcon icon={faUser} className='w-6 h-6' />
+                            <FontAwesomeIcon icon={icon ?? faUser} className='w-6 h-6' />
                     }
                 </div>
                 <div>

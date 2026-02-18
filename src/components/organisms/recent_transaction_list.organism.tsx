@@ -5,15 +5,15 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from '../ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot, faRotateBack } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../ui/input'
 import MoleculeTransactionBox from '../molecules/transaction_molecule'
-import { Button } from '../ui/button'
 import { AllTransactionResponse, getAllTransaction } from '@/repositories/r_transaction'
 import { convertUTCToLocal } from '@/helpers/converter.helper'
 import MoleculeCopyBox from '../molecules/copy_box.molecule'
 import Skeleton from 'react-loading-skeleton'
 import MoleculeNoDataBox from '../molecules/no_data_box.molecule'
+import OrganismCustomerTransaction from './customer_transaction_list'
 
 interface IOrganismRecentTransactionListProps {
     role: string
@@ -135,7 +135,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                     </TableCell>
                                     <TableCell>
                                         {
-                                            role === "customer" ? dt.payment_method : <Button><FontAwesomeIcon icon={faRotateBack}/></Button>
+                                            role === "customer" ? dt.payment_method : <OrganismCustomerTransaction customer={dt.customer}/>
                                         }
                                     </TableCell>
                                     <TableCell>
