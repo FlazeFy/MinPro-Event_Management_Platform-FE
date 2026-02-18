@@ -17,11 +17,11 @@ const MoleculeIdentityBox: React.FC<MoleculeIdentityBoxProps> = ({ label, value,
     }
 
     return (
-        <div className='flex gap-3 mb-3'>
+        <div className='flex gap-3 mb-3 items-center'>
             <div className={`${colorMap[color]} rounded-lg text-white p-3`}>
                 <FontAwesomeIcon icon={icon}/>
             </div>
-            <div>
+            <div className='flex flex-col'>
                 <AtomText type='label' text={label}/>
                 <AtomText type='content' text={value}/>
             </div>

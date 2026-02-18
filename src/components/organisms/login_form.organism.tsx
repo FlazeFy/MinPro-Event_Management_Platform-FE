@@ -18,8 +18,8 @@ const loginSchema = Yup.object({
         "is-gmail",
         "Email must end with @gmail.com",
         (val: string) => val ? val.endsWith("@gmail.com") : false
-    ),
-    password: Yup.string().required("Password is required").min(6),
+    ).max(255),
+    password: Yup.string().required("Password is required").min(6).max(36),
 })
 
 type LoginFormValues = Yup.InferType<typeof loginSchema>
@@ -27,8 +27,10 @@ type LoginFormValues = Yup.InferType<typeof loginSchema>
 interface IOrganismLoginFormProps {}
 
 const OrganismLoginForm: React.FunctionComponent<IOrganismLoginFormProps> = (props) => {
-    const router = useRouter()
+    // For global state
     const { onLoginStore } = useAuthStore()
+    // For state management
+    const router = useRouter()
     const form = useForm<LoginFormValues>({ resolver: yupResolver(loginSchema), defaultValues: { email: "", password: "" }})
 
     const onSubmit = async (values: LoginFormValues) => {

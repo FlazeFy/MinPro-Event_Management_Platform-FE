@@ -1,4 +1,3 @@
-"use client"
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
 import { Button } from '../ui/button'
@@ -7,7 +6,6 @@ import Link from "next/link"
 interface IOrganismWelcomeBoxProps {}
 
 const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = (props) => {
-    
     return (
         <div>
             <AtomText type='title-huge' text='Join' extraClass='mb-0'/>

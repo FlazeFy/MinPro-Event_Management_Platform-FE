@@ -15,18 +15,18 @@ export default function ProfilePage() {
     const [error, setError] = useState<string | null>(null)
     const { role } = useAuthStore()
 
-    useEffect(() => {
-        const fetchMyProfile = async () => {
-            try {
-                const data = await getMyProfile()
-                setProfileItem(data)
-            } catch (err: any) {
-                setError(err?.response?.data?.message || "Something went wrong")
-            } finally { 
-                setLoading(false)
-            }
+    const fetchMyProfile = async () => {
+        try {
+            const data = await getMyProfile()
+            setProfileItem(data)
+        } catch (err: any) {
+            setError(err?.response?.data?.message || "Something went wrong")
+        } finally { 
+            setLoading(false)
         }
+    }
 
+    useEffect(() => {
         fetchMyProfile()
     }, [])
 
@@ -38,13 +38,16 @@ export default function ProfilePage() {
             {
                 !loading && profileItem && (
                     <>
-                        <OrganismUserProfileHeaderBox username={profileItem.username} role={role} birth_date={profileItem.birth_date}/>
+                        <OrganismUserProfileHeaderBox user={profileItem} fetchMyProfile={fetchMyProfile}/>
                         <div className="flex flex-wrap mt-5">
                             <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
-                                <OrganismRecentTransactionList role={role}/>
+                                {
+                                    role === "customer" ? <OrganismRecentTransactionList role={role}/> : <></>
+                                }
                             </div>
                             <div className="w-full md:w-4/12 lg:w-3/12">
-                                <OrganismUserProfileContactBox fullname={profileItem.fullname} email={profileItem.email} phone_number={profileItem.phone_number} address={profileItem.address} role={role}/>
+                                <OrganismUserProfileContactBox fullname={role === "customer" ? profileItem.fullname : profileItem.organizer_name} email={profileItem.email} phone_number={profileItem.phone_number} 
+                                    address={profileItem.address} role={role} social_media={profileItem.social_medias}/>
                                 <br/>
                                 {
                                     role === "customer" && profileItem.points && profileItem.referral_code && (

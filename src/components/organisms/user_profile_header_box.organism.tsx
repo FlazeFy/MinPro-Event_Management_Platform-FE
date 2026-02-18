@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
-import { faPenToSquare, faSignOut } from '@fortawesome/free-solid-svg-icons'
+import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 import Image from "next/image"
 import { Button } from '../ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,15 +10,18 @@ import { convertAgeFromBornDate, convertUTCToLocal } from '@/helpers/converter.h
 import useAuthStore from '@/store/s_auth'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
+import { MyProfileResponse } from '@/repositories/r_auth'
+import OrganismUpdateProfileForm from './update_profile_form.organism'
 
 interface IOrganismUserProfileHeaderBoxProps {
-    username: string
-    role: string
-    birth_date?: string | null
+    user: MyProfileResponse
+    fetchMyProfile: () => void
 }
 
-const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfileHeaderBoxProps> = ({ username, role, birth_date }) => {
+const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfileHeaderBoxProps> = ({ user, fetchMyProfile }) => {
+    // For global state
     const onLogOutStore = useAuthStore((state) => state.onLogOutStore)
+    // For state management
     const router = useRouter()
 
     const handleLogout = async () => {
@@ -66,18 +69,17 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
                         </div> 
                     </div>
                     <div>
-                        <AtomText type='sub-title-small' text={username}/>
-                        {
-                            birth_date && <AtomText type='sub-content' text={`${convertUTCToLocal(birth_date, false, false)} | ${convertAgeFromBornDate(birth_date)} y.o`}/>
-                        }
+                        <AtomText type='sub-title-small' text={user.username}/>
+                        { user.role === "customer" && user.birth_date && <AtomText type='sub-content' text={`${convertUTCToLocal(user.birth_date, false, false)} | ${convertAgeFromBornDate(user.birth_date)} y.o`}/> }
+                        { user.role === "event_organizer" && user.bio && <AtomText type='sub-content' text={user.bio}/> }
                         <div className="flex gap-3 mt-3">
-                            <Badge className="px-3 py-1 bg-blue-100 text-blue-600">{role}</Badge>
-                            <Badge className="px-3 py-1 bg-orange-100 text-orange-500 font-medium">Supporter</Badge>
+                            <Badge className="px-3 py-1 bg-blue-100 text-blue-600 capitalize">{user.role.replace("_"," ")}</Badge>
+                            <Badge className="px-3 py-1 bg-orange-100 text-orange-500 font-medium capitalize">Supporter</Badge>
                         </div>
                     </div>
                 </div>
                 <div className='flex gap-2'>
-                    <Button><FontAwesomeIcon icon={faPenToSquare}/>Edit Profile</Button>
+                    <OrganismUpdateProfileForm user={user} fetchMyProfile={fetchMyProfile}/>
                     <Button variant="destructive" onClick={handleLogout}><FontAwesomeIcon icon={faSignOut}/></Button>
                 </div>
             </div>
