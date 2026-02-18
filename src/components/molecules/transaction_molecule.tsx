@@ -7,7 +7,7 @@ import { Badge } from '../ui/badge'
 
 interface MoleculeTransactionBoxProps {
     title: string 
-    desc: string 
+    desc: any 
     profileImage?: string
     icon?: any
     withPoint: boolean

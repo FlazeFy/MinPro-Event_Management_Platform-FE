@@ -1,4 +1,5 @@
 import apiCall from "@/configs/axios"
+import { EventData, PaginationMeta } from "./template"
 
 const MODULE_URL = "/api/v1/stats"
 
@@ -33,4 +34,20 @@ export const getPeriodicAttendee = async (): Promise<LineChartResponse> => {
     const res = await apiCall.get(`${MODULE_URL}/periodic/attendee`)
     
     return res.data.data
+}
+
+export interface CustomerTransactionByEventOrganizer {
+    amount: number
+    created_at: string
+    event: EventData
+}
+export interface CustomerTransactionByEventOrganizerItemWithMeta {
+    data: CustomerTransactionByEventOrganizer[]
+    meta: PaginationMeta
+}
+export const getCustomerTransactionByEventOrganizer = async (customerId: string): Promise<CustomerTransactionByEventOrganizerItemWithMeta> => {
+    const res = await apiCall.get(`${MODULE_URL}/transaction/${customerId}`)
+    const { data, meta } = res.data
+
+    return { data, meta }
 }

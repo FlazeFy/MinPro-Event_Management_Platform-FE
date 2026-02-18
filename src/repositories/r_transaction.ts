@@ -1,16 +1,8 @@
 import apiCall from "@/configs/axios"
-import { TransactionMeta, UserShortInfo, VenueData } from "./template"
+import { EventData, PaginationMeta, UserShortInfo } from "./template"
 
 const MODULE_URL = "/api/v1/transactions"
 
-interface EventScheduleData {
-    venue: VenueData
-}
-interface EventData {
-    id: string
-    event_title: string
-    event_schedule: EventScheduleData[]
-}
 export interface TransactionData {
     id: string
     created_at: string
@@ -24,7 +16,7 @@ export interface TransactionData {
 }
 export interface AllTransactionResponse {
     data: TransactionData[]
-    meta: TransactionMeta
+    meta: PaginationMeta
     average_transaction: number
 }
 export const getAllTransaction = async (page: number, search: string | null, status: string | null): Promise<AllTransactionResponse> => {
