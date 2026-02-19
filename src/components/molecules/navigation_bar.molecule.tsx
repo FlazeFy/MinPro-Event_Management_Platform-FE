@@ -27,15 +27,17 @@ const MoleculeNavigationBar: React.FC<MoleculeNavigationBarProps> = () => {
                 </Link>
                 {
                     isSignedIn && 
+                    <>
                         <Link href={'/transaction'}>
                             <AtomText type='content-title' text='Transaction'/>
                         </Link>
+                        <Link href={'/feedback'}>
+                            <AtomText type='content-title' text='Feedback'/>
+                        </Link>
+                    </>
                 }
                 <Link href={'/about'}>
                     <AtomText type='content-title' text='About'/>
-                </Link>
-                <Link href={'/feedback'}>
-                    <AtomText type='content-title' text='Feedback'/>
                 </Link>
             </div>
             <Button>

@@ -57,11 +57,7 @@ const OrganismLoginForm: React.FunctionComponent<IOrganismLoginFormProps> = (pro
                 router.push("/")
             })
         } catch (err: any) {
-            Swal.fire({
-                icon: "error",
-                title: "I'm sorry",
-                text: err.response.data.message,
-            })
+            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
         }
     }
     

@@ -53,7 +53,7 @@ const OrganismCustomerProfileForm: React.FC<Props> = ({ user, fetchMyProfile, on
                 fetchMyProfile()
             })
         } catch (err: any) {
-            Swal.fire("error", "I'm sorry", err.response?.data?.message ?? "Something went wrong")
+            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
         }
     }
 

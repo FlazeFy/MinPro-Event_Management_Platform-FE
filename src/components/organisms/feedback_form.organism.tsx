@@ -9,6 +9,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import Swal from "sweetalert2"
 import * as Yup from "yup"
 import AtomStarInput from '../atoms/star_input.atom';
+import { createFeedbackRepo } from '@/repositories/r_feedback';
 
 // Validation
 const feedbackSchema = Yup.object({
@@ -23,8 +24,24 @@ interface IOrganismFeedbackBoxProps {}
 const OrganismFeedbackBox: React.FunctionComponent<IOrganismFeedbackBoxProps> = () => {
     const form = useForm<FeedbackFormValues>({ resolver: yupResolver(feedbackSchema), defaultValues: { feedback_rate: 0, feedback_body: "" }})
 
-    const onSubmit = async () => {
-        
+    const onSubmit = async (values: FeedbackFormValues) => {
+        try {
+            // Call repository for send feedback
+            const res = await createFeedbackRepo({
+                feedback_rate: values.feedback_rate,
+                feedback_body: values.feedback_body,
+            })
+            form.reset()
+
+            Swal.fire({
+                icon: "success",
+                title: "Done",
+                text: res,
+                confirmButtonText: "Continue explore!"
+            })
+        } catch (err: any) {
+            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")        
+        }
     }
 
     return (

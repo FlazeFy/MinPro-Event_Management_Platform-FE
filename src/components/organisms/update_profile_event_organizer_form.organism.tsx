@@ -57,7 +57,7 @@ const OrganismEventOrganizerProfileForm: React.FC<Props> = ({ user, fetchMyProfi
                 fetchMyProfile()
             })
         } catch (err: any) {
-            Swal.fire("error", "I'm sorry", err.response?.data?.message ?? "Something went wrong")
+            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
         }
     }
 
