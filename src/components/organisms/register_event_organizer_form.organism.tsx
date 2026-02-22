@@ -6,47 +6,46 @@ import * as Yup from "yup"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { Textarea } from "@/components/ui/textarea"
 import { useRouter } from "next/navigation"
 import useAuthStore from '@/store/s_auth'
 
 // Validation
 const registerSchema = Yup.object({
     username: Yup.string().required("Username is required").min(6).max(36),
-    fullname: Yup.string().required("Fullname is required").max(75),
+    organizer_name: Yup.string().required("Organizer name is required").max(144),
     email: Yup.string().required("Email is required").email("Invalid email format").max(255),
     phone_number: Yup.string().required("Phone number is required").min(8).max(16),
-    birth_date: Yup.string()
-        .required("Birth date is required")
-        .test("is-valid-date", "Birth date must be valid", (value) => {
-            return !!value && !isNaN(new Date(value).getTime())
-    }),
+    bio: Yup.string().required("Bio is required").max(500),
+    address: Yup.string().required("Address is required").max(255),
     password: Yup.string().required("Password is required").min(6).max(36),
     password_confirmation: Yup.string().required("Password confirmation is required").oneOf([Yup.ref("password")], "Passwords must match"),
 })
 
-type RegisterCustomerFormValues = Yup.InferType<typeof registerSchema>
+type RegisterEventOrganizerFormValues = Yup.InferType<typeof registerSchema>
 
-interface IOrganismRegisterCustomerFormProps {}
+interface IOrganismRegisterEventOrganizerFormProps {}
 
-const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCustomerFormProps> = () => {
+const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegisterEventOrganizerFormProps> = () => {
     const { onLoginStore } = useAuthStore()
     const router = useRouter()
 
-    const form = useForm<RegisterCustomerFormValues>({
+    const form = useForm<RegisterEventOrganizerFormValues>({
         resolver: yupResolver(registerSchema),
         defaultValues: {
             username: "",
-            fullname: "",
+            organizer_name: "",
             email: "",
             phone_number: "",
-            birth_date: "",
+            bio: "",
+            address: "",
             password: "",
             password_confirmation: "",
         }
     })
 
-    const onSubmit = async (values: RegisterCustomerFormValues) => {
-    
+    const onSubmit = async (values: RegisterEventOrganizerFormValues) => {
+        
     }
 
     return (
@@ -55,21 +54,21 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
                 <FormField control={form.control} name="username"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className='text-black'>Username</FormLabel>
+                            <FormLabel>Username</FormLabel>
                             <FormControl>
                                 <Input placeholder="Enter your username" {...field} />
                             </FormControl>
                             <FormMessage>{form.formState.errors.username?.message}</FormMessage>
                         </FormItem>
                     )}/>
-                <FormField control={form.control} name="fullname"
+                <FormField control={form.control} name="organizer_name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Fullname</FormLabel>
+                            <FormLabel>Organizer Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter your fullname" {...field} />
+                                <Input placeholder="Enter your organizer name" {...field} />
                             </FormControl>
-                            <FormMessage>{form.formState.errors.fullname?.message}</FormMessage>
+                            <FormMessage>{form.formState.errors.organizer_name?.message}</FormMessage>
                         </FormItem>
                     )}/>
                 <FormField control={form.control} name="email"
@@ -92,14 +91,24 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
                             <FormMessage>{form.formState.errors.phone_number?.message}</FormMessage>
                         </FormItem>
                     )}/>
-                <FormField control={form.control} name="birth_date"
+                <FormField control={form.control} name="bio"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Birth Date</FormLabel>
+                            <FormLabel>Bio</FormLabel>
                             <FormControl>
-                                <Input type="date" {...field} />
+                                <Textarea placeholder="Tell us about your organizer..." {...field} />
                             </FormControl>
-                            <FormMessage>{form.formState.errors.birth_date?.message}</FormMessage>
+                            <FormMessage>{form.formState.errors.bio?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                <FormField control={form.control} name="address"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Address</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="Enter your address" {...field} />
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.address?.message}</FormMessage>
                         </FormItem>
                     )}/>
                 <FormField control={form.control} name="password"
@@ -122,12 +131,12 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
                             <FormMessage>{form.formState.errors.password_confirmation?.message}</FormMessage>
                         </FormItem>
                     )}/>
-                <Button type="submit" className='mt-3' disabled={form.formState.isSubmitting}>
-                    { form.formState.isSubmitting ? "Creating your account..." : "Create My Account!" }
+                <Button type="submit" className="mt-3" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting ? "Creating your account..." : "Create My Account!"}
                 </Button>
             </form>
         </Form>
     )
 }
 
-export default OrganismRegisterCustomerForm
+export default OrganismRegisterEventOrganizerForm
