@@ -61,16 +61,22 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
                 birth_date: new Date(values.birth_date).toISOString()
             }
         
-            const message = await registerCustomerRepo(payload)
+            const { message, data } = await registerCustomerRepo(payload)
+
+            // Store local data
+            localStorage.setItem('token_key', data.token)
+            onLoginStore({ email: data.email, name: data.name, role: data.role })
     
-            Swal.fire({
+            await Swal.fire({
                 icon: "success",
                 title: "Success",
                 text: message,
-                showConfirmButton: false
+                confirmButtonText: "Browse Event Now",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                if (result.isConfirmed) router.push("/events")
             })
-    
-            router.push("/")
         } catch (err: any) {
             Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
         }

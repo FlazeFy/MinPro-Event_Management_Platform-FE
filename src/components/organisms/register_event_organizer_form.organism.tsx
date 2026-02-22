@@ -55,16 +55,22 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
                 didOpen: () => Swal.showLoading()
             })
     
-            const message = await registerEventOrganizerRepo(values)
+            const { message, data } = await registerEventOrganizerRepo(values)
     
-            Swal.fire({
+            // Store local data
+            localStorage.setItem('token_key', data.token)
+            onLoginStore({ email: data.email, name: data.name, role: data.role })
+    
+            await Swal.fire({
                 icon: "success",
                 title: "Success",
                 text: message,
-                showConfirmButton: false
+                confirmButtonText: "Browse Event Now",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                if (result.isConfirmed) router.push("/events")
             })
-    
-            router.push("/")
         } catch (err: any) {
             Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
         }

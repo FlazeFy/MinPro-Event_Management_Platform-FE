@@ -19,7 +19,7 @@ export const loginRepo = async (payload: LoginPayload): Promise<LoginResponsePay
     return res.data.data
 }
 
-export interface RegisterCustomerPayload {
+interface RegisterCustomerPayload {
     username: string
     fullname: string
     email: string
@@ -28,7 +28,11 @@ export interface RegisterCustomerPayload {
     password: string
     password_confirmation: string
 }
-export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Promise<string> => {
+export interface RegisterResponse {
+    data: LoginResponsePayload
+    message: string
+}
+export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Promise<RegisterResponse> => {
     const formData = new FormData()
     formData.append("username", payload.username)
     formData.append("fullname", payload.fullname)
@@ -40,7 +44,7 @@ export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Pr
 
     const res = await apiCall.post(`${MODULE_URL}/register/customer`, formData)
 
-    return res.data.message
+    return res.data
 }
 
 export interface RegisterEventOrganizerPayload {
@@ -53,7 +57,7 @@ export interface RegisterEventOrganizerPayload {
     password: string
     password_confirmation: string
 }
-export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizerPayload): Promise<string> => {
+export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizerPayload): Promise<RegisterResponse> => {
     const formData = new FormData()
     formData.append("username", payload.username)
     formData.append("organizer_name", payload.organizer_name)
@@ -66,7 +70,7 @@ export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizer
 
     const res = await apiCall.post(`${MODULE_URL}/register/event_organizer`, formData)
 
-    return res.data.message
+    return res.data
 }
 
 export const refreshAuthToken = async (): Promise<LoginResponsePayload> => {
