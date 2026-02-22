@@ -22,11 +22,11 @@ export default function Home() {
       <div className="mt-[20vh] bg-blue-100 w-full p-5 lg:p-10">
         <OrganismBenefitList/>
       </div>
-      <div className="mt-[20vh] w-full p-5 lg:p-10">
-        <OrganismAskJoinBox/>
-      </div>
-      <div className="mt-[20vh] bg-green-100 w-full p-5 lg:p-10">
+      <div className="mt-[20vh] bg-green-100 p-5 lg:p-10 w-full">
         <OrganismRandomFeedbackList/>
+      </div>
+      <div className="my-[20vh] w-full p-5 lg:p-10">
+        <OrganismAskJoinBox/>
       </div>
     </div>
   )

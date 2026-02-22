@@ -13,7 +13,7 @@ const MoleculeFeedbackBox: React.FC<MoleculeFeedbackBoxProps> = ({ name, feedbac
     const positionClass = idx === 1 ? 'self-start' : 'self-end'
 
     return (
-        <div className={`container mb-10 ${positionClass}`}>
+        <div className={`container mb-10 ${positionClass} min-h-[200px]`}>
             <AtomText type='content' text={<>“{feedback}”</>}/>
             <div className='mt-6 text-center'>
                 <AtomText type='sub-title-small' text={name}/>
