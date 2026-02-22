@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { useRouter } from "next/navigation"
 import useAuthStore from '@/store/s_auth'
+import Swal from "sweetalert2"
+import { registerCustomerRepo } from '@/repositories/r_auth'
 
 // Validation
 const registerSchema = Yup.object({
@@ -46,7 +48,32 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
     })
 
     const onSubmit = async (values: RegisterCustomerFormValues) => {
+        try {
+            Swal.fire({
+                title: "Creating account...",
+                text: "Please wait a moment",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            })
+
+            const payload = {
+                ...values,
+                birth_date: new Date(values.birth_date).toISOString()
+            }
+        
+            const message = await registerCustomerRepo(payload)
     
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: message,
+                showConfirmButton: false
+            })
+    
+            router.push("/")
+        } catch (err: any) {
+            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
+        }
     }
 
     return (

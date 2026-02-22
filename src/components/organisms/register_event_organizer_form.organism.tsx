@@ -9,6 +9,8 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Textarea } from "@/components/ui/textarea"
 import { useRouter } from "next/navigation"
 import useAuthStore from '@/store/s_auth'
+import Swal from "sweetalert2"
+import { registerEventOrganizerRepo } from '@/repositories/r_auth'
 
 // Validation
 const registerSchema = Yup.object({
@@ -45,7 +47,27 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
     })
 
     const onSubmit = async (values: RegisterEventOrganizerFormValues) => {
-        
+        try {
+            Swal.fire({
+                title: "Creating account...",
+                text: "Please wait a moment",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            })
+    
+            const message = await registerEventOrganizerRepo(values)
+    
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: message,
+                showConfirmButton: false
+            })
+    
+            router.push("/")
+        } catch (err: any) {
+            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
+        }
     }
 
     return (
