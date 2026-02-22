@@ -19,6 +19,60 @@ export const loginRepo = async (payload: LoginPayload): Promise<LoginResponsePay
     return res.data.data
 }
 
+interface RegisterCustomerPayload {
+    username: string
+    fullname: string
+    email: string
+    phone_number: string
+    birth_date: string
+    password: string
+    password_confirmation: string
+}
+export interface RegisterResponse {
+    data: LoginResponsePayload
+    message: string
+}
+export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Promise<RegisterResponse> => {
+    const formData = new FormData()
+    formData.append("username", payload.username)
+    formData.append("fullname", payload.fullname)
+    formData.append("email", payload.email)
+    formData.append("phone_number", payload.phone_number)
+    formData.append("birth_date", payload.birth_date)
+    formData.append("password", payload.password)
+    formData.append("password_confirmation", payload.password_confirmation)
+
+    const res = await apiCall.post(`${MODULE_URL}/register/customer`, formData)
+
+    return res.data
+}
+
+export interface RegisterEventOrganizerPayload {
+    username: string
+    organizer_name: string
+    email: string
+    phone_number: string
+    bio: string
+    address: string
+    password: string
+    password_confirmation: string
+}
+export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizerPayload): Promise<RegisterResponse> => {
+    const formData = new FormData()
+    formData.append("username", payload.username)
+    formData.append("organizer_name", payload.organizer_name)
+    formData.append("email", payload.email)
+    formData.append("phone_number", payload.phone_number)
+    formData.append("bio", payload.bio)
+    formData.append("address", payload.address)
+    formData.append("password", payload.password)
+    formData.append("password_confirmation", payload.password_confirmation)
+
+    const res = await apiCall.post(`${MODULE_URL}/register/event_organizer`, formData)
+
+    return res.data
+}
+
 export const refreshAuthToken = async (): Promise<LoginResponsePayload> => {
     const res = await apiCall.get(`${MODULE_URL}/refresh`)
 

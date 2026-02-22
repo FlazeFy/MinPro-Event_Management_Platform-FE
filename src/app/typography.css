@@ -24,6 +24,9 @@ h4 {
 label {
     color: var(--darkGrey);
 }
+.box-bordered label {
+    color: #000;
+}
 .text-primary {
     color: var(--primary);
 }
