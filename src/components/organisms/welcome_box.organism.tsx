@@ -27,7 +27,7 @@ const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = ({
             <AtomText type='content-title' text='Explore trending events, secure your tickets instantly, and create unforgettable memories with EventKu'/>
             <div className='my-5 flex gap-2'>
                 {
-                    isSignedIn ??
+                    !isSignedIn &&
                         <Link href={'/register'}>
                             <Button className='bg-secondary'>Get Started Free</Button>
                         </Link>

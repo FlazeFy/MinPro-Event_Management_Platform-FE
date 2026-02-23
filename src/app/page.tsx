@@ -9,7 +9,7 @@ import useAuthStore from "@/store/s_auth";
 
 export default function Home() {
   const { role, name } = useAuthStore()
-  const isSignedIn: boolean = role !== null ? true : false
+  const isSignedIn: boolean = role !== null && role !== "" ? true : false
 
   return (
     <div className="flex flex-col min-h-[100vh] items-center justify-center py-5 lg:py-10" id='login-section'>

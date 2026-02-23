@@ -12,6 +12,7 @@ import useAuthStore from '@/store/s_auth'
 import Swal from "sweetalert2"
 import { registerEventOrganizerRepo } from '@/repositories/r_auth'
 import OrganismTermsAndConditionsBox from './terms_conditions_box.organism'
+import OrganismProfileImagePicker from './profile_image_picker.organism'
 
 // Validation
 const registerSchema = Yup.object({
@@ -86,6 +87,7 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <OrganismProfileImagePicker label='Profile Pic' maxSize={10}/>
                 <FormField control={form.control} name="username"
                     render={({ field }) => (
                         <FormItem>
