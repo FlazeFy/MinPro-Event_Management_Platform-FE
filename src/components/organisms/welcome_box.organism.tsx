@@ -3,21 +3,37 @@ import AtomText from '../atoms/text.atom'
 import { Button } from '../ui/button'
 import Link from "next/link"
 
-interface IOrganismWelcomeBoxProps {}
+interface IOrganismWelcomeBoxProps {
+    isSignedIn: boolean
+    name: string
+}
 
-const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = (props) => {
+const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = ({ isSignedIn, name }) => {
     return (
         <div>
-            <AtomText type='title-huge' text='Join' extraClass='mb-0'/>
-            <AtomText type='title-huge' text='Unforgettable' extraClass='text-primary'/>
-            <AtomText type='title-huge' text='Events with Ease'/>
+            {
+                isSignedIn ? 
+                    <>
+                        <AtomText type='title-huge' text='Welcome' extraClass='mb-0'/>
+                        <AtomText type='title-huge' text={name} extraClass='text-primary'/>
+                    </>
+                : 
+                    <>
+                        <AtomText type='title-huge' text='Join' extraClass='mb-0'/>
+                        <AtomText type='title-huge' text='Unforgettable' extraClass='text-primary'/>
+                        <AtomText type='title-huge' text='Events with Ease'/>
+                    </>
+            }
             <AtomText type='content-title' text='Explore trending events, secure your tickets instantly, and create unforgettable memories with EventKu'/>
             <div className='my-5 flex gap-2'>
-                <Link href={'/register'}>
-                    <Button className='bg-secondary'>Get Started Free</Button>
-                </Link>
+                {
+                    isSignedIn ??
+                        <Link href={'/register'}>
+                            <Button className='bg-secondary'>Get Started Free</Button>
+                        </Link>
+                }
                 <Link href={'/events'}>
-                    <Button>Browse Event For Now</Button>
+                    <Button>Browse Event Now</Button>
                 </Link>
             </div>
             <AtomText type='content' text="Over 1,000 Events and 6,500+ Transactions Completed" extraClass='italic text-gray-500'/>

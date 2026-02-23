@@ -6,11 +6,13 @@ import Link from "next/link"
 import useAuthStore from '@/store/s_auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignIn, faUser } from '@fortawesome/free-solid-svg-icons'
+import { usePathname } from "next/navigation"
 
 interface MoleculeNavigationBarProps {}
 
 const MoleculeNavigationBar: React.FC<MoleculeNavigationBarProps> = () => {
     const { email } = useAuthStore()
+    const currentPage: string = usePathname()
     const isSignedIn = email !== ""
 
     return (
@@ -47,7 +49,7 @@ const MoleculeNavigationBar: React.FC<MoleculeNavigationBarProps> = () => {
                             <FontAwesomeIcon icon={faUser}/> {email}
                         </Link> 
                     : 
-                        <Link href='/'>
+                        <Link href={currentPage === "/" ? '#login-section' : '/' }>
                             <FontAwesomeIcon icon={faSignIn}/> Sign In
                         </Link> 
                 }
