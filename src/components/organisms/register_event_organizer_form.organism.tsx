@@ -1,5 +1,5 @@
 "use client"
-import * as React from 'react'
+import React, {useState } from 'react'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation"
 import useAuthStore from '@/store/s_auth'
 import Swal from "sweetalert2"
 import { registerEventOrganizerRepo } from '@/repositories/r_auth'
+import OrganismTermsAndConditionsBox from './terms_conditions_box.organism'
 
 // Validation
 const registerSchema = Yup.object({
@@ -30,6 +31,7 @@ interface IOrganismRegisterEventOrganizerFormProps {}
 
 const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegisterEventOrganizerFormProps> = () => {
     const { onLoginStore } = useAuthStore()
+    const [isCheckedTNC, setCheckTNC] = useState(false)
     const router = useRouter()
 
     const form = useForm<RegisterEventOrganizerFormValues>({
@@ -48,6 +50,11 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
 
     const onSubmit = async (values: RegisterEventOrganizerFormValues) => {
         try {
+            if (!isCheckedTNC) {
+                Swal.fire("I'm sorry", "You have to agree our terms and conditions first", "error")
+                return
+            }
+
             Swal.fire({
                 title: "Creating account...",
                 text: "Please wait a moment",
@@ -159,6 +166,7 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
                             <FormMessage>{form.formState.errors.password_confirmation?.message}</FormMessage>
                         </FormItem>
                     )}/>
+                <OrganismTermsAndConditionsBox isChecked={isCheckedTNC} action={(e) => setCheckTNC(e)}/>
                 <Button type="submit" className="mt-3" disabled={form.formState.isSubmitting}>
                     {form.formState.isSubmitting ? "Creating your account..." : "Create My Account!"}
                 </Button>
