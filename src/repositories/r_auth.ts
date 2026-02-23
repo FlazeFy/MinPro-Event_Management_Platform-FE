@@ -49,6 +49,18 @@ export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Pr
     return res.data
 }
 
+export interface PostUpdateProfileImagePayload {
+    img: File | null
+}
+export const postUpdateProfileImageRepo = async (payload: PostUpdateProfileImagePayload): Promise<string> => {
+    const formData = new FormData()
+    if (payload.img) formData.append("img", payload.img) 
+
+    const res = await apiCall.post(`${MODULE_URL}/edit-image`, formData)
+
+    return res.data.message
+}
+
 export interface RegisterEventOrganizerPayload {
     username: string
     organizer_name: string
@@ -104,6 +116,7 @@ export interface MyProfileResponse extends LoginResponsePayload {
     created_at: string
     updated_at: string
     referral_code: string
+    profile_pic: string
     owner_referral_code_histories: OwnerReferralCodeHistory[]
     social_medias: SocialMedia[]
 }
