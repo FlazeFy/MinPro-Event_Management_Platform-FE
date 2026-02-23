@@ -28,7 +28,9 @@ const registerSchema = Yup.object({
     password_confirmation: Yup.string().required("Password confirmation is required").oneOf([Yup.ref("password")], "Passwords must match"),
 })
 
-type RegisterCustomerFormValues = Yup.InferType<typeof registerSchema>
+type RegisterCustomerFormValues = Yup.InferType<typeof registerSchema> & {
+    img?: File | null
+}
 
 interface IOrganismRegisterCustomerFormProps {}
 
@@ -66,6 +68,7 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
 
             const payload = {
                 ...values,
+                img: values.img ?? null,
                 birth_date: new Date(values.birth_date).toISOString()
             }
         
@@ -93,7 +96,11 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <OrganismProfileImagePicker label='Profile Pic' maxSize={10}/>
+                <FormField control={form.control} name="img"
+                    render={({ field }) => (
+                        <OrganismProfileImagePicker label="Profile Pic" maxSize={10} value={field.value} onFileSelect={(file) => field.onChange(file)}/>
+                    )}
+                />
                 <FormField control={form.control} name="username"
                     render={({ field }) => (
                         <FormItem>

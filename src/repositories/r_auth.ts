@@ -27,6 +27,7 @@ interface RegisterCustomerPayload {
     birth_date: string
     password: string
     password_confirmation: string
+    img: File | null
 }
 export interface RegisterResponse {
     data: LoginResponsePayload
@@ -41,6 +42,7 @@ export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Pr
     formData.append("birth_date", payload.birth_date)
     formData.append("password", payload.password)
     formData.append("password_confirmation", payload.password_confirmation)
+    if (payload.img) formData.append("img", payload.img) 
 
     const res = await apiCall.post(`${MODULE_URL}/register/customer`, formData)
 
@@ -56,6 +58,7 @@ export interface RegisterEventOrganizerPayload {
     address: string
     password: string
     password_confirmation: string
+    img: File | null
 }
 export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizerPayload): Promise<RegisterResponse> => {
     const formData = new FormData()
@@ -67,6 +70,7 @@ export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizer
     formData.append("address", payload.address)
     formData.append("password", payload.password)
     formData.append("password_confirmation", payload.password_confirmation)
+    if (payload.img) formData.append("img", payload.img) 
 
     const res = await apiCall.post(`${MODULE_URL}/register/event_organizer`, formData)
 

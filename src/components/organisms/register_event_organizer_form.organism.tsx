@@ -26,7 +26,9 @@ const registerSchema = Yup.object({
     password_confirmation: Yup.string().required("Password confirmation is required").oneOf([Yup.ref("password")], "Passwords must match"),
 })
 
-type RegisterEventOrganizerFormValues = Yup.InferType<typeof registerSchema>
+type RegisterEventOrganizerFormValues = Yup.InferType<typeof registerSchema> & {
+    img?: File | null
+}
 
 interface IOrganismRegisterEventOrganizerFormProps {}
 
@@ -62,8 +64,13 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading()
             })
+
+            const payload = {
+                ...values,
+                img: values.img ?? null,
+            }
     
-            const { message, data } = await registerEventOrganizerRepo(values)
+            const { message, data } = await registerEventOrganizerRepo(payload)
     
             // Store local data
             localStorage.setItem('token_key', data.token)
@@ -87,7 +94,11 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <OrganismProfileImagePicker label='Profile Pic' maxSize={10}/>
+                <FormField control={form.control} name="img"
+                    render={({ field }) => (
+                        <OrganismProfileImagePicker label="Profile Pic" maxSize={10} value={field.value} onFileSelect={(file) => field.onChange(file)}/>
+                    )}
+                />
                 <FormField control={form.control} name="username"
                     render={({ field }) => (
                         <FormItem>
