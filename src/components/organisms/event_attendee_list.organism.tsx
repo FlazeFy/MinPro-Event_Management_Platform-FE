@@ -18,7 +18,7 @@ const OrganismEventAttendee: React.FunctionComponent<IOrganismEventAttendeeProps
                     <DialogTitle>Attendee List</DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col gap-3 max-h-[75vh] overflow-y-auto pr-2">
-                    <MoleculeTransactionBox title={"Jhon Doe"} desc={`Booked at 20 Jan 26`} profileImage={'/images/user.jpg'} withPoint={false}/>
+                    <MoleculeTransactionBox title={"Jhon Doe"} desc={`Booked at 20 Jan 26`} profileImage={'/images/user.png'} withPoint={false}/>
                 </div>
             </DialogContent>
         </Dialog>

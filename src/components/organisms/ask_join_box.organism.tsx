@@ -3,16 +3,19 @@ import AtomText from '../atoms/text.atom'
 import { Button } from '../ui/button'
 import Link from "next/link"
 
-interface IOrganismAskJoinBoxProps {}
+interface IOrganismAskJoinBoxProps {
+    isSignedIn: boolean
+}
 
-const OrganismAskJoinBox: React.FunctionComponent<IOrganismAskJoinBoxProps> = (props) => {
+const OrganismAskJoinBox: React.FunctionComponent<IOrganismAskJoinBoxProps> = ({ isSignedIn }) => {
     return (
         <div className='text-center container mx-auto'>
             <div className='p-10 align-center'>
                 <AtomText type='title-huge' text='Ready To Join An Event?' extraClass='mb-0'/>
-                <AtomText type='content-title' text='Join thousands of happy users and don’t miss the chance to find unforgettable moments out there' extraClass='mb-10'/>
-                <Link href={'/register'}>
-                    <Button className='bg-primary'>Yes's Please</Button>
+                <AtomText type='content-title' text="Join thousands of happy users and don't miss the chance to find unforgettable moments out there" extraClass='mb-10'/>
+                { isSignedIn && <AtomText type='content' text="Hey, it looks like you're already part of us!" extraClass='mb-2'/> }
+                <Link href={ isSignedIn ? '/events' : '/register'}>
+                    <Button className='bg-primary'>{ isSignedIn ? <>Browse Event Now!</> : <>Yes's Please!</> }</Button>
                 </Link>
             </div>
         </div>

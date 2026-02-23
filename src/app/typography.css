@@ -27,6 +27,9 @@ label {
 .box-bordered label {
     color: #000;
 }
+label[data-variant] {
+    color: #FFF !important;
+}
 .text-primary {
     color: var(--primary);
 }

@@ -127,7 +127,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                         {
                                             role === "event_organizer" && <MoleculeTransactionBox 
                                                 title={dt.customer.username} desc={<div className='capitalize'>{dt.payment_method.replaceAll('_',' ')}</div>}
-                                                profileImage={dt.customer.profile_pic ?? '/images/user.jpg'} withPoint={false}/>
+                                                profileImage={dt.customer.profile_pic ?? '/images/user.png'} withPoint={false}/>
                                         }
                                         <div className='flex gap-2'>
                                             <Badge className={`bg-${statusColor}-200 text-${statusColor}-700 capitalize`}>{dt.status}</Badge>

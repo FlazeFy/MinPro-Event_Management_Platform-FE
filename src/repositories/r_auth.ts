@@ -27,6 +27,7 @@ interface RegisterCustomerPayload {
     birth_date: string
     password: string
     password_confirmation: string
+    img: File | null
 }
 export interface RegisterResponse {
     data: LoginResponsePayload
@@ -41,10 +42,23 @@ export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Pr
     formData.append("birth_date", payload.birth_date)
     formData.append("password", payload.password)
     formData.append("password_confirmation", payload.password_confirmation)
+    if (payload.img) formData.append("img", payload.img) 
 
     const res = await apiCall.post(`${MODULE_URL}/register/customer`, formData)
 
     return res.data
+}
+
+export interface PostUpdateProfileImagePayload {
+    img: File | null
+}
+export const postUpdateProfileImageRepo = async (payload: PostUpdateProfileImagePayload): Promise<string> => {
+    const formData = new FormData()
+    if (payload.img) formData.append("img", payload.img) 
+
+    const res = await apiCall.post(`${MODULE_URL}/edit-image`, formData)
+
+    return res.data.message
 }
 
 export interface RegisterEventOrganizerPayload {
@@ -56,6 +70,7 @@ export interface RegisterEventOrganizerPayload {
     address: string
     password: string
     password_confirmation: string
+    img: File | null
 }
 export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizerPayload): Promise<RegisterResponse> => {
     const formData = new FormData()
@@ -67,6 +82,7 @@ export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizer
     formData.append("address", payload.address)
     formData.append("password", payload.password)
     formData.append("password_confirmation", payload.password_confirmation)
+    if (payload.img) formData.append("img", payload.img) 
 
     const res = await apiCall.post(`${MODULE_URL}/register/event_organizer`, formData)
 
@@ -100,6 +116,7 @@ export interface MyProfileResponse extends LoginResponsePayload {
     created_at: string
     updated_at: string
     referral_code: string
+    profile_pic: string
     owner_referral_code_histories: OwnerReferralCodeHistory[]
     social_medias: SocialMedia[]
 }

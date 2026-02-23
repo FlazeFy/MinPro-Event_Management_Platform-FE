@@ -19,7 +19,7 @@ const OrganismRefCodeList: React.FunctionComponent<IOrganismRefCodeListProps> = 
                     customers.map((dt, idx) => (
                         <MoleculeTransactionBox key={idx}
                         title={dt.customer_user.username} desc={`Joined at ${convertUTCToLocal(dt.customer_user.created_at, true, false)}`}
-                        profileImage={dt.customer_user.profile_pic ?? '/images/user.jpg'} withPoint={false}/>
+                        profileImage={dt.customer_user.profile_pic ?? '/images/user.png'} withPoint={false}/>
                     ))
                 :
                     <MoleculeNoDataBox title="Your referral code hasn't been used yet"/>

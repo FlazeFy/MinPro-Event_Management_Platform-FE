@@ -1,5 +1,5 @@
 "use client"
-import * as React from 'react'
+import React, {useState } from 'react'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation"
 import useAuthStore from '@/store/s_auth'
 import Swal from "sweetalert2"
 import { registerEventOrganizerRepo } from '@/repositories/r_auth'
+import OrganismTermsAndConditionsBox from './terms_conditions_box.organism'
+import OrganismProfileImagePicker from './profile_image_picker.organism'
 
 // Validation
 const registerSchema = Yup.object({
@@ -24,12 +26,15 @@ const registerSchema = Yup.object({
     password_confirmation: Yup.string().required("Password confirmation is required").oneOf([Yup.ref("password")], "Passwords must match"),
 })
 
-type RegisterEventOrganizerFormValues = Yup.InferType<typeof registerSchema>
+type RegisterEventOrganizerFormValues = Yup.InferType<typeof registerSchema> & {
+    img?: File | null
+}
 
 interface IOrganismRegisterEventOrganizerFormProps {}
 
 const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegisterEventOrganizerFormProps> = () => {
     const { onLoginStore } = useAuthStore()
+    const [isCheckedTNC, setCheckTNC] = useState(false)
     const router = useRouter()
 
     const form = useForm<RegisterEventOrganizerFormValues>({
@@ -48,14 +53,24 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
 
     const onSubmit = async (values: RegisterEventOrganizerFormValues) => {
         try {
+            if (!isCheckedTNC) {
+                Swal.fire("I'm sorry", "You have to agree our terms and conditions first", "error")
+                return
+            }
+
             Swal.fire({
                 title: "Creating account...",
                 text: "Please wait a moment",
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading()
             })
+
+            const payload = {
+                ...values,
+                img: values.img ?? null,
+            }
     
-            const { message, data } = await registerEventOrganizerRepo(values)
+            const { message, data } = await registerEventOrganizerRepo(payload)
     
             // Store local data
             localStorage.setItem('token_key', data.token)
@@ -79,6 +94,11 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField control={form.control} name="img"
+                    render={({ field }) => (
+                        <OrganismProfileImagePicker label="Profile Pic" maxSize={10} value={field.value} onFileSelect={(file) => field.onChange(file)}/>
+                    )}
+                />
                 <FormField control={form.control} name="username"
                     render={({ field }) => (
                         <FormItem>
@@ -159,6 +179,7 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
                             <FormMessage>{form.formState.errors.password_confirmation?.message}</FormMessage>
                         </FormItem>
                     )}/>
+                <OrganismTermsAndConditionsBox isChecked={isCheckedTNC} action={(e) => setCheckTNC(e)}/>
                 <Button type="submit" className="mt-3" disabled={form.formState.isSubmitting}>
                     {form.formState.isSubmitting ? "Creating your account..." : "Create My Account!"}
                 </Button>

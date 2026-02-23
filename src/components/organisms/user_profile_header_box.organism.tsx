@@ -2,7 +2,6 @@
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
 import { faSignOut } from '@fortawesome/free-solid-svg-icons'
-import Image from "next/image"
 import { Button } from '../ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Badge } from '../ui/badge'
@@ -10,8 +9,9 @@ import { convertAgeFromBornDate, convertUTCToLocal } from '@/helpers/converter.h
 import useAuthStore from '@/store/s_auth'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import { MyProfileResponse } from '@/repositories/r_auth'
+import { MyProfileResponse, PostUpdateProfileImagePayload, postUpdateProfileImageRepo } from '@/repositories/r_auth'
 import OrganismUpdateProfileForm from './update_profile_form.organism'
+import OrganismEditImagePickerPicker from './edit_image_picker.organism'
 
 interface IOrganismUserProfileHeaderBoxProps {
     user: MyProfileResponse
@@ -59,14 +59,35 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
         router.push('/')
     }
 
+    const handleUpdateProfileImage = async (values: PostUpdateProfileImagePayload) => {
+        try {
+            Swal.fire({
+                title: "Changing your profile image...",
+                text: "Please wait a moment",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            })
+
+            const payload = { img: values.img ?? null }
+            const message = await postUpdateProfileImageRepo(payload)
+            fetchMyProfile()
+            await Swal.fire("success", message, "success")
+        } catch (err: any) {
+            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
+        }
+    }
+
     return (
         <div className="w-full relative rounded-2xl bg-gradient-to-r from-blue-300 via-gray-300 to-orange-300 p-8 shadow-sm">
             <div className="flex items-center justify-between">                    
                 <div className="flex items-center gap-6">
                     <div className="relative">
-                        <div className="w-32 h-32 rounded-2xl bg-orange-200 flex items-center justify-center overflow-hidden border-4 border-white shadow-md">
-                            <Image src="/images/user.jpg" alt="/images/user.jpg" width={100} height={100} className="w-full h-auto rounded-2xl shadow-2xl" />
-                        </div> 
+                        <OrganismEditImagePickerPicker maxSize={10} profilePic={user.profile_pic}
+                            onFileSelect={(file) => {
+                                const payload: PostUpdateProfileImagePayload = { img: file }
+                                handleUpdateProfileImage(payload)
+                            }}
+                        />
                     </div>
                     <div>
                         <AtomText type='sub-title-small' text={user.username}/>
