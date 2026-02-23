@@ -6,7 +6,6 @@ import { faCalendar, faCreditCard, faTicket } from '@fortawesome/free-solid-svg-
 interface IOrganismBookingStepListProps {}
 
 const OrganismBookingStepList: React.FunctionComponent<IOrganismBookingStepListProps> = () => {
-    
     return (
         <div className="w-full mt-[10vh] p-5 pb-20 lg:p-10 lg:pb-40 text-center">
             <AtomText type='title-huge' text="Book events" extraClass='mb-0'/>

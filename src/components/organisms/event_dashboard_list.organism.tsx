@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPieChart, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faPieChart } from '@fortawesome/free-solid-svg-icons'
 import MoleculePieChart from '../molecules/pie_chart.molecule'
 import AtomText from '../atoms/text.atom'
 

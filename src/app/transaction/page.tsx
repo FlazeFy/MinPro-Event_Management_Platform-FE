@@ -18,9 +18,7 @@ export default function TransactionPage() {
                     <OrganismPeriodicGrowthBox/>
                     <br/>
                     <OrganismRecentTransactionList role={role}/>
-                    {
-                        role === "customer" && <><br/><OrganismEventMonitoringList/></>
-                    }
+                    { role === "event_organizer" && <><br/><OrganismEventMonitoringList/></> }
                 </div>
                 <div className="w-full md:w-4/12 lg:w-3/12">
 

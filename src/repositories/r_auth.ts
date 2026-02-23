@@ -19,6 +19,76 @@ export const loginRepo = async (payload: LoginPayload): Promise<LoginResponsePay
     return res.data.data
 }
 
+interface RegisterCustomerPayload {
+    username: string
+    fullname: string
+    email: string
+    phone_number: string
+    birth_date: string
+    password: string
+    password_confirmation: string
+    img: File | null
+}
+export interface RegisterResponse {
+    data: LoginResponsePayload
+    message: string
+}
+export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Promise<RegisterResponse> => {
+    const formData = new FormData()
+    formData.append("username", payload.username)
+    formData.append("fullname", payload.fullname)
+    formData.append("email", payload.email)
+    formData.append("phone_number", payload.phone_number)
+    formData.append("birth_date", payload.birth_date)
+    formData.append("password", payload.password)
+    formData.append("password_confirmation", payload.password_confirmation)
+    if (payload.img) formData.append("img", payload.img) 
+
+    const res = await apiCall.post(`${MODULE_URL}/register/customer`, formData)
+
+    return res.data
+}
+
+export interface PostUpdateProfileImagePayload {
+    img: File | null
+}
+export const postUpdateProfileImageRepo = async (payload: PostUpdateProfileImagePayload): Promise<string> => {
+    const formData = new FormData()
+    if (payload.img) formData.append("img", payload.img) 
+
+    const res = await apiCall.post(`${MODULE_URL}/edit-image`, formData)
+
+    return res.data.message
+}
+
+export interface RegisterEventOrganizerPayload {
+    username: string
+    organizer_name: string
+    email: string
+    phone_number: string
+    bio: string
+    address: string
+    password: string
+    password_confirmation: string
+    img: File | null
+}
+export const registerEventOrganizerRepo = async (payload: RegisterEventOrganizerPayload): Promise<RegisterResponse> => {
+    const formData = new FormData()
+    formData.append("username", payload.username)
+    formData.append("organizer_name", payload.organizer_name)
+    formData.append("email", payload.email)
+    formData.append("phone_number", payload.phone_number)
+    formData.append("bio", payload.bio)
+    formData.append("address", payload.address)
+    formData.append("password", payload.password)
+    formData.append("password_confirmation", payload.password_confirmation)
+    if (payload.img) formData.append("img", payload.img) 
+
+    const res = await apiCall.post(`${MODULE_URL}/register/event_organizer`, formData)
+
+    return res.data
+}
+
 export const refreshAuthToken = async (): Promise<LoginResponsePayload> => {
     const res = await apiCall.get(`${MODULE_URL}/refresh`)
 
@@ -28,22 +98,46 @@ export const refreshAuthToken = async (): Promise<LoginResponsePayload> => {
 export interface OwnerReferralCodeHistory {
     customer_user: UserShortInfo
 }
+export interface SocialMedia {
+    social_media_platform: string
+    social_media_url: string
+}
 export interface MyProfileResponse extends LoginResponsePayload {
     username: string
     fullname: string
+    organizer_name: string
     email: string
+    bio: string
     phone_number: string
-    points: number | null
-    profile_image: string | null
-    address: string | null
-    birth_date: string | null
+    points: number
+    profile_image: string
+    address: string 
+    birth_date: string
     created_at: string
     updated_at: string
-    referral_code: string | null
+    referral_code: string
+    profile_pic: string
     owner_referral_code_histories: OwnerReferralCodeHistory[]
+    social_medias: SocialMedia[]
 }
 export const getMyProfile = async (): Promise<MyProfileResponse> => {
     const res = await apiCall.get(`${MODULE_URL}/profile`)
     
     return res.data.data
+}
+
+export interface UpdateProfilePayload {
+    email: string
+    username: string,
+    organizer_name: string | null | undefined,
+    address: string | null | undefined,
+    bio: string | null | undefined,
+    phone_number: string
+    fullname: string | null | undefined
+    birth_date: string | null | undefined
+}
+export const putUpdateProfileRepo = async (payload: any): Promise<string> => {
+    const res = await apiCall.put(`${MODULE_URL}/profile`, payload)
+
+    return res.data.message
 }

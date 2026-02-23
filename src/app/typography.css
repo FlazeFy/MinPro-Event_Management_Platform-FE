@@ -24,8 +24,17 @@ h4 {
 label {
     color: var(--darkGrey);
 }
+.box-bordered label {
+    color: #000;
+}
+label[data-variant] {
+    color: #FFF !important;
+}
 .text-primary {
     color: var(--primary);
+}
+.sub-content {
+    font-size: var(--textXSM);
 }
 p[data-slot="form-message"] {
     font-style: italic;
