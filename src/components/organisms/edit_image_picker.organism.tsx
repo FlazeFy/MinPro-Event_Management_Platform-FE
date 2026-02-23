@@ -1,6 +1,9 @@
 "use client"
 import React, { useState } from "react"
 import Image from "next/image"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faXmark, faXmarkCircle } from "@fortawesome/free-solid-svg-icons"
+import { Button } from "../ui/button"
 
 interface IOrganismEditImagePickerPickerProps {
     maxSize: number
@@ -50,6 +53,12 @@ const OrganismEditImagePickerPicker: React.FC<IOrganismEditImagePickerPickerProp
             <div className="relative w-32 h-32 rounded-2xl bg-white overflow-hidden border-4 border-white shadow-md rounded-full">
                 <Image src={displayImage} alt="Profile picture" width={128} height={128} className="w-full h-full object-cover rounded-2xl"/>
             </div>
+            {
+                profilePic &&
+                    <Button type="button" onClick={() => onFileSelect?.(null)} className="absolute bottom-0 left-0 p-2 rounded-full w-10 h-10 bg-danger text-white shadow-xl">
+                        <FontAwesomeIcon icon={faXmarkCircle} size="lg" className="text-white"/>
+                    </Button>
+            }
             <label className="absolute bottom-0 right-0 cursor-pointer p-1 rounded-full w-10 h-10 text-white bg-primary shadow-xl">
                 <Image src={'/images/camera.png'} alt="/images/camera.png" width={128} height={128} className="w-full h-full object-cover rounded-2xl"/><input type="file" accept=".jpg,.jpeg,.png,.gif" className="hidden" onChange={handleFileChange}/>
             </label>

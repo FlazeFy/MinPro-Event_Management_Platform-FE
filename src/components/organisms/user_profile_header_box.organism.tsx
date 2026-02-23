@@ -84,10 +84,8 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
                     <div className="relative">
                         <OrganismEditImagePickerPicker maxSize={10} profilePic={user.profile_pic}
                             onFileSelect={(file) => {
-                                if (file) {
-                                    const payload: PostUpdateProfileImagePayload = { img: file }
-                                    handleUpdateProfileImage(payload)
-                                }
+                                const payload: PostUpdateProfileImagePayload = { img: file }
+                                handleUpdateProfileImage(payload)
                             }}
                         />
                     </div>
