@@ -117,6 +117,7 @@ export interface MyProfileResponse extends LoginResponsePayload {
     updated_at: string
     referral_code: string
     profile_pic: string
+    is_use_ref_code: boolean
     owner_referral_code_histories: OwnerReferralCodeHistory[]
     social_medias: SocialMedia[]
 }

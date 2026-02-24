@@ -11,11 +11,14 @@ interface IMoleculePieChartProps {
 ChartJS.register(ArcElement, Tooltip, Legend, Title)
 
 const MoleculePieChart: React.FunctionComponent<IMoleculePieChartProps> = ({ labels, datasets }) => {
+    const defaultColors = ['#3B82F6', '#F97316', '#10B981', '#EF4444', '#9333EA', '#F59E0B', '#EF4444', '#16A34A']
+
     const data = {
         labels,
         datasets: datasets.map((dataset) => ({
             ...dataset,
             borderWidth: 1,
+            backgroundColor: dataset.backgroundColor ?? defaultColors.slice(0, labels.length),
         })),
     }
 

@@ -33,3 +33,8 @@ export interface PaginationMeta {
     total: number
     total_page: number
 }
+
+export interface StatsData {
+    context: string
+    total: number
+}

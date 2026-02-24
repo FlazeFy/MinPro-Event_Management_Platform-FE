@@ -50,9 +50,9 @@ export default function ProfilePage() {
                                     address={profileItem.address} role={role} social_media={profileItem.social_medias}/>
                                 <br/>
                                 {
-                                    role === "customer" && profileItem.points && profileItem.referral_code && (
+                                    role === "customer" && (
                                         <>
-                                            <OrganismPointRefCodeBox points={profileItem.points} referral_code={profileItem.referral_code}/>
+                                            <OrganismPointRefCodeBox points={profileItem.points} is_used={profileItem.is_use_ref_code} referral_code={profileItem.referral_code} action={fetchMyProfile}/>
                                             <br/>
                                             <OrganismRefCodeList customers={profileItem.owner_referral_code_histories}/>
                                         </>
