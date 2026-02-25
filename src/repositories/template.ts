@@ -15,6 +15,7 @@ export interface DatasetTemplate {
 export interface VenueData {
     venue_name: string
     venue_coordinate: string
+    venue_address: string
 }
 
 interface EventScheduleData {
@@ -32,4 +33,9 @@ export interface PaginationMeta {
     limit: number
     total: number
     total_page: number
+}
+
+export interface StatsData {
+    context: string
+    total: number
 }

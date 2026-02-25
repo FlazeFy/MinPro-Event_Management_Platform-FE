@@ -42,10 +42,6 @@ const OrganismCustomerTransactionList: React.FunctionComponent<IOrganismCustomer
         }
     }
 
-    useEffect(() => {
-        fetchCustomerTransactionByEventOrganizer(page, customer.id, null)
-    }, [customer.id])
-
     // Open dialog action
     const handleOpenChange = (isOpen: boolean) => {
         setOpen(isOpen)

@@ -26,6 +26,13 @@ const OrganismFeedbackBox: React.FunctionComponent<IOrganismFeedbackBoxProps> = 
 
     const onSubmit = async (values: FeedbackFormValues) => {
         try {
+            Swal.fire({
+                title: "Sending feedback...",
+                text: "Please wait a moment",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            })
+
             // Call repository for send feedback
             const res = await createFeedbackRepo({
                 feedback_rate: values.feedback_rate,
