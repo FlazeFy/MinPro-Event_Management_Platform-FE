@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-[100vh] items-center justify-center py-5 lg:py-10" id='login-section'>
-      <div className="flex flex-wrap w-full mt-[10vh] p-5 lg:p-10">
+      <div className="flex flex-wrap w-full mt-[10vh] p-5 lg:p-10 items-center">
         <div className="w-full md:w-1/2">
           <OrganismWelcomeBox isSignedIn={isSignedIn} name={name}/>
         </div>
