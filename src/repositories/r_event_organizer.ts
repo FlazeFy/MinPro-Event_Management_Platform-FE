@@ -16,3 +16,20 @@ export const getNewComerEventOrganizerRepo = async (page: number, search: string
     
     return res.data.data
 }
+
+interface TrendingEventOrganizerItem {
+    id: string 
+    organizer_name: string 
+    value: number
+}
+export interface TrendingEventOrganizerResponse {
+    most_events: TrendingEventOrganizerItem
+    most_free_event: TrendingEventOrganizerItem
+    highest_average_price: TrendingEventOrganizerItem
+    lowest_average_price: TrendingEventOrganizerItem
+}
+export const getTrendingEventOrganizer = async (): Promise<TrendingEventOrganizerResponse> => {
+    const res = await apiCall.get(`${MODULE_URL}/trend`)
+
+    return res.data.data
+}

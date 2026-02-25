@@ -13,7 +13,7 @@ interface IOrganismNewComerEventOrganizerListProps {}
 
 const OrganismNewComerEventOrganizerList: React.FunctionComponent<IOrganismNewComerEventOrganizerListProps> = () => {
     const [item, setItem] = useState<NewComerEventOrganizerItem[]>()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
     const fetchNewComer = async () => {
