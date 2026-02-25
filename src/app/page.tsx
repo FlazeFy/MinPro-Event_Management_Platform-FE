@@ -4,6 +4,7 @@ import OrganismBenefitList from "@/components/organisms/benefit_list.organism";
 import OrganismBookingStepList from "@/components/organisms/booking_step_list.organism";
 import OrganismLoginForm from "@/components/organisms/login_form.organism";
 import OrganismRandomFeedbackList from "@/components/organisms/random_feedback_list.organism";
+import OrganismUpcomingEventList from "@/components/organisms/upcoming_event_list.organism";
 import OrganismWelcomeBox from "@/components/organisms/welcome_box.organism";
 import useAuthStore from "@/store/s_auth";
 
@@ -18,7 +19,7 @@ export default function Home() {
           <OrganismWelcomeBox isSignedIn={isSignedIn} name={name}/>
         </div>
         <div className="w-full md:w-1/2">
-          { isSignedIn ? <></> : <OrganismLoginForm/> }
+          { isSignedIn ? <OrganismUpcomingEventList role={role}/> : <OrganismLoginForm/> }
         </div>
       </div>
       <div className="mt-[20vh] bg-orange-100 w-full p-5 lg:p-10">
