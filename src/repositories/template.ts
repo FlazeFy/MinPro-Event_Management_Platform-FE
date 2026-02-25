@@ -15,6 +15,7 @@ export interface DatasetTemplate {
 export interface VenueData {
     venue_name: string
     venue_coordinate: string
+    venue_address: string
 }
 
 interface EventScheduleData {
