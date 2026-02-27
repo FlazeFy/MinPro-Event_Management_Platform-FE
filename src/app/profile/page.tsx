@@ -1,4 +1,5 @@
 'use client'
+import OrganismMyDiscountList from "@/components/organisms/my_discount_list.organism";
 import OrganismPointRefCodeBox from "@/components/organisms/point_ref_code_box.organism";
 import OrganismRecentTransactionList from "@/components/organisms/recent_transaction_list.organism";
 import OrganismRefCodeList from "@/components/organisms/ref_code_list.organism";
@@ -41,8 +42,12 @@ export default function ProfilePage() {
                         <OrganismUserProfileHeaderBox user={profileItem} fetchMyProfile={fetchMyProfile}/>
                         <div className="flex flex-wrap mt-5">
                             <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
+                                <OrganismMyDiscountList role={role}/>
                                 {
-                                    role === "customer" ? <OrganismRecentTransactionList role={role}/> : <></>
+                                    role === "customer" ? 
+                                        <OrganismRecentTransactionList role={role}/>
+                                    : 
+                                        <></>
                                 }
                             </div>
                             <div className="w-full md:w-4/12 lg:w-3/12">

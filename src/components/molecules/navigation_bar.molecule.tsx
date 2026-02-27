@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation"
 interface MoleculeNavigationBarProps {}
 
 const MoleculeNavigationBar: React.FC<MoleculeNavigationBarProps> = () => {
-    const { email } = useAuthStore()
+    const { email, role } = useAuthStore()
     const currentPage: string = usePathname()
     const isSignedIn = email !== ""
 
@@ -24,15 +24,18 @@ const MoleculeNavigationBar: React.FC<MoleculeNavigationBarProps> = () => {
                 <Link href={ isSignedIn ? '/' : '#feature-section' }>
                     <AtomText type='content-title' text={ isSignedIn ? "Home" : "Features" }/>
                 </Link>
-                <Link href={'/events'}>
-                    <AtomText type='content-title' text='Events'/>
+                <Link href={'/event'}>
+                    <AtomText type='content-title' text='Event'/>
                 </Link>
                 {
                     isSignedIn && 
                     <>
-                        <Link href={'/transaction'}>
-                            <AtomText type='content-title' text='Transaction'/>
-                        </Link>
+                        {
+                            role === "event_organizer" &&
+                                <Link href={'/transaction'}>
+                                    <AtomText type='content-title' text='Transaction'/>
+                                </Link>
+                        }
                         <Link href={'/feedback'}>
                             <AtomText type='content-title' text='Feedback'/>
                         </Link>

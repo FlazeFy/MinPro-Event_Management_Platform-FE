@@ -12,6 +12,7 @@ import Swal from "sweetalert2"
 import { registerCustomerRepo } from '@/repositories/r_auth'
 import OrganismTermsAndConditionsBox from './terms_conditions_box.organism'
 import OrganismProfileImagePicker from './profile_image_picker.organism'
+import AtomText from '../atoms/text.atom'
 
 // Validation
 const registerSchema = Yup.object({
@@ -24,6 +25,7 @@ const registerSchema = Yup.object({
         .test("is-valid-date", "Birth date must be valid", (value) => {
             return !!value && !isNaN(new Date(value).getTime())
     }),
+    referral_code: Yup.string().nullable().defined().min(6).max(6),
     password: Yup.string().required("Password is required").min(6).max(36),
     password_confirmation: Yup.string().required("Password confirmation is required").oneOf([Yup.ref("password")], "Passwords must match"),
 })
@@ -48,6 +50,7 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
             phone_number: "",
             birth_date: "",
             password: "",
+            referral_code: null,
             password_confirmation: "",
         }
     })
@@ -69,6 +72,7 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
             const payload = {
                 ...values,
                 img: values.img ?? null,
+                referral_code: values.referral_code ?? null,
                 birth_date: new Date(values.birth_date).toISOString()
             }
         
@@ -172,6 +176,19 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
                         </FormItem>
                     )}/>
                 <OrganismTermsAndConditionsBox isChecked={isCheckedTNC} action={(e) => setCheckTNC(e)}/>
+                <div className='bg-green-100 p-5 rounded-xl'>
+                    <FormField control={form.control} name="referral_code"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Referall Code</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter your referral code" {...field} value={field.value ?? ""}/>
+                                </FormControl>
+                                <FormMessage>{form.formState.errors.referral_code?.message}</FormMessage>
+                            </FormItem>
+                        )}/>
+                    <AtomText text='If you have a referral code from your relative, you can use that right now and get free 10% discount cuopon' type='content' extraClass='mt-2'/>
+                </div>
                 <Button type="submit" className='mt-3' disabled={form.formState.isSubmitting}>
                     { form.formState.isSubmitting ? "Creating your account..." : "Create My Account!" }
                 </Button>

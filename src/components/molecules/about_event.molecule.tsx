@@ -4,6 +4,9 @@ import AtomText from '../atoms/text.atom';
 import MoleculeShortProfileBox from './short_profile_box.molecule';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 interface MoleculeAboutEventProps {
     image: string
@@ -19,16 +22,7 @@ interface MoleculeAboutEventProps {
     description: string
 }
 
-const MoleculeAboutEvent: React.FC<MoleculeAboutEventProps> = ({
-    image,
-    category,
-    isHotEvent = false,
-    title,
-    organizer,
-    rating,
-    reviews,
-    description
-}) => {
+const MoleculeAboutEvent: React.FC<MoleculeAboutEventProps> = ({ image, category, isHotEvent = false, title, organizer, rating, reviews, description}) => {
     return (
         <div className="flex flex-col gap-6 w-full">
             {/* Banner Section */}
@@ -36,9 +30,11 @@ const MoleculeAboutEvent: React.FC<MoleculeAboutEventProps> = ({
                 <Image src={image} alt={title} fill className="object-cover"/>
                 {/* Badges/Buttons Overlay */}
                 <div className="absolute top-4 left-4 flex gap-2 z-10">
-                    <Button variant="secondary" className="bg-white/90 text-primary hover:bg-white rounded-full text-xs font-semibold px-4">
-                        {category}
-                    </Button>
+                    <Link href='/event'>
+                        <Button variant="secondary" className="bg-white/90 bg-danger hover:bg-white rounded-full text-xs font-semibold px-4">
+                            <FontAwesomeIcon icon={faArrowLeft}/> Back
+                        </Button>
+                    </Link>
                     {isHotEvent && (
                         <Button className="bg-primary text-white hover:bg-primary/90 rounded-full text-xs font-semibold px-4 border-none shadow-none">
                             HOT EVENT

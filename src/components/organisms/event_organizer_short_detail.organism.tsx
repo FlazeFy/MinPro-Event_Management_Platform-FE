@@ -9,18 +9,12 @@ interface IOrganismsEventOrganizerShortDetailProps { }
 
 const OrganismsEventOrganizerShortDetail: React.FunctionComponent<IOrganismsEventOrganizerShortDetailProps> = (props) => {
     return (
-        <div className='text-center container mx-auto'>
-            <div className='p-10 align-center'>
-                <AtomText type='sub-title-small' text='Organizer Details' extraClass='mb-0 text-xl' />
-                <MoleculeShortProfileBox
-                    image=''
-                    title='Nexus Events'
-                    description='Technology Event Organizer'
-                />
-                <div className='flex gap-2'>
-                    <Button>Contact</Button>
-                    <Button>Profile</Button>
-                </div>
+        <div className='text-center container mx-auto align-center'>
+            <AtomText type='sub-title-small' text='Organizer Details' extraClass='mb-0 text-xl' />
+            <MoleculeShortProfileBox image='' title='Nexus Events' description='Technology Event Organizer'/>
+            <div className='flex gap-2'>
+                <Button>Contact</Button>
+                <Button>Profile</Button>
             </div>
         </div>
     )
