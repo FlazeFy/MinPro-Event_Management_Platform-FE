@@ -6,6 +6,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { Calendar, ChevronDown, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "../ui/button";
 import AtomText from "../atoms/text.atom";
+import Link from "next/link";
 
 interface EventCatalogItem {
   id: string;
@@ -16,7 +17,6 @@ interface EventCatalogItem {
   title: string;
   time: string;
   location: string;
-  ctaLabel: string;
 }
 
 interface OrganismEventCatalogProps {
@@ -34,7 +34,6 @@ const defaultEvents: EventCatalogItem[] = [
     title: "Minimalist Wedding Workshop",
     time: "10:00 AM - 4:00 PM",
     location: "Grand Plaza Hotel",
-    ctaLabel: "Book Ticket",
   },
   {
     id: "acoustic-garden",
@@ -45,7 +44,6 @@ const defaultEvents: EventCatalogItem[] = [
     title: "Acoustic Garden Sessions",
     time: "6:00 PM - 9:00 PM",
     location: "Community Park",
-    ctaLabel: "Register Now",
   },
   {
     id: "retro-esports",
@@ -55,8 +53,7 @@ const defaultEvents: EventCatalogItem[] = [
     seatsLabel: "10 Seats Left",
     title: "Retro E-Sports Tournament",
     time: "12:00 PM - 8:00 PM",
-    location: "The Grid Lounge",
-    ctaLabel: "Get Tickets",
+    location: "The Grid Lounge"
   },
 ];
 
@@ -149,7 +146,9 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({sortLabel = 
                     <div className="flex items-center gap-2"><Calendar className="h-4 w-4" /><span>{event.time}</span></div>
                     <div className="flex items-center gap-2"><MapPin className="h-4 w-4" /><span>{event.location}</span></div>
                   </div>
-                  <Button className="h-11 w-full rounded-xl bg-[#f2f4fa] text-base font-semibold text-slate-700 hover:bg-[#e9edf8]" variant="ghost">{event.ctaLabel}</Button>
+                  <Link href={`/event/1`}>
+                    <Button className="h-11 w-full rounded-xl bg-[#f2f4fa] text-base font-semibold text-slate-700 hover:bg-[#e9edf8]" variant="ghost">Book Ticket</Button>
+                  </Link>
                 </div>
               </article>
             </div>
