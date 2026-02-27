@@ -28,6 +28,7 @@ interface RegisterCustomerPayload {
     password: string
     password_confirmation: string
     img: File | null
+    referral_code: string | null
 }
 export interface RegisterResponse {
     data: LoginResponsePayload
@@ -42,6 +43,7 @@ export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Pr
     formData.append("birth_date", payload.birth_date)
     formData.append("password", payload.password)
     formData.append("password_confirmation", payload.password_confirmation)
+    if (payload.referral_code !== null) formData.append("referral_code", payload.referral_code)
     if (payload.img) formData.append("img", payload.img) 
 
     const res = await apiCall.post(`${MODULE_URL}/register/customer`, formData)
