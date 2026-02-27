@@ -9,9 +9,12 @@ import AtomText from '../atoms/text.atom'
 import { getTransactionDashboardByEventId, TransactionDashboardResponse } from '@/repositories/r_stats'
 import Skeleton from 'react-loading-skeleton'
 
-interface IOrganismDashboardListProps {}
+interface IOrganismDashboardListProps {
+    eventId: string
+    eventTitle: string
+}
 
-const OrganismDashboardList: React.FunctionComponent<IOrganismDashboardListProps> = () => {
+const OrganismDashboardList: React.FunctionComponent<IOrganismDashboardListProps> = ({ eventId, eventTitle }) => {
     // For repo fetching
     const [itemDashboard, setItemDashboard] = useState<TransactionDashboardResponse>()
     const [loadingDashboard, setLoadingDashboard] = useState(true)
@@ -34,7 +37,7 @@ const OrganismDashboardList: React.FunctionComponent<IOrganismDashboardListProps
     const handleOpenChange = (state: boolean) => {
         setOpen(state)
         if (state && !itemDashboard) {
-            fetchTransactionDashboard('d63337af-ee7b-4ed8-81cc-5a507280ea13')
+            fetchTransactionDashboard(eventId)
         }
     }
 
@@ -52,7 +55,7 @@ const OrganismDashboardList: React.FunctionComponent<IOrganismDashboardListProps
             </DialogTrigger>
             <DialogContent className='min-w-[860px]'>
                 <DialogHeader>
-                    <DialogTitle>Event Dashboard</DialogTitle>
+                    <DialogTitle>{eventTitle} Event Dashboard</DialogTitle>
                 </DialogHeader>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[75vh] overflow-y-auto text-center">
                     <div className='pb-5'>

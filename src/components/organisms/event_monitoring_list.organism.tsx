@@ -1,76 +1,61 @@
 "use client"
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import AtomText from '../atoms/text.atom'
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from '../ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../ui/input'
 import OrganismEventAttendee from './event_attendee_list.organism'
 import OrganismDashboardList from './event_dashboard_list.organism'
+import { getRecentEventRepo, RecentEventData } from '@/repositories/r_event'
+import Skeleton from 'react-loading-skeleton'
+import MoleculeNoDataBox from '../molecules/no_data_box.molecule'
+import { convertUTCToLocal } from '@/helpers/converter.helper'
 
 interface IOrganismEventMonitoringListProps {}
 
 const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitoringListProps> = () => {
-    const invoices = [
-        {
-            id: "INV001",
-            event_title: "Concert A",
-            venue_name: "GBK",
-            event_category: "concert",
-            seat: {
-                max: 100,
-                booked: 75
-            },
-            start_date: "10 Jan 2026 10:20",
-            end_date: "10 Jan 2026 10:20",
-            is_free: true,
-            total_revenue: 20000
-        },
-        {
-            id: "INV002",
-            event_title: "Concert B",
-            venue_name: "GBK",
-            event_category: "concert",
-            seat: {
-                max: 100,
-                booked: 75
-            },
-            start_date: "10 Jan 2026 10:20",
-            end_date: "10 Jan 2026 10:20",
-            is_free: false,
-            total_revenue: 20000
+    // For repo fetching
+    const [item, setItem] = useState<RecentEventData[]>()
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+    // For state management
+    const [search, setSearch] = useState<string>("")
+    const [page, setPage] = useState(1)
+
+    const fetchAllRecentEvent = async (page: number, search: string | null) => {
+        try {
+            const data = await getRecentEventRepo(page, search)
+            setItem(data.data)
+            setPage(data.meta.page)
+        } catch (err: any) {
+            setError(err?.response?.data?.message || "Something went wrong")
+        } finally { 
+            setLoading(false)
         }
-    ]
+    }
+
+    useEffect(() => {
+        fetchAllRecentEvent(page, null)
+    }, [])
+
+    // Search action
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => fetchAllRecentEvent(page, search.length > 0 ? search : null)
     
     return (
         <div className="box-bordered">
             <AtomText type='sub-title-small' text='Recent Event'/>
-            <div className='flex mb-5 justify-end gap-2'>
-                <div>
-                    <AtomText type='content' text='Filter by Status'/>
-                    <Select>
-                        <SelectTrigger className="w-[200px] text-foreground">
-                            <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All</SelectItem>
-                            <SelectItem value="live">Live</SelectItem>
-                            <SelectItem value="incoming">Incoming</SelectItem>
-                            <SelectItem value="finished">Finished</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+            <div className='flex flex-col mb-5 justify-end items-end'>
                 <div>
                     <AtomText type='content' text='Search event'/>
-                    <Input type="text" placeholder="Search by event title or venue name" style={{minWidth:"340px"}}/>
+                    <Input type="text" placeholder="Search by event title or venue name" className='w-full' style={{minWidth:"340px"}}
+                        value={search} onChange={(e) => setSearch(e.target.value)} onBlur={handleSearch}/>
                 </div>
             </div>
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">ID</TableHead>
                         <TableHead>Event</TableHead>
                         <TableHead>Period</TableHead>
                         <TableHead>Category</TableHead>
@@ -80,20 +65,45 @@ const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitor
                     </TableRow>
                 </TableHeader>
                 <TableBody>
+                    { 
+                        loading && (
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <Skeleton style={{ height: "100px" }} />
+                                </TableCell>
+                            </TableRow>
+                        )
+                    }
                     {
-                        invoices.map((dt) => {
+                        (!loading && error) || (!loading && item?.length === 0) && (
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    }
+                    {
+                        !loading && item && item.map((dt) => {
                             return (
                                 <TableRow key={dt.id}>
-                                    <TableCell className="font-medium">{dt.id}</TableCell>
                                     <TableCell>
                                         <AtomText type='content' text={dt.event_title} extraClass='mb-1'/>
-                                        <Badge variant="outline"><FontAwesomeIcon icon={faLocationDot}/> {dt.venue_name}</Badge>
+                                        <Badge variant="outline"><FontAwesomeIcon icon={faLocationDot}/> {dt.event_schedule[0].venue.venue_name}</Badge>
                                     </TableCell>
-                                    <TableCell>{dt.start_date} - {dt.end_date}</TableCell>
+                                    <TableCell>
+                                        <AtomText text='Start At' type='label' extraClass='font-semibold'/>
+                                        <br/>
+                                        {convertUTCToLocal(dt.event_schedule[0].start_date)}
+                                        <br/>
+                                        <AtomText text='End At' type='label' extraClass='font-semibold'/>
+                                        <br/>
+                                        {convertUTCToLocal(dt.event_schedule[0].end_date)}
+                                    </TableCell>
                                     <TableCell>
                                         <div className='flex gap-2'>
-                                            <Badge className={`bg-blue-200 text-blue-700`}>{dt.event_category}</Badge>
-                                            { dt.is_free && <Badge className="bg-green-200 text-green-700">Discounted</Badge> }
+                                            <Badge className='bg-blue-200 text-blue-700 capitalize'>{dt.event_category}</Badge>
+                                            { dt.is_paid ?? <Badge className="bg-green-200 text-green-700">Free Event</Badge> }
                                         </div>
                                     </TableCell>
                                     <TableCell>
@@ -103,20 +113,14 @@ const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitor
                                     </TableCell>
                                     <TableCell className='flex gap-2'>
                                         <OrganismEventAttendee/>
-                                        <OrganismDashboardList/>
+                                        <OrganismDashboardList eventId={dt.id} eventTitle={dt.event_title}/>
                                     </TableCell>
-                                    <TableCell><FontAwesomeIcon icon={faUser}/> {dt.seat.booked} / {dt.seat.max}</TableCell>
+                                    <TableCell><FontAwesomeIcon icon={faUser}/> {dt.maximum_seat} / {dt.total_booked_seat}</TableCell>
                                 </TableRow>
                             )
                         })
                     }
                 </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TableCell colSpan={6}>Remaining Seat</TableCell>
-                        <TableCell><FontAwesomeIcon icon={faUsers}/> 30</TableCell>
-                    </TableRow>
-                </TableFooter>
             </Table>
         </div>
     )
