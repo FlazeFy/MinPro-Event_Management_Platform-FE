@@ -21,6 +21,12 @@ export const updateDiscountByIdRepo = async (payload: UpdateDiscountRequestPaylo
     return res.data.message
 }
 
+export const deleteDiscountByIdRepo = async (id: string): Promise<string> => {
+    const res = await apiCall.delete(`${MODULE_URL}/${id}`)
+
+    return res.data.message
+}
+
 export interface DiscountItem {
     id: string
     description: string
