@@ -4,7 +4,7 @@ import AtomText from '../atoms/text.atom'
 interface MoleculeDiscountBoxProps {
     description: string
     percentage: number
-    expiredAt: string
+    expiredAt: string | null
     role: string
 }
 
@@ -15,7 +15,7 @@ const MoleculeDiscountBox: React.FC<MoleculeDiscountBoxProps> = ({ description, 
             ${role === "event_organizer" ? "cursor-pointer hover:shadow-lg hover:scale-[1.03] hover:shadow-2xl" : ""}`}>
             <div>
                 <AtomText text={description} type='content' extraClass='font-bold'/>
-                <AtomText text={`Expired at ${expiredAt}`} type='content' extraClass='italic text-sm'/>
+                { expiredAt && <AtomText text={`Expired at ${expiredAt}`} type='content' extraClass='italic text-sm'/> }
             </div>
             <AtomText text={`${percentage}%`} type='content' extraClass='font-bold text-2xl text-white'/>
         </div>

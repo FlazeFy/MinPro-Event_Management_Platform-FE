@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import Swal from 'sweetalert2'
 import * as Yup from "yup"
@@ -11,8 +11,12 @@ import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTicket } from '@fortawesome/free-solid-svg-icons'
 import { Textarea } from '../ui/textarea'
+import { createDiscountRepo } from '@/repositories/r_discount'
+import { loading } from '@/helpers/loading.helper'
 
-interface IOrganismAddDiscountFormProps {}
+interface IOrganismAddDiscountFormProps {
+    action: () => void
+}
 
 // Validation
 const discountSchema = Yup.object({
@@ -27,19 +31,36 @@ const discountSchema = Yup.object({
 
 type DiscountFormValues = Yup.InferType<typeof discountSchema>
 
-const OrganismAddDiscountForm: React.FunctionComponent<IOrganismAddDiscountFormProps> = () => {
+const OrganismAddDiscountForm: React.FunctionComponent<IOrganismAddDiscountFormProps> = ({ action }) => {
     const form = useForm<DiscountFormValues>({ resolver: yupResolver(discountSchema), defaultValues: { description:"", percentage:1 }})
-
+    // State management
+    const [open, setOpen] = useState(false)
     const onSubmit = async (values: DiscountFormValues) => {
         try {
-            
+            loading('Creating discount')
+            const message = await createDiscountRepo(values)
+            setOpen(false)
+            Swal.close()
+        
+            const result = await Swal.fire({
+                title: "Success",
+                text: message,
+                icon: "success",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            })
+    
+            if (result.isConfirmed) {
+                action()
+                form.reset()
+            }
         } catch (err: any) {
             Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")        
         }
     }
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button className='py-0 text-sm'><FontAwesomeIcon icon={faTicket}/>Add Discount</Button> 
             </DialogTrigger>

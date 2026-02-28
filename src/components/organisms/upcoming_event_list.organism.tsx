@@ -17,6 +17,7 @@ const OrganismUpcomingEventList: React.FunctionComponent<IOrganismUpcomingEventL
 
     const fetchUpcomingEvent = async () => {
         try {
+            setLoading(true)
             const data = await getUpcomingEventRepo()
             setItem(data)
         } catch (err: any) {
