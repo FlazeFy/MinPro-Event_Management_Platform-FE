@@ -39,7 +39,7 @@ const OrganismNewComerEventOrganizerList: React.FunctionComponent<IOrganismNewCo
         <>
             <div className='flex flex-wrap gap-2 justify-between w-full mb-2'>
                 <div>
-                    <AtomText type='content-title' text='New Comer Event Organizer'/>
+                    <AtomText type='content-title' text='New Comer Event Organizer' extraClass="text-primary font-bold"/>
                     <AtomText type='content' text='These organizers are just getting started, show them some support!' extraClass='text-gray-400'/>
                 </div>
                 <Button><FontAwesomeIcon icon={faArrowRight}/> See More</Button>

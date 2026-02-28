@@ -9,6 +9,7 @@ export interface EventOrganizerData {
     id: string 
     username: string 
     organizer_name: string
+    bio: string
 }
 
 export interface DatasetTemplate {
@@ -24,7 +25,9 @@ export interface VenueData {
     venue_address: string
 }
 
-interface EventScheduleData {
+export interface EventScheduleData {
+    start_date: string
+    end_date: string
     venue: VenueData
 }
 export interface EventData {

@@ -43,11 +43,10 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({}) => {
   return (
     <section className="w-full">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <AtomText type="sub-title" text="Event Catalog"extraClass="text-primary font-bold"/>
+        <AtomText type="sub-title" text="Event Catalog" extraClass="text-primary font-bold"/>
       </div>
-
       <div className="mt-6 overflow-hidden">
-        <div className="-ml-2 flex">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           { loading && <Skeleton style={{ height: "100px" }}/> }
           { (!loading && error) || (!loading && items?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/> }
           { items && items.length > 0 && items.map((dt, idx) => <MoleculeEventBox event={dt}/>)}
