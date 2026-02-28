@@ -20,18 +20,12 @@ interface IOrganismEditDiscountFormProps {
 // Validation
 const discountSchema = Yup.object({
     description: Yup.string().required("Description is required").max(144),
-    percentage: Yup.number().transform((value, originalValue) =>
-        originalValue === "" ? undefined : Number(originalValue)
-    ).typeError("Percentage must be a number")
-    .required("Percentage is required")
-    .min(1, "Minimum is 1%")
-    .max(100, "Maximum is 100%")
 })
 
 type DiscountFormValues = Yup.InferType<typeof discountSchema>
 
 const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFormProps> = ({ percentage, description, role }) => {
-    const form = useForm<DiscountFormValues>({ resolver: yupResolver(discountSchema), defaultValues: { description, percentage }})
+    const form = useForm<DiscountFormValues>({ resolver: yupResolver(discountSchema), defaultValues: { description }})
 
     const onSubmit = async (values: DiscountFormValues) => {
         try {
@@ -54,17 +48,6 @@ const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFor
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField control={form.control} name="percentage"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Percentage</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" placeholder="Enter your discount percentage" {...field} max={100} min={1}/>
-                                    </FormControl>
-                                    <FormMessage>{form.formState.errors.percentage?.message}</FormMessage>
-                                </FormItem>
-                            )}
-                        />
                         <FormField control={form.control} name="description"
                             render={({ field }) => (
                                 <FormItem>
