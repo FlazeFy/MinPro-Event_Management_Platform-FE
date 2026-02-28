@@ -12,6 +12,15 @@ export const createDiscountRepo = async (payload: CreateDiscountRequestPayload):
     return res.data.message
 }
 
+export interface UpdateDiscountRequestPayload {
+    description: string
+}
+export const updateDiscountByIdRepo = async (payload: UpdateDiscountRequestPayload, id: string): Promise<string> => {
+    const res = await apiCall.put(`${MODULE_URL}/${id}`, payload)
+
+    return res.data.message
+}
+
 export interface DiscountItem {
     id: string
     description: string

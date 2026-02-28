@@ -1,20 +1,22 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import Swal from 'sweetalert2'
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Input } from '../ui/input'
 import { useForm } from 'react-hook-form'
 import { Textarea } from '../ui/textarea'
 import MoleculeDiscountBox from '../molecules/discount_box.molecule'
+import { updateDiscountByIdRepo } from '@/repositories/r_discount'
 
 interface IOrganismEditDiscountFormProps {
+    id: string
     percentage: number 
     description: string
     role: string
+    action: () => void
 }
 
 // Validation
@@ -24,12 +26,28 @@ const discountSchema = Yup.object({
 
 type DiscountFormValues = Yup.InferType<typeof discountSchema>
 
-const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFormProps> = ({ percentage, description, role }) => {
+const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFormProps> = ({ percentage, description, role, action, id }) => {
     const form = useForm<DiscountFormValues>({ resolver: yupResolver(discountSchema), defaultValues: { description }})
-
+    // State management
+    const [open, setOpen] = useState(false)
     const onSubmit = async (values: DiscountFormValues) => {
         try {
-            
+            const message = await updateDiscountByIdRepo(values, id)
+            setOpen(false)
+            Swal.close()
+        
+            const result = await Swal.fire({
+                title: "Success",
+                text: message,
+                icon: "success",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            })
+    
+            if (result.isConfirmed) {
+                action()
+                form.reset()
+            }
         } catch (err: any) {
             Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")        
         }

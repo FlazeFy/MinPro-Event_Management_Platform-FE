@@ -45,7 +45,7 @@ const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListPro
         <div className="box-bordered mb-5">
             <div className='flex flex-wrap gap-2 justify-between'>
                 <AtomText type='sub-title-small' text='My Discount Coupon'/>
-                { role === "event_organizer" && <OrganismAddDiscountForm/> }
+                { role === "event_organizer" && <OrganismAddDiscountForm action={fetchMyDiscount}/> }
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
                 { error && <MoleculeNoDataBox title='Something went wrong'/> }
@@ -56,7 +56,7 @@ const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListPro
                             role === "customer" ?
                                 <MoleculeDiscountBox key={idx} description={dt.description} percentage={dt.percentage} expiredAt={dt.expired_at} role={role}/>
                             :
-                                <OrganismEditDiscountForm key={idx} percentage={dt.percentage} description={dt.description} role={role}/>
+                                <OrganismEditDiscountForm key={idx} percentage={dt.percentage} description={dt.description} role={role} id={dt.id} action={fetchMyDiscount}/>
                         ))
                     :
                         <MoleculeNoDataBox title={'Discount not found'}/>
