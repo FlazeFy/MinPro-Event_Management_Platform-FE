@@ -51,3 +51,29 @@ export const getRecentEventRepo = async (page: number, search: string | null): P
     
     return res.data
 }
+
+interface CustomerItem {
+    username: string 
+    email: string 
+    fullname: string
+}
+export interface EventAttendeeItem {
+    fullname: string
+    phone_number: string
+    birth_date: string
+    transaction: {
+        customer: CustomerItem
+        created_at: string
+    }
+}
+export interface EventAttendeeWithMeta {
+    data: EventAttendeeItem[]
+    meta: PaginationMeta
+}
+export const getEventAttendeeByEventId = async (page: number, eventId: string, search: string | null): Promise<EventAttendeeWithMeta> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const res = await apiCall.get(`${MODULE_URL}/attendee/${eventId}?page=${page}${searchArgs}`)
+    const { data, meta } = res.data
+
+    return { data, meta }
+}

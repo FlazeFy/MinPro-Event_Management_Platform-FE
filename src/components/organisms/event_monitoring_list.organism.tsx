@@ -112,7 +112,7 @@ const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitor
                                         </div>  
                                     </TableCell>
                                     <TableCell className='flex gap-2'>
-                                        <OrganismEventAttendee/>
+                                        <OrganismEventAttendee eventId={dt.id} eventTitle={dt.event_title}/>
                                         <OrganismDashboardList eventId={dt.id} eventTitle={dt.event_title}/>
                                     </TableCell>
                                     <TableCell><FontAwesomeIcon icon={faUser}/> {dt.maximum_seat} / {dt.total_booked_seat}</TableCell>
