@@ -1,5 +1,5 @@
 import apiCall from "@/configs/axios"
-import {  PaginationMeta, VenueData } from "./template"
+import { EventOrganizerData, PaginationMeta, VenueData } from "./template"
 
 const MODULE_URL = "/api/v1/events"
 
@@ -73,6 +73,31 @@ export interface EventAttendeeWithMeta {
 export const getEventAttendeeByEventId = async (page: number, eventId: string, search: string | null): Promise<EventAttendeeWithMeta> => {
     const searchArgs = search ? `&search=${search}` : ''
     const res = await apiCall.get(`${MODULE_URL}/attendee/${eventId}?page=${page}${searchArgs}`)
+    const { data, meta } = res.data
+
+    return { data, meta }
+}
+
+export interface EventItem {
+    id: string 
+    event_organizer: EventOrganizerData
+    event_title: string 
+    event_desc: string 
+    event_category: string
+    event_price: number
+    is_paid: boolean
+    maximum_seat: number 
+    event_pic: string 
+    created_at: string
+    event_schedule: EventScheduleData[]
+}
+export interface EventItemWithMeta {
+    data: EventItem[]
+    meta: PaginationMeta
+}
+export const getAllEvent = async (page: number, search: string | null): Promise<EventItemWithMeta> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const res = await apiCall.get(`${MODULE_URL}?page=${page}${searchArgs}`)
     const { data, meta } = res.data
 
     return { data, meta }

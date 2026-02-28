@@ -5,6 +5,12 @@ export interface UserShortInfo {
     profile_pic: string
 }
 
+export interface EventOrganizerData {
+    id: string 
+    username: string 
+    organizer_name: string
+}
+
 export interface DatasetTemplate {
     label: string
     data: number[]

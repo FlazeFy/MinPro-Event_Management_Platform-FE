@@ -32,7 +32,7 @@ const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = ({
                             <Button className='bg-secondary'>Get Started Free</Button>
                         </Link>
                 }
-                <Link href={'/events'}>
+                <Link href={'/event'}>
                     <Button>Browse Event Now</Button>
                 </Link>
             </div>
