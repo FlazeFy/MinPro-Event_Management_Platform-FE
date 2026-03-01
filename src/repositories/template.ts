@@ -7,9 +7,10 @@ export interface UserShortInfo {
 
 export interface EventOrganizerData {
     id: string 
-    username: string 
+    username?: string
     organizer_name: string
     bio: string
+    profile_pic: string
 }
 
 export interface DatasetTemplate {

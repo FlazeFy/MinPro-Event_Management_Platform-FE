@@ -120,5 +120,5 @@ export interface EventDetailItem {
 export const getEventDetailByIdRepo = async (id: string): Promise<EventDetailItem> => {
     const res = await apiCall.get(`${MODULE_URL}/detail/${id}`)
 
-    return res.data
+    return res.data.data
 }

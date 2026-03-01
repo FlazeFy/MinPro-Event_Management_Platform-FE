@@ -1,6 +1,7 @@
 import React from "react";
 import AtomText from "../atoms/text.atom";
 import { MessageSquareText, Star } from "lucide-react";
+import Image from "next/image";
 
 interface ReviewItem {
     name: string
@@ -66,45 +67,25 @@ const MoleculeCommunityReviews: React.FC<MoleculeCommunityReviewsProps> = ({ tit
                 />
             </div>
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-                {reviews.map((item) => (
-                    <div
-                        key={`${item.name}-${item.timeAgo}`}
-                        className="rounded-3xl border border-secondary/30 bg-white p-6"
-                    >
-                        <div className="flex items-start justify-between gap-4">
-                            <div className="flex items-center gap-4">
-                                <div className="w-14 h-14 rounded-full overflow-hidden bg-secondary/20 shrink-0">
-                                    {item.avatar ? (
-                                        <img src={item.avatar} alt={item.name} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-primary font-semibold">
-                                            {item.name.charAt(0)}
-                                        </div>
-                                    )}
+                {
+                    reviews.map((item, idx) => (
+                        <div key={idx} className="rounded-3xl border border-secondary/30 bg-white p-6">
+                            <div className="flex items-start justify-between gap-4">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-14 h-14 rounded-full overflow-hidden bg-secondary/20 shrink-0">
+                                        <Image src={item.avatar ?? "/images/user.png"} alt={item.avatar ?? "/images/user.png"} className="w-full h-full object-cover" width={100} height={100}/>
+                                    </div>
+                                    <div>
+                                        <AtomText type="content-title" text={item.name} extraClass="text-3xl font-semibold text-primary leading-tight"/>
+                                        <AtomText type="sub-content" text={item.timeAgo} extraClass="text-gray-500"/>
+                                    </div>
                                 </div>
-                                <div>
-                                    <AtomText
-                                        type="content-title"
-                                        text={item.name}
-                                        extraClass="text-3xl font-semibold text-primary leading-tight"
-                                    />
-                                    <AtomText
-                                        type="sub-content"
-                                        text={item.timeAgo}
-                                        extraClass="text-gray-500"
-                                    />
-                                </div>
+                                {renderStars(item.rating)}
                             </div>
-
-                            {renderStars(item.rating)}
+                            <AtomText type="content" text={item.review} extraClass="text-gray-600 text-xl leading-relaxed mt-5"/>
                         </div>
-                        <AtomText
-                            type="content"
-                            text={item.review}
-                            extraClass="text-gray-600 text-xl leading-relaxed mt-6"
-                        />
-                    </div>
-                ))}
+                    ))
+                }
             </div>
         </section>
     )

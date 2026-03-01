@@ -88,7 +88,7 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
         <Dialog onOpenChange={handleOpenChange} open={open}>
             <DialogTrigger asChild>
                 <Button className="h-11 rounded-full bg-indigo-600 text-sm font-semibold text-white hover:bg-indigo-700">
-                    Book Tickets Now
+                    Book Tickets Now!
                 </Button>            
             </DialogTrigger>
             <DialogContent style={{minWidth:"1080px"}}>

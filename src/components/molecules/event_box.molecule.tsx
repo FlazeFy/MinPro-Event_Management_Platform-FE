@@ -30,7 +30,7 @@ const MoleculeEventBox: React.FC<MoleculeEventBoxProps> = ({ event }) => {
                     <Badge><FontAwesomeIcon icon={faCalendar}/>{convertUTCToLocal(event.event_schedule[0].start_date)}</Badge>
                     <Badge><FontAwesomeIcon icon={faLocationDot}/>{event.event_schedule[0].venue.venue_name}</Badge>
                 </div>
-                <Link href={`/event/${event.id}}`}>
+                <Link href={`/event/${event.id}`}>
                     <Button className="w-full rounded-xl bg-success">Book Ticket</Button>
                 </Link>
             </div>
