@@ -16,7 +16,6 @@ interface IOrganismEditDiscountFormProps {
     id: string
     percentage: number 
     description: string
-    role: string
     action: () => void
 }
 
@@ -27,7 +26,7 @@ const discountSchema = Yup.object({
 
 type DiscountFormValues = Yup.InferType<typeof discountSchema>
 
-const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFormProps> = ({ percentage, description, role, action, id }) => {
+const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFormProps> = ({ percentage, description, action, id }) => {
     const form = useForm<DiscountFormValues>({ resolver: yupResolver(discountSchema), defaultValues: { description }})
     // State management
     const [open, setOpen] = useState(false)
@@ -92,7 +91,7 @@ const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFor
         <Dialog>
             <DialogTrigger asChild>
             <div>
-                <MoleculeDiscountBox description={description} percentage={percentage} expiredAt={'10 Jun 2026'} role={role}/>
+                <MoleculeDiscountBox description={description} percentage={percentage}/>
                 </div>
             </DialogTrigger>
             <DialogContent>

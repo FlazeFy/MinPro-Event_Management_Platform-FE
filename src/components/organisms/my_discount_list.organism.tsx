@@ -9,9 +9,10 @@ import Skeleton from 'react-loading-skeleton';
 
 interface IOrganismMyDiscountListProps {
     role: string
+    refreshKey: number
 }
 
-const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListProps> = ({ role }) => {
+const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListProps> = ({ role, refreshKey }) => {
     // For fetching
     const [items, setItems] = useState<DiscountItem[]>()
     const [loading, setLoading] = useState(false)
@@ -39,7 +40,7 @@ const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListPro
 
     useEffect(() => {
         fetchMyDiscount()
-    }, [])
+    }, [refreshKey])
 
     return (
         <div className="box-bordered mb-5">
@@ -54,9 +55,9 @@ const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListPro
                     !loading && !error && items && items.length > 0 ?
                         items.map((dt, idx) => (
                             role === "customer" ?
-                                <MoleculeDiscountBox key={idx} description={dt.description} percentage={dt.percentage} expiredAt={dt.expired_at} role={role}/>
+                                <MoleculeDiscountBox key={idx} description={dt.description} percentage={dt.percentage} expiredAt={dt.expired_at} point={dt.point}/>
                             :
-                                <OrganismEditDiscountForm key={idx} percentage={dt.percentage} description={dt.description} role={role} id={dt.id} action={fetchMyDiscount}/>
+                                <OrganismEditDiscountForm key={idx} percentage={dt.percentage ?? 0} description={dt.description} id={dt.id} action={fetchMyDiscount}/>
                         ))
                     :
                         <MoleculeNoDataBox title={'Discount not found'}/>

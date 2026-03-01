@@ -15,6 +15,7 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const { role } = useAuthStore()
+    const [refreshDiscount, setRefreshDiscount] = useState(0)
 
     const fetchMyProfile = async () => {
         try {
@@ -25,6 +26,11 @@ export default function ProfilePage() {
         } finally { 
             setLoading(false)
         }
+    }
+
+    const handleAfterRedeem = async () => {
+        await fetchMyProfile()
+        setRefreshDiscount(prev => prev + 1)
     }
 
     useEffect(() => {
@@ -42,7 +48,7 @@ export default function ProfilePage() {
                         <OrganismUserProfileHeaderBox user={profileItem} fetchMyProfile={fetchMyProfile}/>
                         <div className="flex flex-wrap mt-5">
                             <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
-                                <OrganismMyDiscountList role={role}/>
+                                <OrganismMyDiscountList role={role} refreshKey={refreshDiscount}/>
                                 {
                                     role === "customer" ? 
                                         <OrganismRecentTransactionList role={role}/>
@@ -57,7 +63,7 @@ export default function ProfilePage() {
                                 {
                                     role === "customer" && (
                                         <>
-                                            <OrganismPointRefCodeBox points={profileItem.points} is_used={profileItem.is_use_ref_code} referral_code={profileItem.referral_code} action={fetchMyProfile}/>
+                                            <OrganismPointRefCodeBox points={profileItem.points} is_used={profileItem.is_use_ref_code} referral_code={profileItem.referral_code} action={handleAfterRedeem}/>
                                             <br/>
                                             <OrganismRefCodeList customers={profileItem.owner_referral_code_histories}/>
                                         </>

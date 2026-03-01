@@ -30,7 +30,8 @@ export const deleteDiscountByIdRepo = async (id: string): Promise<string> => {
 export interface DiscountItem {
     id: string
     description: string
-    percentage: number
+    percentage: number | null
+    point: number | null
     created_at: string
     expired_at: string | null
 }

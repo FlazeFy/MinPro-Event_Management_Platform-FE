@@ -18,7 +18,7 @@ const OrganismRefCodeList: React.FunctionComponent<IOrganismRefCodeListProps> = 
                 customers.length > 0 ? 
                     customers.map((dt, idx) => (
                         <MoleculeTransactionBox key={idx}
-                        title={dt.customer_user.username} desc={`Joined at ${convertUTCToLocal(dt.customer_user.created_at, true, false)}`}
+                        title={dt.customer_user.username} desc={`Used at ${convertUTCToLocal(dt.customer_user.created_at, true, false)}`}
                         profileImage={dt.customer_user.profile_pic ?? '/images/user.png'} withPoint={false}/>
                     ))
                 :

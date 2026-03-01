@@ -4,14 +4,14 @@ import { convertUTCToLocal } from '@/helpers/converter.helper'
 
 interface MoleculeDiscountBoxProps {
     description: string
-    percentage: number
-    expiredAt: string | null
-    role: string
+    percentage: number | null
+    point?: number | null
+    expiredAt?: string | null
     action?: () => void
     selected?: boolean
 }
 
-const MoleculeDiscountBox: React.FC<MoleculeDiscountBoxProps> = ({ description, percentage, expiredAt, role, action, selected }) => {
+const MoleculeDiscountBox: React.FC<MoleculeDiscountBoxProps> = ({ description, percentage, expiredAt, point, action, selected }) => {
     const isClickable = !!action
 
     const bgClass = isClickable ? selected ? "bg-gradient-to-r from-green-400 via-green-500 to-green-600"
@@ -24,7 +24,8 @@ const MoleculeDiscountBox: React.FC<MoleculeDiscountBoxProps> = ({ description, 
                 <AtomText text={description} type='content' extraClass='font-bold'/>
                 {expiredAt && <AtomText text={`Expired at ${convertUTCToLocal(expiredAt)}`} type='content' extraClass='italic text-sm'/>}
             </div>
-            <AtomText text={`${percentage}%`} type='content' extraClass='font-bold text-2xl text-white'/>
+            { point && <AtomText text={`Rp. ${point.toLocaleString()}`} type='content' extraClass='font-bold text-lg text-white'/> }
+            { percentage && <AtomText text={`${percentage}%`} type='content' extraClass='font-bold text-2xl text-white'/> }
         </div>
     )
 }
