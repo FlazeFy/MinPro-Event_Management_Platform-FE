@@ -9,9 +9,10 @@ interface IMoleculePriceBoxProps {
   price: number
   availableSeats: number
   totalSeats: number
+  id: string
 }
 
-const MoleculePriceBox: React.FunctionComponent<IMoleculePriceBoxProps> = ({ price, availableSeats, totalSeats, eventOrganizerId}) => {
+const MoleculePriceBox: React.FunctionComponent<IMoleculePriceBoxProps> = ({ price, availableSeats, totalSeats, eventOrganizerId, id}) => {
   const percentage = React.useMemo(() => {
     if (!totalSeats) return 0
     const value = (availableSeats / totalSeats) * 100
@@ -29,7 +30,7 @@ const MoleculePriceBox: React.FunctionComponent<IMoleculePriceBoxProps> = ({ pri
             price === 0 ? 
               <Badge className="py-1 px-3 text-sm bg-success">It's Free!</Badge>
             :
-              <span className="text-3xl font-bold text-slate-900">Rp. {price.toFixed(2)}</span>
+              <span className="text-3xl font-bold text-slate-900">Rp. {price.toLocaleString()}</span>
           }
           <span className="text-xs text-slate-400">/person</span>
         </div>
@@ -55,7 +56,7 @@ const MoleculePriceBox: React.FunctionComponent<IMoleculePriceBoxProps> = ({ pri
         </div>
       </div>
       <div className="mt-5 flex flex-col gap-3">
-        <OrganismBookEventForm eventOrganizerId={eventOrganizerId} unitPrice={price} isFree={price === 0 ? true : false}/>
+        <OrganismBookEventForm eventOrganizerId={eventOrganizerId} unitPrice={price} isFree={price === 0 ? true : false} id={id}/>
       </div>
     </aside>
   )

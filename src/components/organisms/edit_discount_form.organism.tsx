@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { Textarea } from '../ui/textarea'
 import MoleculeDiscountBox from '../molecules/discount_box.molecule'
 import { deleteDiscountByIdRepo, updateDiscountByIdRepo } from '@/repositories/r_discount'
-import { loading } from '@/helpers/loading.helper'
+import { loadingHelper } from '@/helpers/loading.helper'
 
 interface IOrganismEditDiscountFormProps {
     id: string
@@ -33,7 +33,7 @@ const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFor
     const [open, setOpen] = useState(false)
     const onUpdate = async (values: DiscountFormValues) => {
         try {
-            loading('Updating discount')
+            loadingHelper('Updating discount')
             const message = await updateDiscountByIdRepo(values, id)
             setOpen(false)
             Swal.close()
@@ -68,7 +68,7 @@ const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFor
         if (!confirm.isConfirmed) return
     
         try {
-            loading('Deleting discount')
+            loadingHelper('Deleting discount')
             const message = await deleteDiscountByIdRepo(id)
     
             Swal.close()

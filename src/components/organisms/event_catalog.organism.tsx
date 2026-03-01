@@ -55,7 +55,7 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({}) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           { loading && <Skeleton style={{ height: "100px" }}/> }
           { (!loading && error) || (!loading && items?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/> }
-          { items && items.length > 0 && items.map((dt, idx) => <MoleculeEventBox event={dt}/>)}
+          { items && items.length > 0 && items.map((dt, idx) => <MoleculeEventBox key={idx} event={dt}/>)}
         </div>
       </div>
       {

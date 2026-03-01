@@ -142,7 +142,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                     <TableCell>
                                         <div className='flex gap-2'>
                                             <AtomText type='sub-content' text={<>Rp. {dt.amount.toLocaleString()}</>}/>
-                                            { role === "customer" && <Badge className='bg-green-200 text-green-700'>+{Math.floor(dt.amount / 10000)} Pts</Badge> } 
+                                            { role === "customer" && dt.amount > 0 && <Badge className='bg-green-200 text-green-700'>+{Math.floor(dt.amount / 10000)} Pts</Badge> } 
                                         </div>  
                                     </TableCell>
                                 </TableRow>

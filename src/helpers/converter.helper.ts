@@ -26,3 +26,13 @@ export const convertAgeFromBornDate = (bornDate: string | Date): number => {
   
     return age
 }
+
+export const parseApiErrorMessage = (error: any): string => {
+    const message = error?.response?.data?.message
+
+    if (!message) return "Something went wrong"
+    if (Array.isArray(message)) return message.map((err) => err.msg).join("\n")
+    if (typeof message === "string") return message
+
+    return "Something went wrong"
+}

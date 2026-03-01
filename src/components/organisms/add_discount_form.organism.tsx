@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTicket } from '@fortawesome/free-solid-svg-icons'
 import { Textarea } from '../ui/textarea'
 import { createDiscountRepo } from '@/repositories/r_discount'
-import { loading } from '@/helpers/loading.helper'
+import { loadingHelper } from '@/helpers/loading.helper'
 
 interface IOrganismAddDiscountFormProps {
     action: () => void
@@ -37,7 +37,7 @@ const OrganismAddDiscountForm: React.FunctionComponent<IOrganismAddDiscountFormP
     const [open, setOpen] = useState(false)
     const onSubmit = async (values: DiscountFormValues) => {
         try {
-            loading('Creating discount')
+            loadingHelper('Creating discount')
             const message = await createDiscountRepo(values)
             setOpen(false)
             Swal.close()
