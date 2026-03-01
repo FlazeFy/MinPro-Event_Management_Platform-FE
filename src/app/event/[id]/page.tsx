@@ -8,7 +8,7 @@ import { EventDetailItem, getEventDetailByIdRepo } from '@/repositories/r_event'
 import Skeleton from 'react-loading-skeleton';
 import MoleculeNoDataBox from '@/components/molecules/no_data_box.molecule';
 import Swal from 'sweetalert2';
-import router, { useRouter } from 'next/router';
+import router from 'next/router';
 import { useParams } from 'next/navigation';
 import MoleculePriceBox from '@/components/organisms/price_box.molecule';
 
@@ -56,13 +56,13 @@ export default function EventDetailPage() {
         <div className="min-h-screen p-5 lg:p-10">
             <div className="grid w-full grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
                 <div className="lg:col-span-9">
-                    <MoleculeAboutEvent event_pic={item.event_pic} event_category={item.event_category} event_title={item.event_title}
-                        event_organizer={item.event_organizer} event_desc={item.event_desc} id={''} is_paid={false} maximum_seat={0} event_price={0} event_schedule={[]} total_booked={0} available_seat={0}/>
+                    <MoleculeAboutEvent event_pic={item.event_pic} event_category={item.event_category} event_title={item.event_title} event_organizer={item.event_organizer} 
+                        event_desc={item.event_desc} id={''} is_paid={false} maximum_seat={0} event_price={0} event_schedule={[]} total_booked={0} available_seat={0} transactions={item.transactions}/>
                     <MoleculeEventSchedule start_date={item.event_schedule[0].start_date} end_date={item.event_schedule[0].end_date} venue={item.event_schedule[0].venue}/>
                     <OrganismCommunityReviews transactions={item.transactions}/>
                 </div>
                 <div className="flex w-full flex-col gap-4 lg:col-span-3 lg:sticky lg:top-30">                    
-                    <MoleculePriceBox price={item.event_price} availableSeats={item.available_seat} totalSeats={item.maximum_seat} />
+                    <MoleculePriceBox price={item.event_price} availableSeats={item.available_seat} totalSeats={item.maximum_seat} eventOrganizerId={item.event_organizer.id}/>
                     <OrganismsEventOrganizerShortDetail id={item.event_organizer.id} organizer_name={item.event_organizer.organizer_name} bio={item.event_organizer.bio} profile_pic={item.event_organizer.profile_pic}/>
                 </div>
             </div>

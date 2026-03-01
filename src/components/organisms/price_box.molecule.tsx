@@ -5,12 +5,13 @@ import OrganismBookEventForm from "./book_event_form.organism"
 import { Badge } from "../ui/badge"
 
 interface IMoleculePriceBoxProps {
+  eventOrganizerId: string
   price: number
   availableSeats: number
   totalSeats: number
 }
 
-const MoleculePriceBox: React.FunctionComponent<IMoleculePriceBoxProps> = ({ price, availableSeats, totalSeats}) => {
+const MoleculePriceBox: React.FunctionComponent<IMoleculePriceBoxProps> = ({ price, availableSeats, totalSeats, eventOrganizerId}) => {
   const percentage = React.useMemo(() => {
     if (!totalSeats) return 0
     const value = (availableSeats / totalSeats) * 100
@@ -54,7 +55,7 @@ const MoleculePriceBox: React.FunctionComponent<IMoleculePriceBoxProps> = ({ pri
         </div>
       </div>
       <div className="mt-5 flex flex-col gap-3">
-        <OrganismBookEventForm/>
+        <OrganismBookEventForm eventOrganizerId={eventOrganizerId} unitPrice={price} isFree={price === 0 ? true : false}/>
       </div>
     </aside>
   )

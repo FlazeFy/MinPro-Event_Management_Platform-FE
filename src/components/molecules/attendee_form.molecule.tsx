@@ -24,7 +24,7 @@ interface MoleculeAttendeeFormProps {
 
 const MoleculeAttendeeForm: React.FC<MoleculeAttendeeFormProps> = ({ index, register, errors, onDelete }) => {
     return (
-        <div className="space-y-3 rounded-xl border p-4 relative">
+        <div className="space-y-3 rounded-xl border p-4 relative mb-4">
             <Button type="button" variant="destructive" size="xs" className="absolute right-[-10px] top-[-10px] p-0" onClick={onDelete}>
                 <FontAwesomeIcon icon={faTrash}/>
             </Button>

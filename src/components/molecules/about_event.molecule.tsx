@@ -9,7 +9,23 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { EventDetailItem } from '@/repositories/r_event';
 
-const MoleculeAboutEvent: React.FC<EventDetailItem> = ({ event_pic, event_category, event_title, event_organizer, event_desc}) => {
+const MoleculeAboutEvent: React.FC<EventDetailItem> = ({ event_pic, event_category, event_title, event_organizer, event_desc, transactions }) => {
+    let reviews = 0
+    let totalRate = 0
+
+    for (const transaction of transactions ?? []) {
+        console.log(transaction)
+
+        if (!transaction.reviews?.length) continue
+
+        for (const review of transaction.reviews) {
+            reviews++
+            totalRate += review.review_rate
+        }
+    }
+
+    const rating = reviews > 0 ? Math.floor(totalRate / reviews) : 0
+
     return (
         <div className="flex flex-col gap-6 w-full">
             <div className="relative w-full h-75 md:h-100 rounded-2xl overflow-hidden">
@@ -31,10 +47,10 @@ const MoleculeAboutEvent: React.FC<EventDetailItem> = ({ event_pic, event_catego
                     </div>
                     <div className="flex items-center gap-3 bg-secondary/10 px-4 py-2 rounded-full border border-secondary/20">
                         <Star className="w-5 h-5 fill-primary text-primary" />
-                        {/* <div className="flex items-baseline gap-1">
+                        <div className="flex items-baseline gap-1">
                             <span className="text-xl font-bold text-primary">{rating}</span>
                             <span className="text-sm text-gray-500">({reviews} Reviews)</span>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </div>
