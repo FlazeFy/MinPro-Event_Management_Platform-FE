@@ -1,5 +1,5 @@
 import apiCall from "@/configs/axios"
-import { EventOrganizerData, PaginationMeta, VenueData } from "./template"
+import { EventOrganizerData, PaginationMeta, UserShortInfo, VenueData } from "./template"
 
 const MODULE_URL = "/api/v1/events"
 
@@ -103,6 +103,15 @@ export const getAllEvent = async (page: number, search: string | null): Promise<
     return { data, meta }
 }
 
+export interface ReviewItem {
+    review_body: string 
+    review_rate: number 
+    created_at: string
+}
+export interface TransactionReviewItem {
+    customer: UserShortInfo
+    reviews: ReviewItem[]
+}
 export interface EventDetailItem {
     id: string 
     event_title: string
@@ -116,6 +125,7 @@ export interface EventDetailItem {
     event_schedule: EventScheduleData[]
     total_booked: number
     available_seat: number
+    transactions: TransactionReviewItem[]
 }
 export const getEventDetailByIdRepo = async (id: string): Promise<EventDetailItem> => {
     const res = await apiCall.get(`${MODULE_URL}/detail/${id}`)

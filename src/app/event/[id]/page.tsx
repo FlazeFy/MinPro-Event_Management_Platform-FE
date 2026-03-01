@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import OrganismsEventOrganizerShortDetail from "@/components/organisms/event_organizer_short_detail.organism";
 import MoleculeAboutEvent from "@/components/molecules/about_event.molecule";
 import MoleculeEventSchedule from "@/components/molecules/event_schedule.molecule";
-import MoleculeCommunityReviews from "@/components/molecules/community_reviews.molecule";
+import OrganismCommunityReviews from "@/components/organisms/community_reviews.organism";
 import { EventDetailItem, getEventDetailByIdRepo } from '@/repositories/r_event';
 import Skeleton from 'react-loading-skeleton';
 import MoleculeNoDataBox from '@/components/molecules/no_data_box.molecule';
@@ -59,7 +59,7 @@ export default function EventDetailPage() {
                     <MoleculeAboutEvent event_pic={item.event_pic} event_category={item.event_category} event_title={item.event_title}
                         event_organizer={item.event_organizer} event_desc={item.event_desc} id={''} is_paid={false} maximum_seat={0} event_price={0} event_schedule={[]} total_booked={0} available_seat={0}/>
                     <MoleculeEventSchedule start_date={item.event_schedule[0].start_date} end_date={item.event_schedule[0].end_date} venue={item.event_schedule[0].venue}/>
-                    <MoleculeCommunityReviews/>
+                    <OrganismCommunityReviews transactions={item.transactions}/>
                 </div>
                 <div className="flex w-full flex-col gap-4 lg:col-span-3 lg:sticky lg:top-30">                    
                     <MoleculePriceBox price={item.event_price} availableSeats={item.available_seat} totalSeats={item.maximum_seat} />
