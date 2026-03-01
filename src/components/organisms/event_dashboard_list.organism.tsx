@@ -25,7 +25,6 @@ const OrganismDashboardList: React.FunctionComponent<IOrganismDashboardListProps
     const fetchTransactionDashboard = async (eventId: string) => {
         try {
             const data = await getTransactionDashboardByEventId(eventId) // for now
-            console.log(data)
             setItemDashboard(data)
         } catch (err: any) {
             setErrorDashboard(err?.response?.data?.message || "Something went wrong")

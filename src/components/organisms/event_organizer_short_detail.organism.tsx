@@ -1,20 +1,23 @@
-"use client"
 import * as React from 'react'
 import AtomText from '../atoms/text.atom'
 import { Button } from '../ui/button'
 import Link from "next/link"
 import MoleculeShortProfileBox from '../molecules/short_profile_box.molecule'
+import { EventOrganizerData } from '@/repositories/template'
+import AtomDivider from '../atoms/divider.atom'
 
-interface IOrganismsEventOrganizerShortDetailProps { }
-
-const OrganismsEventOrganizerShortDetail: React.FunctionComponent<IOrganismsEventOrganizerShortDetailProps> = (props) => {
+const OrganismsEventOrganizerShortDetail: React.FunctionComponent<EventOrganizerData> = ({ id, bio, organizer_name }) => {
     return (
-        <div className='text-center container mx-auto align-center'>
-            <AtomText type='sub-title-small' text='Organizer Details' extraClass='mb-0 text-xl' />
-            <MoleculeShortProfileBox image='' title='Nexus Events' description='Technology Event Organizer'/>
-            <div className='flex gap-2'>
+        <div className='text-start container mx-auto align-center'>
+            <AtomText type='content-title' text='About Organizer' extraClass='mb-4'/>
+            <MoleculeShortProfileBox title={organizer_name}/>
+            <AtomText text={bio} type='content' extraClass='text-sm'/>
+            <AtomDivider/>
+            <div className='flex gap-2 mt-2'>
                 <Button>Contact</Button>
-                <Button>Profile</Button>
+                <Link href={`/event_organizer/${id}`}>
+                    <Button>Profile</Button>
+                </Link>
             </div>
         </div>
     )

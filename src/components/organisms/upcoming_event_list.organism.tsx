@@ -21,6 +21,11 @@ const OrganismUpcomingEventList: React.FunctionComponent<IOrganismUpcomingEventL
             const data = await getUpcomingEventRepo()
             setItem(data)
         } catch (err: any) {
+            if (err.response?.status === 404 && err.response?.data?.message) {
+                setItem([])
+                return []
+            }
+            
             setError(err?.response?.data?.message || "Something went wrong")
         } finally {
             setLoading(false)
@@ -33,13 +38,17 @@ const OrganismUpcomingEventList: React.FunctionComponent<IOrganismUpcomingEventL
 
     if (loading) return <Skeleton style={{height:"400px"}}/>
     if (error) return <MoleculeNoDataBox title="Something went wrong" style={{height:"400px"}}/>
-    if (!item) return <MoleculeNoDataBox title={`You don't have event ${role === 'customer' ? 'to attend' : 'on held'} right now`} style={{height:"400px"}}/>
 
     return (
         <div className="bg-gray-100 p-10 rounded-2xl">
             <AtomText type='content-title' text='Upcoming Events'/>
             <div className='flex gap-2 flex-col mt-3 max-h-[50vh] overflow-y-auto'>
-                { item.map((dt, idx) => <MoleculeUpcomingEventBox item={dt} key={idx} role={role}/>) }
+                { 
+                    !loading && !error && item && item.length > 0 ?
+                        item.map((dt, idx) => <MoleculeUpcomingEventBox item={dt} key={idx} role={role}/>)
+                    :
+                        <MoleculeNoDataBox title={`You don't have event ${role === 'customer' ? 'to attend' : 'on held'} right now`} style={{height:"140px"}} color='gray'/>
+                }
             </div>
         </div>
     )

@@ -6,11 +6,12 @@ import AtomText from '../atoms/text.atom'
 interface IMoleculesNoDataBoxProps {
     title: string
     style?: any
+    color?: string
 }
 
-const MoleculeNoDataBox: React.FunctionComponent<IMoleculesNoDataBoxProps> = ({ title, style }) => {
+const MoleculeNoDataBox: React.FunctionComponent<IMoleculesNoDataBoxProps> = ({ title, style, color = 'red' }) => {
     return (    
-        <div className="bg-red-100 my-2 rounded-xl py-10 w-full mx-auto flex flex-col items-center justify-center text-center" style={style}>
+        <div className={`bg-${color}-100 my-2 rounded-xl py-10 w-full mx-auto flex flex-col items-center justify-center text-center`} style={style}>
             <AtomText type='content-title' text={<><FontAwesomeIcon icon={faTriangleExclamation}/> Oops!</>}/>
             <AtomText type='content' text={title}/>
         </div>

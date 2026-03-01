@@ -1,5 +1,5 @@
 import apiCall from "@/configs/axios"
-import {  PaginationMeta, VenueData } from "./template"
+import { EventOrganizerData, PaginationMeta, UserShortInfo, VenueData } from "./template"
 
 const MODULE_URL = "/api/v1/events"
 
@@ -50,4 +50,85 @@ export const getRecentEventRepo = async (page: number, search: string | null): P
     const res = await apiCall.get(`${MODULE_URL}/recent?page=${page}${searchArgs}`)
     
     return res.data
+}
+
+interface CustomerItem {
+    username: string 
+    email: string 
+    fullname: string
+}
+export interface EventAttendeeItem {
+    fullname: string
+    phone_number: string
+    birth_date: string
+    transaction: {
+        customer: CustomerItem
+        created_at: string
+    }
+}
+export interface EventAttendeeWithMeta {
+    data: EventAttendeeItem[]
+    meta: PaginationMeta
+}
+export const getEventAttendeeByEventId = async (page: number, eventId: string, search: string | null): Promise<EventAttendeeWithMeta> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const res = await apiCall.get(`${MODULE_URL}/attendee/${eventId}?page=${page}${searchArgs}`)
+    const { data, meta } = res.data
+
+    return { data, meta }
+}
+
+export interface EventItem {
+    id: string 
+    event_organizer: EventOrganizerData
+    event_title: string 
+    event_desc: string 
+    event_category: string
+    event_price: number
+    is_paid: boolean
+    maximum_seat: number 
+    event_pic: string 
+    created_at: string
+    event_schedule: EventScheduleData[]
+}
+export interface EventItemWithMeta {
+    data: EventItem[]
+    meta: PaginationMeta
+}
+export const getAllEvent = async (page: number, search: string | null): Promise<EventItemWithMeta> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const res = await apiCall.get(`${MODULE_URL}?page=${page}${searchArgs}`)
+    const { data, meta } = res.data
+
+    return { data, meta }
+}
+
+export interface ReviewItem {
+    review_body: string 
+    review_rate: number 
+    created_at: string
+}
+export interface TransactionReviewItem {
+    customer: UserShortInfo
+    reviews: ReviewItem[]
+}
+export interface EventDetailItem {
+    id: string 
+    event_title: string
+    event_category: string 
+    event_desc: string
+    is_paid: boolean
+    maximum_seat: number
+    event_pic: string | null 
+    event_price: number 
+    event_organizer: EventOrganizerData
+    event_schedule: EventScheduleData[]
+    total_booked: number
+    available_seat: number
+    transactions: TransactionReviewItem[]
+}
+export const getEventDetailByIdRepo = async (id: string): Promise<EventDetailItem> => {
+    const res = await apiCall.get(`${MODULE_URL}/detail/${id}`)
+
+    return res.data.data
 }

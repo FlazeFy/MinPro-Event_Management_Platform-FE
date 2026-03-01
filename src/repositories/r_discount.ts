@@ -44,3 +44,8 @@ export const getMyDiscount = async (page: number): Promise<DiscountItemWithMeta>
 
     return { data, meta }
 }
+export const getDiscountByEventOrganizerIdRepo = async (eventOrganizerId: string): Promise<DiscountItem[]> => {
+    const res = await apiCall.get(`${MODULE_URL}/${eventOrganizerId}`)
+
+    return res.data.data
+}

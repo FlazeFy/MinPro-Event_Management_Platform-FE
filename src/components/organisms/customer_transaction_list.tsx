@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -36,6 +36,11 @@ const OrganismCustomerTransactionList: React.FunctionComponent<IOrganismCustomer
             setItem(data)
             setMeta(meta)
         } catch (err: any) {
+            if (err.response?.status === 404 && err.response?.data?.message) {
+                setItem([])
+                return []
+            }
+            
             setError(err?.response?.data?.message || "Something went wrong")
         } finally {
             setLoading(false)

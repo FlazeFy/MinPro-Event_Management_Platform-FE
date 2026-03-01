@@ -5,6 +5,14 @@ export interface UserShortInfo {
     profile_pic: string
 }
 
+export interface EventOrganizerData {
+    id: string 
+    username?: string
+    organizer_name: string
+    bio: string
+    profile_pic: string
+}
+
 export interface DatasetTemplate {
     label: string
     data: number[]
@@ -18,7 +26,9 @@ export interface VenueData {
     venue_address: string
 }
 
-interface EventScheduleData {
+export interface EventScheduleData {
+    start_date: string
+    end_date: string
     venue: VenueData
 }
 export interface EventData {
