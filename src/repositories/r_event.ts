@@ -94,13 +94,20 @@ export interface EventItem {
 export interface EventItemWithMeta {
     data: EventItem[]
     meta: PaginationMeta
+    max_price: {
+        _max: {
+            event_price: number
+        }
+    }
 }
-export const getAllEvent = async (page: number, search: string | null): Promise<EventItemWithMeta> => {
+export const getAllEvent = async (page: number, search: string | null, category: string | null, price: number | null): Promise<EventItemWithMeta> => {
     const searchArgs = search ? `&search=${search}` : ''
-    const res = await apiCall.get(`${MODULE_URL}?page=${page}${searchArgs}`)
-    const { data, meta } = res.data
+    const categoryArgs = category && category !== "all" ? `&category=${category}` : ''
+    const priceArgs = price ? `&price=${price}` : ''
+    const res = await apiCall.get(`${MODULE_URL}?page=${page}${searchArgs}${categoryArgs}${priceArgs}`)
+    const { data, meta, max_price } = res.data
 
-    return { data, meta }
+    return { data, meta, max_price }
 }
 
 export interface ReviewItem {

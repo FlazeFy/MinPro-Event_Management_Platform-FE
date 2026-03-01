@@ -1,48 +1,46 @@
 "use client";
-
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import AtomText from "../atoms/text.atom";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 interface FilterCategory {
-  id: string;
-  label: string;
+  id: string
+  label: string
 }
 
 interface OrganismSearchEventFilterProps {
-  categories?: FilterCategory[];
-  minPrice?: number;
-  maxPrice?: number;
+  categories?: FilterCategory[]
+  minPrice?: number
+  maxPrice?: number
+  onApply: (filters: {
+    search: string
+    category: string
+    price: number
+  }) => void
 }
 
 const defaultCategories: FilterCategory[] = [
-  { id: "music", label: "Music & Festivals" },
-  { id: "tech", label: "Tech Conferences" },
-  { id: "workshop", label: "Workshops" },
-  { id: "art", label: "Art Exhibitions" },
-];
+  { id: "all", label: "All" },
+  { id: "live_music", label: "Live Music" },
+  { id: "concert", label: "Concert" },
+  { id: "theater", label: "Theater" },
+]
 
-const formatMoneyLabel = (value: number) => {
-  if (value <= 0) return "Free";
-  if (value >= 1000) return "$1000+";
-  return `$${value}`;
-};
-
-const OrganismSearchEventFilter: React.FC<OrganismSearchEventFilterProps> = ({
-  categories = defaultCategories,
-  minPrice = 0,
-  maxPrice = 1000,
-}) => {
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]?.id ?? "");
-  const [price, setPrice] = useState(500);
+const OrganismSearchEventFilter: React.FC<OrganismSearchEventFilterProps> = ({ categories = defaultCategories, minPrice = 0, maxPrice = 1000, onApply }) => {
+  const [search, setSearch] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]?.id ?? "")
+  const [price, setPrice] = useState(maxPrice)
 
   const sliderPercent = useMemo(() => 
     maxPrice <= minPrice ? 0 : ((price - minPrice) / (maxPrice - minPrice)) * 100,
     [maxPrice, minPrice, price]
-  );
+  )
+
+  useEffect(() => {
+    setPrice(maxPrice)
+  }, [maxPrice])
 
   return (
     <aside className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:top-6">
@@ -68,15 +66,17 @@ const OrganismSearchEventFilter: React.FC<OrganismSearchEventFilterProps> = ({
         <div>
           <AtomText type="label" text="PRICE RANGE" extraClass="mb-3 block text-xs font-bold tracking-wide text-slate-400" />
           <div className="space-y-2">
-            <input type="range" min={minPrice} max={maxPrice} value={price} onChange={(e) => setPrice(Number(e.target.value))} className="h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200" style={{ background: `linear-gradient(to right, #6366f1 ${sliderPercent}%, #e2e8f0 ${sliderPercent}%)` }} />
+            <input type="range" min={minPrice} max={maxPrice} value={price} onChange={(e) => setPrice(Number(e.target.value))} className="h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200" 
+              style={{ background: `linear-gradient(to right, #6366f1 ${sliderPercent}%, #e2e8f0 ${sliderPercent}%)` }} />
             <div className="flex items-center justify-between text-sm text-slate-400">
-              <span>{formatMoneyLabel(minPrice)}</span>
-              <span>{formatMoneyLabel(maxPrice)}</span>
+              <span>Free Event</span>
+              <span>Rp. {maxPrice.toLocaleString()}</span>
             </div>
           </div>
         </div>
         <div className="border-t border-slate-200 pt-5">
-          <Button className="h-11 w-full rounded-xl bg-indigo-500 text-base font-semibold text-white hover:bg-indigo-600">Apply Filters</Button>
+          <Button className="h-11 w-full rounded-xl bg-indigo-500 text-base font-semibold text-white hover:bg-indigo-600"
+            onClick={() => onApply({ search, category: selectedCategory, price })}>Apply Filters</Button>
         </div>
       </div>
     </aside>
