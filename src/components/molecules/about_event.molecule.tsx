@@ -8,14 +8,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { EventDetailItem } from '@/repositories/r_event';
+import { Badge } from '../ui/badge';
 
 const MoleculeAboutEvent: React.FC<EventDetailItem> = ({ event_pic, event_category, event_title, event_organizer, event_desc, transactions }) => {
     let reviews = 0
     let totalRate = 0
 
     for (const transaction of transactions ?? []) {
-        console.log(transaction)
-
         if (!transaction.reviews?.length) continue
 
         for (const review of transaction.reviews) {
@@ -40,7 +39,10 @@ const MoleculeAboutEvent: React.FC<EventDetailItem> = ({ event_pic, event_catego
                 <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent pointer-events-none" />
             </div>
             <div>
-                <AtomText type="title-huge" text={event_title} extraClass="text-3xl md:text-5xl font-bold text-primary mb-4" />
+                <div className='flex flex-wrap gap-2 justify-between items-center'>
+                    <AtomText type="title-huge" text={event_title} extraClass="text-2xl md:text-5xl font-bold text-primary mb-4"/>
+                    <Badge variant="default" className='capitalize py-2 px-4 text-sm'>{event_category.replaceAll("_", " ")}</Badge>
+                </div>
                 <div className="flex flex-col md:flex-row gap-6 md:items-center mt-4 justify-between">
                     <div className="min-w-50">
                         <MoleculeShortProfileBox title={event_organizer.organizer_name} image={event_organizer.profile_pic}/>

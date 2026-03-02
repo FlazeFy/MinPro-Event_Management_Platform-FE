@@ -1,10 +1,10 @@
 'use client'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Button } from '../ui/button'
 import Swal from 'sweetalert2'
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { Form } from "@/components/ui/form"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { useFieldArray, useForm } from 'react-hook-form'
 import AtomText from '../atoms/text.atom'
@@ -16,8 +16,14 @@ import MoleculeNoDataBox from '../molecules/no_data_box.molecule'
 import Skeleton from 'react-loading-skeleton'
 import MoleculeDiscountBox from '../molecules/discount_box.molecule'
 import { Badge } from '../ui/badge'
+import { createTransactionRepo } from '@/repositories/r_transaction'
+import { useRouter } from "next/navigation"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { parseApiErrorMessage } from '@/helpers/converter.helper'
+import { loadingHelper } from '@/helpers/loading.helper'
 
 interface IOrganismBookEventFormProps {
+    id: string
     eventOrganizerId: string
     unitPrice: number
     isFree: boolean
@@ -25,11 +31,12 @@ interface IOrganismBookEventFormProps {
 
 // Validation
 const bookEventSchema = Yup.object({
+    payment_method: Yup.string().required("Payment method is required"),
     attendees: Yup.array()
         .of(
             Yup.object({
                 fullname: Yup.string().required("Full name is required"),
-                phone: Yup.string().required("Phone is required"),
+                phone_number: Yup.string().required("Phone is required"),
                 birth_date: Yup.string().required("Birth date is required"),
             })
         )
@@ -39,15 +46,22 @@ const bookEventSchema = Yup.object({
 
 type BookEventFormValues = Yup.InferType<typeof bookEventSchema>
 
-const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps> = ({ eventOrganizerId, unitPrice, isFree }) => {
-    const form = useForm<BookEventFormValues>({ resolver: yupResolver(bookEventSchema), defaultValues: { attendees: [] }})
+const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps> = ({ eventOrganizerId, unitPrice, isFree, id }) => {
+    const form = useForm<BookEventFormValues>({ resolver: yupResolver(bookEventSchema), defaultValues: { 
+        attendees: [],
+        payment_method: isFree ? "free" : ""
+    }})
     const attendees = form.watch("attendees")
+    // For state management
+    const router = useRouter()
     // For fetching
     const [items, setItems] = useState<DiscountItem[]>()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [open, setOpen] = useState(false)
-    const [discountSelected, setDiscountSelected] = useState<DiscountItem | null>(null)
+    // For discount / points selected
+    const [selectedDiscount, setSelectedDiscount] = useState<DiscountItem | null>(null)
+    const [selectedPoints, setSelectedPoints] = useState<DiscountItem | null>(null)
 
     const fetchDiscountByEventOrganizerId = async (eventOrganizerId: string) => {
         setLoading(true)
@@ -71,16 +85,25 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
         if (isOpen) fetchDiscountByEventOrganizerId(eventOrganizerId)
     }
 
-    const handleSelectDiscount = (discount: DiscountItem) => {
-        discountSelected?.id === discount.id ? setDiscountSelected(null) : setDiscountSelected(discount)
+    const handleSelectItem = (item: DiscountItem) => {
+        if (item.percentage) selectedDiscount?.id === item.id ? setSelectedDiscount(null) : setSelectedDiscount(item)
+        if (item.point) selectedPoints?.id === item.id ? setSelectedPoints(null) : setSelectedPoints(item)
     }
 
     const totalPrice = useMemo(() => {
         const qty = attendees?.length || 0
-        const discountPercentage = discountSelected?.percentage ?? 0
-        const discountedUnitPrice = unitPrice - (unitPrice * discountPercentage) / 100
-        return qty * discountedUnitPrice
-    }, [attendees, discountSelected, unitPrice])
+        const baseTotal = qty * unitPrice
+    
+        // Apply percentage discount
+        const percentage = selectedDiscount?.percentage ?? 0
+        const afterDiscount = baseTotal - (baseTotal * percentage) / 100
+    
+        // Apply points
+        const points = selectedPoints?.point ?? 0
+        const finalTotal = afterDiscount - points
+    
+        return finalTotal > 0 ? finalTotal : 0
+    }, [attendees, selectedDiscount, selectedPoints, unitPrice])
 
     const { fields, append, remove } = useFieldArray({
         control: form.control,
@@ -89,9 +112,37 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
     
     const onSubmit = async (values: BookEventFormValues) => {
         try {
-            
+            setOpen(false)
+            loadingHelper('Creating the payment')
+            const payload = {
+                payment_method: values.payment_method,
+                attendees: values.attendees.map((dt) => ({
+                    fullname: dt.fullname,
+                    phone_number: dt.phone_number,
+                    birth_date: dt.birth_date
+                })),
+                discounts: [
+                    ...(selectedDiscount ? [{ id: selectedDiscount.id, type: "discount" as const }] : []),
+                    ...(selectedPoints ? [{ id: selectedPoints.id, type: "points" as const }] : [])
+                ],
+                event_id: id
+            }
+    
+            const res = await createTransactionRepo(payload)
+    
+            Swal.fire({
+                icon: "success",
+                title: "Done",
+                text: res,
+                confirmButtonText: "Continue explore!",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            }).then(() => {
+                // Navigate
+                router.push("/event")
+            })
         } catch (err: any) {
-            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")        
+            Swal.fire("I'm sorry", parseApiErrorMessage(err), "error")        
         }
     }
 
@@ -112,7 +163,7 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                             <div>
                                 <div className='flex flex-wrap gap-2 justify-between items-center my-5'>
                                     <AtomText text='Attendee' type='content-title'/>
-                                    <Button onClick={() => append({ fullname: "", phone: "", birth_date: "" })}>
+                                    <Button onClick={() => append({ fullname: "", phone_number: "", birth_date: "" })}>
                                         <FontAwesomeIcon icon={faPlus}/>Add Attendee
                                     </Button>
                                 </div>
@@ -133,7 +184,9 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                         { loading && <Skeleton className="h-[200px] w-full rounded-xl" /> }
                                         {
                                             !loading && !error && items && items.length > 0 ?
-                                                items.map((dt, idx) =>     <MoleculeDiscountBox key={dt.id} description={dt.description} percentage={dt.percentage} expiredAt={dt.expired_at} role="customer" action={() => handleSelectDiscount(dt)} selected={discountSelected?.id === dt.id}/>)
+                                                items.map((dt, idx) => <MoleculeDiscountBox key={dt.id} description={dt.description} percentage={dt.percentage} expiredAt={dt.expired_at} point={dt.point} 
+                                                    action={() => handleSelectItem(dt)} 
+                                                    selected={selectedDiscount?.id === dt.id || selectedPoints?.id === dt.id}/>)
                                             :
                                                 <MoleculeNoDataBox title={'No discount found'}/>
                                         }
@@ -146,17 +199,48 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                             <div className='flex flex-wrap gap-2 items-center justify-between w-full'>
                                 <div className='text-start'>
                                     {
-                                        discountSelected &&
-                                            <div className='flex flex-wrap gap-2 items-center'>
-                                                <AtomText type='label' text='Selected Discount'/>
-                                                <Badge className='bg-success py-1 px-3'>{`- ${discountSelected.percentage}%`}</Badge>
+                                        selectedDiscount && 
+                                            <div className='flex gap-2 items-center justify-between mb-2'>
+                                                <AtomText type='label' text='Discount'/>
+                                                <Badge className='bg-success py-1 px-3'>{`- ${selectedDiscount.percentage}%`}</Badge>
+                                            </div>
+                                    }
+                                    {
+                                        selectedPoints && 
+                                            <div className='flex gap-2 items-center justify-between'>
+                                                <AtomText type='label' text='Points'/>
+                                                <Badge className='bg-success py-1 px-3'>{`- Rp. ${selectedPoints.point?.toLocaleString()}`}</Badge>
                                             </div>
                                     }
                                     <AtomText type='content-title' text={`Total Price : Rp. ${totalPrice.toLocaleString()}`}/>
                                 </div>
-                                <Button type="submit" disabled={form.formState.isSubmitting}>
-                                    { form.formState.isSubmitting ? "Sending..." : "Book this Event" }
-                                </Button>
+                                <div className='flex flex-wrap gap-4 items-center'>
+                                    <div>
+                                        <AtomText text="Payment Method" type="label"/>
+                                        <Select onValueChange={(value) => form.setValue("payment_method", value)} defaultValue={form.getValues("payment_method")}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Select payment method" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {
+                                                    !isFree && 
+                                                        <>
+                                                            <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                                                            <SelectItem value="virtual_account">Virtual Account</SelectItem>
+                                                            <SelectItem value="e-payment">E-Payment</SelectItem>
+                                                        </>
+                                                }
+                                                <SelectItem value="free">Free</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        {
+                                            form.formState.errors.payment_method && <p className="text-red-500 text-sm mt-1">{form.formState.errors.payment_method.message}</p>
+                                        }
+                                    </div>
+                                    <Button type="submit" disabled={form.formState.isSubmitting}>
+                                        { form.formState.isSubmitting ? "Sending..." : "Book this Event" }
+                                    </Button>
+                                </div>
                             </div>
                         </DialogFooter>
                     </form>

@@ -62,7 +62,7 @@ export default function EventDetailPage() {
                     <OrganismCommunityReviews transactions={item.transactions}/>
                 </div>
                 <div className="flex w-full flex-col gap-4 lg:col-span-3 lg:sticky lg:top-30">                    
-                    <MoleculePriceBox price={item.event_price} availableSeats={item.available_seat} totalSeats={item.maximum_seat} eventOrganizerId={item.event_organizer.id}/>
+                    <MoleculePriceBox price={item.event_price} availableSeats={item.available_seat} totalSeats={item.maximum_seat} eventOrganizerId={item.event_organizer.id} id={item.id}/>
                     <OrganismsEventOrganizerShortDetail id={item.event_organizer.id} organizer_name={item.event_organizer.organizer_name} bio={item.event_organizer.bio} profile_pic={item.event_organizer.profile_pic}/>
                 </div>
             </div>

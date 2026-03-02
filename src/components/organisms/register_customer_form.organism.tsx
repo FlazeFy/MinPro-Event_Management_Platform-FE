@@ -90,7 +90,7 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
                 allowOutsideClick: false,
                 allowEscapeKey: false
             }).then((result) => {
-                if (result.isConfirmed) router.push("/events")
+                if (result.isConfirmed) router.push("/event")
             })
         } catch (err: any) {
             Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")

@@ -10,13 +10,12 @@ import { useForm } from 'react-hook-form'
 import { Textarea } from '../ui/textarea'
 import MoleculeDiscountBox from '../molecules/discount_box.molecule'
 import { deleteDiscountByIdRepo, updateDiscountByIdRepo } from '@/repositories/r_discount'
-import { loading } from '@/helpers/loading.helper'
+import { loadingHelper } from '@/helpers/loading.helper'
 
 interface IOrganismEditDiscountFormProps {
     id: string
     percentage: number 
     description: string
-    role: string
     action: () => void
 }
 
@@ -27,13 +26,13 @@ const discountSchema = Yup.object({
 
 type DiscountFormValues = Yup.InferType<typeof discountSchema>
 
-const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFormProps> = ({ percentage, description, role, action, id }) => {
+const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFormProps> = ({ percentage, description, action, id }) => {
     const form = useForm<DiscountFormValues>({ resolver: yupResolver(discountSchema), defaultValues: { description }})
     // State management
     const [open, setOpen] = useState(false)
     const onUpdate = async (values: DiscountFormValues) => {
         try {
-            loading('Updating discount')
+            loadingHelper('Updating discount')
             const message = await updateDiscountByIdRepo(values, id)
             setOpen(false)
             Swal.close()
@@ -68,7 +67,7 @@ const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFor
         if (!confirm.isConfirmed) return
     
         try {
-            loading('Deleting discount')
+            loadingHelper('Deleting discount')
             const message = await deleteDiscountByIdRepo(id)
     
             Swal.close()
@@ -92,7 +91,7 @@ const OrganismEditDiscountForm: React.FunctionComponent<IOrganismEditDiscountFor
         <Dialog>
             <DialogTrigger asChild>
             <div>
-                <MoleculeDiscountBox description={description} percentage={percentage} expiredAt={'10 Jun 2026'} role={role}/>
+                <MoleculeDiscountBox description={description} percentage={percentage}/>
                 </div>
             </DialogTrigger>
             <DialogContent>

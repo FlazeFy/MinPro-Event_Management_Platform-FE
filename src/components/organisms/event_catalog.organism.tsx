@@ -7,9 +7,14 @@ import { EventItem, getAllEvent } from "@/repositories/r_event";
 import Skeleton from "react-loading-skeleton";
 import MoleculeNoDataBox from "../molecules/no_data_box.molecule";
 
-interface OrganismEventCatalogProps {}
+interface OrganismEventCatalogProps {
+  setMaxPrice: React.Dispatch<React.SetStateAction<number>>
+  search: string
+  category: string
+  price: number
+}
 
-const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({}) => {
+const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({ setMaxPrice, search, category, price }) => {
   // For fetching
   const [items, setItems] = useState<EventItem[]>([])
   const [loading, setLoading] = useState(false)
@@ -17,14 +22,15 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({}) => {
   // For state management
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
-  const [search, setSearch] = useState<string>("")
 
   const fetchEvents = async (page: number) => {
     setLoading(true)
     try {
-      const { data, meta } = await getAllEvent(page, search)
+      const { data, meta, max_price } = await getAllEvent(page, search, category, price)
       setTotalPage(meta.total_page)
       setItems(prev => page=== 1 ? data : [...prev, ...data])
+
+      if (max_price) setMaxPrice(max_price._max.event_price)
     } catch (err: any) {
       if (err.response?.status === 404 && err.response?.data?.message) {
         setItems([])
@@ -42,6 +48,11 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({}) => {
   }, [])
 
   useEffect(() => {
+    setPage(1)
+    fetchEvents(1)
+  }, [search, category, price])
+
+  useEffect(() => {
     if (page === 1) return
     fetchEvents(page)
   }, [page])
@@ -55,7 +66,7 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({}) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           { loading && <Skeleton style={{ height: "100px" }}/> }
           { (!loading && error) || (!loading && items?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/> }
-          { items && items.length > 0 && items.map((dt, idx) => <MoleculeEventBox event={dt}/>)}
+          { items && items.length > 0 && items.map((dt, idx) => <MoleculeEventBox key={idx} event={dt}/>)}
         </div>
       </div>
       {
@@ -68,7 +79,7 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({}) => {
         )
       }
     </section>
-  );
-};
+  )
+}
 
-export default OrganismEventCatalog;
+export default OrganismEventCatalog

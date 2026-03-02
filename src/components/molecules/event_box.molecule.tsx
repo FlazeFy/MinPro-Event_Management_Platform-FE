@@ -28,6 +28,7 @@ const MoleculeEventBox: React.FC<MoleculeEventBoxProps> = ({ event }) => {
                 <AtomText type="content-title" text={event.event_title} extraClass="text-[28px] leading-tight font-semibold text-slate-800" />
                 <div className="flex flex-wrap gap-2">
                     <Badge><FontAwesomeIcon icon={faCalendar}/>{convertUTCToLocal(event.event_schedule[0].start_date)}</Badge>
+                    <Badge className='bg-success'>{event.event_price > 0 ? <>Rp. {event.event_price.toLocaleString()}</>:<>Free Event</>}</Badge>
                     <Badge><FontAwesomeIcon icon={faLocationDot}/>{event.event_schedule[0].venue.venue_name}</Badge>
                 </div>
                 <Link href={`/event/${event.id}`}>

@@ -10,7 +10,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 export interface AttendeeFormValues {
     attendees: {
         fullname: string
-        phone: string
+        phone_number: string
         birth_date: string
     }[]
 }
@@ -40,9 +40,9 @@ const MoleculeAttendeeForm: React.FC<MoleculeAttendeeFormProps> = ({ index, regi
                     <FormItem>
                         <FormLabel>Phone Number</FormLabel>
                         <FormControl>
-                            <Input {...register(`attendees.${index}.phone`)}/>
+                            <Input {...register(`attendees.${index}.phone_number`)}/>
                         </FormControl>
-                        <FormMessage>{errors?.attendees?.[index]?.phone?.message as string}</FormMessage>
+                        <FormMessage>{errors?.attendees?.[index]?.phone_number?.message as string}</FormMessage>
                     </FormItem>
                 </div>
                 <div className='col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6'>

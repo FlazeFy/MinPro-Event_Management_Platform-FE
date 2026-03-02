@@ -26,3 +26,22 @@ export const getAllTransaction = async (page: number, search: string | null, sta
     
     return res.data
 }
+
+export interface CreateTransactionPayload {
+    payment_method: string
+    attendees: {
+        fullname: string
+        phone_number: string
+        birth_date: string
+    }[]
+    discounts: {
+        id: string
+        type: "discount" | "points"
+    }[]
+    event_id: string
+}
+export const createTransactionRepo = async (payload: CreateTransactionPayload): Promise<string> => {
+    const res = await apiCall.post(MODULE_URL, payload)
+
+    return res.data.message
+}
