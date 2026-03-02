@@ -25,7 +25,7 @@ const MoleculeCopyBox: React.FC<MoleculeCopyBoxProps> = ({ value, context, isWit
     }
 
     return isWithGrid ? 
-        <div className="bg-blue-400 mb-3 p-4 rounded-lg flex items-center justify-between shadow-[inset_0_6px_16px_rgba(0,0,0,0.35)]">
+        <div className="bg-blue-400 py-2 px-3 w-full gap-2 rounded-lg flex items-center justify-between shadow-[inset_0_6px_16px_rgba(0,0,0,0.35)]">
             <AtomText type="content" text={value} extraClass="text-white"/>
             <Button onClick={handleCopy} className='shadow-lg'><FontAwesomeIcon icon={faCopy}/></Button>
         </div>

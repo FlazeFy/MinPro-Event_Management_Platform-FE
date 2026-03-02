@@ -50,3 +50,7 @@ export interface StatsData {
     context: string
     total: number
 }
+
+export interface FilePayload {
+    img: File | null
+}

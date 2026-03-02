@@ -1,5 +1,5 @@
 import apiCall from "@/configs/axios"
-import { EventData, PaginationMeta, UserShortInfo } from "./template"
+import { EventData, FilePayload, PaginationMeta, UserShortInfo } from "./template"
 
 const MODULE_URL = "/api/v1/transactions"
 
@@ -13,6 +13,8 @@ export interface TransactionData {
     customer: UserShortInfo
     is_discount: boolean
     status: string
+    transaction_pic: string | null
+    ticket_token: string | null
 }
 export interface AllTransactionResponse {
     data: TransactionData[]
@@ -42,6 +44,16 @@ export interface CreateTransactionPayload {
 }
 export const createTransactionRepo = async (payload: CreateTransactionPayload): Promise<string> => {
     const res = await apiCall.post(MODULE_URL, payload)
+
+    return res.data.message
+}
+
+export const postUpdateTransactionRepo = async (payload: FilePayload, id: string): Promise<string> => {
+    const formData = new FormData()
+    if (payload.img) formData.append("img", payload.img) 
+    formData.append("transaction_id", id)
+
+    const res = await apiCall.post(`${MODULE_URL}/payment-evidence`, formData)
 
     return res.data.message
 }

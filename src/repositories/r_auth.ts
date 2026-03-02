@@ -1,5 +1,5 @@
 import apiCall from "@/configs/axios"
-import { UserShortInfo } from "./template"
+import { FilePayload, UserShortInfo } from "./template"
 
 const MODULE_URL = "/api/v1/auths"
 
@@ -51,10 +51,7 @@ export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Pr
     return res.data
 }
 
-export interface PostUpdateProfileImagePayload {
-    img: File | null
-}
-export const postUpdateProfileImageRepo = async (payload: PostUpdateProfileImagePayload): Promise<string> => {
+export const postUpdateProfileImageRepo = async (payload: FilePayload): Promise<string> => {
     const formData = new FormData()
     if (payload.img) formData.append("img", payload.img) 
 

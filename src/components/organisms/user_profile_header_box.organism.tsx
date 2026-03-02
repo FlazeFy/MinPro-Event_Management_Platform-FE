@@ -9,9 +9,10 @@ import { convertAgeFromBornDate, convertUTCToLocal } from '@/helpers/converter.h
 import useAuthStore from '@/store/s_auth'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import { MyProfileResponse, PostUpdateProfileImagePayload, postUpdateProfileImageRepo } from '@/repositories/r_auth'
+import { MyProfileResponse, postUpdateProfileImageRepo } from '@/repositories/r_auth'
 import OrganismUpdateProfileForm from './update_profile_form.organism'
 import OrganismEditImagePickerPicker from './edit_image_picker.organism'
+import { FilePayload } from '@/repositories/template'
 
 interface IOrganismUserProfileHeaderBoxProps {
     user: MyProfileResponse
@@ -59,7 +60,7 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
         router.push('/')
     }
 
-    const handleUpdateProfileImage = async (values: PostUpdateProfileImagePayload) => {
+    const handleUpdateProfileImage = async (values: FilePayload) => {
         try {
             Swal.fire({
                 title: "Changing your profile image...",
@@ -84,7 +85,7 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
                     <div className="relative">
                         <OrganismEditImagePickerPicker maxSize={10} profilePic={user.profile_pic}
                             onFileSelect={(file) => {
-                                const payload: PostUpdateProfileImagePayload = { img: file }
+                                const payload: FilePayload = { img: file }
                                 handleUpdateProfileImage(payload)
                             }}
                         />
