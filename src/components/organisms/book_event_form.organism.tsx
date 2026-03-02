@@ -188,7 +188,7 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                                     action={() => handleSelectItem(dt)} 
                                                     selected={selectedDiscount?.id === dt.id || selectedPoints?.id === dt.id}/>)
                                             :
-                                                <MoleculeNoDataBox title={'No discount found'}/>
+                                                <MoleculeNoDataBox title={'No discount found'} color='gray'/>
                                         }
                                     </div>
                                 : 

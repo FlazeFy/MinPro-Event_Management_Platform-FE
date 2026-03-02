@@ -31,7 +31,7 @@ const OrganismUpdateProfileForm: React.FC<IOrganismUpdateProfileFormProps> = ({ 
                 </DialogHeader>
                 {
                     isOrganizer ? 
-                        <OrganismEventOrganizerProfileForm user={user} fetchMyProfile={fetchMyProfile} onLoginStore={onLoginStore} setOpen={setOpen}/>
+                        <OrganismEventOrganizerProfileForm user={user} fetchMyProfile={fetchMyProfile} onLoginStore={onLoginStore} setOpen={setOpen} socialMedia={user.social_medias}/>
                     : 
                         <OrganismCustomerProfileForm user={user} fetchMyProfile={fetchMyProfile} onLoginStore={onLoginStore} setOpen={setOpen}/>
                 

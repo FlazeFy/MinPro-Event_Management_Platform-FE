@@ -104,7 +104,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                         (!loading && error) || (!loading && item?.data.length === 0) && (
                             <TableRow>
                                 <TableCell colSpan={6}>
-                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/>
+                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/>
                                 </TableCell>
                             </TableRow>
                         )

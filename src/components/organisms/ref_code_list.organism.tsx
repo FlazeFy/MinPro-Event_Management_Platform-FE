@@ -22,7 +22,7 @@ const OrganismRefCodeList: React.FunctionComponent<IOrganismRefCodeListProps> = 
                         profileImage={dt.customer_user.profile_pic ?? '/images/user.png'} withPoint={false}/>
                     ))
                 :
-                    <MoleculeNoDataBox title="Your referral code hasn't been used yet"/>
+                    <MoleculeNoDataBox title="Your referral code hasn't been used yet" color='gray'/>
             }
         </div>
     )

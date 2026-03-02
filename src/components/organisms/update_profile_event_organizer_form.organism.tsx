@@ -6,10 +6,11 @@ import Swal from "sweetalert2"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { MyProfileResponse, putUpdateProfileRepo } from "@/repositories/r_auth"
+import { MyProfileResponse, putUpdateProfileRepo, SocialMedia } from "@/repositories/r_auth"
 
 interface Props {
     user: MyProfileResponse
+    socialMedia: SocialMedia[]
     fetchMyProfile: () => void
     onLoginStore: (data: { email: string; name: string }) => void
     setOpen: (val: boolean) => void
@@ -24,13 +25,21 @@ const schema = Yup.object({
     username: Yup.string().required().min(6).max(36),
     phone_number: Yup.string().required().max(16),
     organizer_name: Yup.string().required().max(125),
-    address: Yup.string().nullable().required().max(255),
-    bio: Yup.string().nullable().required().max(500),
+    address: Yup.string().nullable().max(255),
+    bio: Yup.string().required().max(500),
+    instagram: Yup.string().nullable().max(500),
+    tiktok: Yup.string().nullable().max(500),
+    facebook: Yup.string().nullable().max(500),
 })
 
 type FormValues = Yup.InferType<typeof schema>
 
-const OrganismEventOrganizerProfileForm: React.FC<Props> = ({ user, fetchMyProfile, onLoginStore, setOpen }) => {
+const OrganismEventOrganizerProfileForm: React.FC<Props> = ({ user, socialMedia, fetchMyProfile, onLoginStore, setOpen }) => {
+    const socialMediaMap = user.social_medias?.reduce((dt, item) => {
+        dt[item.social_media_platform.toLowerCase()] = item.social_media_url
+        return dt
+    }, {} as Record<string, string>) || {}
+
     const form = useForm<FormValues>({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -40,6 +49,9 @@ const OrganismEventOrganizerProfileForm: React.FC<Props> = ({ user, fetchMyProfi
             organizer_name: user.organizer_name,
             address: user.address ?? "",
             bio: user.bio ?? "",
+            instagram: socialMediaMap['instagram'] ?? "",
+            facebook: socialMediaMap['facebook'] ?? "",
+            tiktok: socialMediaMap['tiktok'] ?? "",
         },
     })
 
@@ -113,6 +125,30 @@ const OrganismEventOrganizerProfileForm: React.FC<Props> = ({ user, fetchMyProfi
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Phone Number</FormLabel>
+                                <FormControl><Input {...field}/></FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        )}/>
+                    <FormField control={form.control} name="instagram"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Instagram (Url)</FormLabel>
+                                <FormControl><Input {...field}/></FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        )}/>
+                    <FormField control={form.control} name="facebook"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Facebook (Url)</FormLabel>
+                                <FormControl><Input {...field}/></FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        )}/>
+                    <FormField control={form.control} name="tiktok"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Tiktok (Url)</FormLabel>
                                 <FormControl><Input {...field}/></FormControl>
                                 <FormMessage/>
                             </FormItem>

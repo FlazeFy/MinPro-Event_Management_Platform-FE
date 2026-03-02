@@ -78,7 +78,7 @@ const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitor
                         (!loading && error) || (!loading && item?.length === 0) && (
                             <TableRow>
                                 <TableCell colSpan={6}>
-                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/>
+                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/>
                                 </TableCell>
                             </TableRow>
                         )

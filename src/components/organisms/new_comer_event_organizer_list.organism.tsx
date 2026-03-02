@@ -33,7 +33,7 @@ const OrganismNewComerEventOrganizerList: React.FunctionComponent<IOrganismNewCo
 
     if (loading) return <Skeleton style={{height:"400px"}}/>
     if (error) return <MoleculeNoDataBox title="Something went wrong" style={{height:"400px"}}/>
-    if (!item) return <MoleculeNoDataBox title={`There's no new event organizer for past 30 days`} style={{height:"400px"}}/>
+    if (!item) return <MoleculeNoDataBox title={`There's no new event organizer for past 30 days`} style={{height:"400px"}} color='gray'/>
 
     return (
         <>

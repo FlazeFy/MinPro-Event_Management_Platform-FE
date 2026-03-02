@@ -60,7 +60,7 @@ const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListPro
                                 <OrganismEditDiscountForm key={idx} percentage={dt.percentage ?? 0} description={dt.description} id={dt.id} action={fetchMyDiscount}/>
                         ))
                     :
-                        <MoleculeNoDataBox title={'Discount not found'}/>
+                        <MoleculeNoDataBox title={'Discount not found'} color='gray'/>
                 }
             </div>
         </div>

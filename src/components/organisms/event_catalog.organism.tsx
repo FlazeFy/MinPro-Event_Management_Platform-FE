@@ -65,7 +65,7 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({ setMaxPrice
       <div className="mt-6 overflow-hidden pb-5">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           { loading && <Skeleton style={{ height: "100px" }}/> }
-          { (!loading && error) || (!loading && items?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/> }
+          { (!loading && error) || (!loading && items?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/> }
           { items && items.length > 0 && items.map((dt, idx) => <MoleculeEventBox key={idx} event={dt}/>)}
         </div>
       </div>

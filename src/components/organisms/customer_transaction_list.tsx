@@ -69,7 +69,7 @@ const OrganismCustomerTransactionList: React.FunctionComponent<IOrganismCustomer
                     <Input type="text" placeholder="Search by event title" value={search} onChange={(e) => setSearch(e.target.value)} onBlur={handleSearch}/>
                     <AtomDivider/>
                     { loading && <Skeleton style={{ height: "100px" }}/> }
-                    { (!loading && error) || (!loading && item?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/> }
+                    { (!loading && error) || (!loading && item?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/> }
                     {
                         !loading && !error && item?.map((dt, idx) => (
                             <MoleculeTransactionBox key={idx} title={`Rp. ${dt.amount.toLocaleString()}`} desc={
