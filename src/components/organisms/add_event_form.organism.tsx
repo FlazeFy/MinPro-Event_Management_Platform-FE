@@ -1,0 +1,200 @@
+"use client"
+import React, { useState } from 'react'
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as Yup from "yup"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { useRouter } from "next/navigation"
+import Swal from "sweetalert2"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane, faTicket, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { Textarea } from '../ui/textarea'
+import { Checkbox } from "@/components/ui/checkbox"
+
+// Validation
+const addEventSchema = Yup.object({
+    event_title: Yup.string().required("Event title is required").max(144),
+    event_desc: Yup.string().required("Event description is required").max(500),
+    event_category: Yup.mixed().oneOf(["concert","live_music","theater"]).required("Event category is required"),
+    is_paid: Yup.boolean().required(),
+    event_price: Yup.number().default(0).transform((value, originalValue) => Number(originalValue)).min(0).when("is_paid", { is: true, then: (schema) => schema.required("Event price is required") }),
+    maximum_seat: Yup.number().default(0).transform((value, originalValue) => Number(originalValue)).min(1, "Maximum seat must be at least 1").required(),
+    // venue_id: Yup.string().required("Venue is required"),
+    start_date: Yup.date().required("Start date is required"),
+    end_date: Yup.date().min(Yup.ref("start_date"), "End date must be after start date").required("End date is required"),
+    description: Yup.string().max(144).nullable().defined()
+})
+
+type AddEventFormValues = Yup.InferType<typeof addEventSchema>
+
+interface IOrganismAddEventFormProps {}
+
+const OrganismAddEventForm: React.FunctionComponent<IOrganismAddEventFormProps> = (props) => {
+    // For state management
+    const router = useRouter()
+    const [isPaidEvent, setIsPaidEvent] = useState(false)
+
+    // Set default date
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1) 
+    const defaultStart = new Date(tomorrow)
+    defaultStart.setHours(10, 0, 0, 0) 
+    const defaultEnd = new Date(defaultStart)
+    defaultEnd.setHours(defaultStart.getHours() + 3) 
+
+    const form = useForm<AddEventFormValues>({
+        resolver: yupResolver(addEventSchema),
+        defaultValues: {
+            event_title: "",
+            event_desc: "",
+            event_category: "concert",
+            is_paid: false,
+            event_price: 0,
+            maximum_seat: 100,
+            // venue_id: "",
+            start_date: defaultStart,
+            end_date: defaultEnd,
+            description: ""
+        }
+    })
+
+    const onSubmit = async (values: AddEventFormValues) => {
+        try {
+           
+        } catch (err: any) {
+            Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
+        }
+    }
+    
+    return (
+        <div className='w-full border border-gray-200 p-5 lg:p-10 rounded-xl'>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <FormField control={form.control} name="event_title" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Event Title</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter event title" {...field} />
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.event_title?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                    <FormField control={form.control} name="event_desc" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Event Description</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="Describe your event" {...field} />
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.event_desc?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                    <FormField control={form.control} name="event_category" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Event Category</FormLabel>
+                            <FormControl>
+                                <Select onValueChange={field.onChange}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select category" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="concert">Concert</SelectItem>
+                                        <SelectItem value="live_music">Live Music</SelectItem>
+                                        <SelectItem value="theater">Theater</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.event_category?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                    <FormField control={form.control} name="maximum_seat" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Maximum Seats</FormLabel>
+                            <FormControl>
+                                <Input type="number" min={1} onChange={e => field.onChange(Number(e.target.value))} value={field.value ?? 0} />
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.maximum_seat?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+                        <FormField control={form.control} name="is_paid" render={({ field }) => (
+                            <FormItem className="flex items-center justify-between p-4 border rounded-2xl bg-[#f9f6f2]">
+                                <FormLabel className="flex items-center gap-2 m-0">
+                                    <FontAwesomeIcon icon={faTicket} />
+                                    <span>Is this a paid event?</span>
+                                </FormLabel>
+                                <FormControl>
+                                    <Checkbox 
+                                        checked={field.value} 
+                                        onCheckedChange={(checked) => {
+                                            field.onChange(checked === true) 
+                                            setIsPaidEvent(checked === true)
+                                        }} 
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}/>
+                        <FormField control={form.control} name="event_price" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Event Price</FormLabel>
+                                <FormControl>
+                                    <Input type="number" min={0} disabled={!isPaidEvent} onChange={e => field.onChange(Number(e.target.value))} value={field.value ?? 0}/>
+                                </FormControl>
+                                <FormMessage>{form.formState.errors.event_price?.message}</FormMessage>
+                            </FormItem>
+                        )}/>
+                    </div>
+                    {/* <FormField control={form.control} name="venue_id" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Venue</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Venue ID or name" {...field} />
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.venue_id?.message}</FormMessage>
+                        </FormItem>
+                    )}/> */}
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                        <FormField control={form.control} name="start_date" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Start Date & Time</FormLabel>
+                                <FormControl>
+                                    <Input type="datetime-local"
+                                        value={field.value ? field.value.toISOString().slice(0, 16) : ""}
+                                        onChange={e => field.onChange(new Date(e.target.value))}/>
+                                </FormControl>
+                                <FormMessage>{form.formState.errors.start_date?.message}</FormMessage>
+                            </FormItem>
+                        )}/>
+                        <FormField control={form.control} name="end_date" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>End Date & Time</FormLabel>
+                                <FormControl>
+                                    <Input type="datetime-local" 
+                                        value={field.value ? field.value.toISOString().slice(0, 16) : ""}
+                                        onChange={e => field.onChange(new Date(e.target.value))}/>
+                                </FormControl>
+                                <FormMessage>{form.formState.errors.end_date?.message}</FormMessage>
+                            </FormItem>
+                        )}/>
+                    </div>
+                    <FormField control={form.control} name="description" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Schedule Description</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="Optional schedule description" {...field} value={field.value ?? ""}/>
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.description?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                    <Button type="submit" className='w-full'>
+                        <FontAwesomeIcon icon={faPaperPlane}/> Publish Event
+                    </Button>
+                </form>
+            </Form>
+        </div>
+    )
+}
+
+export default OrganismAddEventForm;

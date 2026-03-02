@@ -223,14 +223,15 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {
-                                                    !isFree && 
+                                                    !isFree ?
                                                         <>
                                                             <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
                                                             <SelectItem value="virtual_account">Virtual Account</SelectItem>
                                                             <SelectItem value="e-payment">E-Payment</SelectItem>
                                                         </>
+                                                    :
+                                                        <SelectItem value="free">Free</SelectItem>
                                                 }
-                                                <SelectItem value="free">Free</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         {

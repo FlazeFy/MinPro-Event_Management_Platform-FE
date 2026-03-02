@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import router from 'next/router';
 import { useParams } from 'next/navigation';
 import MoleculePriceBox from '@/components/organisms/price_box.molecule';
+import useAuthStore from '@/store/s_auth';
 
 export default function EventDetailPage() {
     // For repo fetching
@@ -19,6 +20,7 @@ export default function EventDetailPage() {
     const [error, setError] = useState<string | null>(null)
     const params = useParams()
     const id = params?.id as string
+    const { role } = useAuthStore()
 
     const fetchEventDetailById = async (id: string) => {
         try {
@@ -61,8 +63,8 @@ export default function EventDetailPage() {
                     <MoleculeEventSchedule start_date={item.event_schedule[0].start_date} end_date={item.event_schedule[0].end_date} venue={item.event_schedule[0].venue}/>
                     <OrganismCommunityReviews transactions={item.transactions}/>
                 </div>
-                <div className="flex w-full flex-col gap-4 lg:col-span-3 lg:sticky lg:top-30">                    
-                    <MoleculePriceBox price={item.event_price} availableSeats={item.available_seat} totalSeats={item.maximum_seat} eventOrganizerId={item.event_organizer.id} id={item.id}/>
+                <div className="flex w-full flex-col gap-4 lg:col-span-3 lg:sticky lg:top-30">
+                    { role === "customer" && <MoleculePriceBox price={item.event_price} availableSeats={item.available_seat} totalSeats={item.maximum_seat} eventOrganizerId={item.event_organizer.id} id={item.id}/> }                    
                     <OrganismsEventOrganizerShortDetail id={item.event_organizer.id} organizer_name={item.event_organizer.organizer_name} bio={item.event_organizer.bio} profile_pic={item.event_organizer.profile_pic}/>
                 </div>
             </div>

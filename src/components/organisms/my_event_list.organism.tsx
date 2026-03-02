@@ -5,6 +5,10 @@ import Skeleton from 'react-loading-skeleton';
 import { getMyEventRepo, MyEventData } from '@/repositories/r_event';
 import MoleculeEventBox from '../molecules/event_box.molecule';
 import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 interface IOrganismMyEventListProps {}
 
@@ -48,9 +52,14 @@ const OrganismMyEventList: React.FunctionComponent<IOrganismMyEventListProps> = 
                 <AtomText type='sub-title-small' text='My Event '/>
                 <div>
                     <AtomText type='content' text='Search transaction'/>
-                    <Input type="text" placeholder="Search by event title or venue name" style={{minWidth:"340px"}}
-                        value={search} onChange={(e) => setSearch(e.target.value)} onBlur={handleSearch}
-                    />
+                    <div className='flex items-center gap-2'>
+                        <Input type="text" placeholder="Search by event title or venue name" style={{minWidth:"340px"}}
+                            value={search} onChange={(e) => setSearch(e.target.value)} onBlur={handleSearch}
+                        />
+                        <Link href={'/event/create'}>
+                            <Button className='py-0 text-sm'><FontAwesomeIcon icon={faCalendar}/>Add Event</Button> 
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div className={!loading && !error && items && items.length > 0 ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3" : ""}>
