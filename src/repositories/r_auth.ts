@@ -134,10 +134,13 @@ export interface UpdateProfilePayload {
     username: string,
     organizer_name: string | null | undefined,
     address: string | null | undefined,
-    bio: string | null | undefined,
+    bio: string,
     phone_number: string
     fullname: string | null | undefined
     birth_date: string | null | undefined
+    instagram: string | null | undefined
+    tiktok: string | null | undefined
+    facebook: string | null | undefined
 }
 export const putUpdateProfileRepo = async (payload: any): Promise<string> => {
     const res = await apiCall.put(`${MODULE_URL}/profile`, payload)

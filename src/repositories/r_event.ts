@@ -139,3 +139,27 @@ export const getEventDetailByIdRepo = async (id: string): Promise<EventDetailIte
 
     return res.data.data
 }
+
+export interface MyEventData {
+    id: string
+    event_title: string
+    event_desc: string
+    event_category: string
+    event_price: number
+    is_paid: boolean
+    maximum_seat: number
+    created_at: string
+    event_schedule: EventScheduleData[]
+    total_booked: number
+    event_pic: string | null
+}
+export interface MyEventResponse {
+    data: MyEventData[]
+    meta: PaginationMeta
+}
+export const getMyEventRepo = async (page: number, search: string | null): Promise<MyEventResponse> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const res = await apiCall.get(`${MODULE_URL}/my?page=${page}${searchArgs}`)
+    
+    return res.data
+}

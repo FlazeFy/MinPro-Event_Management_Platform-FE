@@ -1,5 +1,6 @@
 'use client'
 import OrganismMyDiscountList from "@/components/organisms/my_discount_list.organism";
+import OrganismMyEventList from "@/components/organisms/my_event_list.organism";
 import OrganismPointRefCodeBox from "@/components/organisms/point_ref_code_box.organism";
 import OrganismRecentTransactionList from "@/components/organisms/recent_transaction_list.organism";
 import OrganismRefCodeList from "@/components/organisms/ref_code_list.organism";
@@ -49,12 +50,7 @@ export default function ProfilePage() {
                         <div className="flex flex-wrap mt-5">
                             <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
                                 <OrganismMyDiscountList role={role} refreshKey={refreshDiscount}/>
-                                {
-                                    role === "customer" ? 
-                                        <OrganismRecentTransactionList role={role}/>
-                                    : 
-                                        <></>
-                                }
+                                { role === "customer" ? <OrganismRecentTransactionList role={role}/> : <OrganismMyEventList/> }
                             </div>
                             <div className="w-full md:w-4/12 lg:w-3/12">
                                 <OrganismUserProfileContactBox fullname={role === "customer" ? profileItem.fullname : profileItem.organizer_name} email={profileItem.email} phone_number={profileItem.phone_number} 

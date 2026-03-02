@@ -12,9 +12,10 @@ interface OrganismEventCatalogProps {
   search: string
   category: string
   price: number
+  role: string
 }
 
-const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({ setMaxPrice, search, category, price }) => {
+const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({ setMaxPrice, search, category, price, role }) => {
   // For fetching
   const [items, setItems] = useState<EventItem[]>([])
   const [loading, setLoading] = useState(false)
@@ -66,7 +67,7 @@ const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({ setMaxPrice
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           { loading && <Skeleton style={{ height: "100px" }}/> }
           { (!loading && error) || (!loading && items?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/> }
-          { items && items.length > 0 && items.map((dt, idx) => <MoleculeEventBox key={idx} event={dt}/>)}
+          { items && items.length > 0 && items.map((dt, idx) => <MoleculeEventBox key={idx} event={dt} role={role}/>)}
         </div>
       </div>
       {
