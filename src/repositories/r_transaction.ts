@@ -34,7 +34,10 @@ export interface CreateTransactionPayload {
         phone_number: string
         birth_date: string
     }[]
-    discount_id: string | null
+    discounts: {
+        id: string
+        type: "discount" | "points"
+    }[]
     event_id: string
 }
 export const createTransactionRepo = async (payload: CreateTransactionPayload): Promise<string> => {
