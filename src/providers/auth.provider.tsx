@@ -20,7 +20,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         onLoginStore({
           name: res.name,
           email: res.email,
-          role: res.role as any,
+          role: res.role,
         })
       } catch {
         onLogOutStore()

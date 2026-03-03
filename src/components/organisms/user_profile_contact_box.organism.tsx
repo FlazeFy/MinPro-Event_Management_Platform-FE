@@ -9,13 +9,14 @@ import { Button } from '../ui/button';
 import { SocialMedia } from '@/repositories/r_auth';
 import Link from 'next/link';
 import MoleculeNoDataBox from '../molecules/no_data_box.molecule';
+import { Role } from '@/store/s_auth';
 
 interface IOrganismUserProfileContactBoxProps {
     fullname: string 
     email: string 
     phone_number: string
     address: string | null
-    role: string
+    role: Role
     social_media: SocialMedia[]
 }
 

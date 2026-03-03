@@ -17,6 +17,8 @@ import AtomText from '../atoms/text.atom'
 import Link from 'next/link'
 import AtomDivider from '../atoms/divider.atom'
 import OrganismEventImagePicker from './event_image_picker.organism'
+import { loadingHelper } from '@/helpers/loading.helper'
+import { postCreateEventRepo } from '@/repositories/r_event'
 
 // Validation
 const addEventSchema = Yup.object({
@@ -28,10 +30,12 @@ const addEventSchema = Yup.object({
     maximum_seat: Yup.number().default(0).transform((value, originalValue) => Number(originalValue)).min(1, "Maximum seat must be at least 1").required(),
     start_date: Yup.date().required("Start date is required"),
     end_date: Yup.date().min(Yup.ref("start_date"), "End date must be after start date").required("End date is required"),
-    description: Yup.string().max(144).nullable().defined()
+    description: Yup.string().max(144).nullable().defined(),
 })
 
-type AddEventFormValues = Yup.InferType<typeof addEventSchema>
+type AddEventFormValues = Yup.InferType<typeof addEventSchema> & {
+    img?: File | null
+}
 
 interface IOrganismAddEventFormProps {
     selectedVenue: string | null
@@ -61,13 +65,33 @@ const OrganismAddEventForm: React.FunctionComponent<IOrganismAddEventFormProps> 
             maximum_seat: 100,
             start_date: defaultStart,
             end_date: defaultEnd,
-            description: ""
+            description: "",
         }
     })
 
     const onSubmit = async (values: AddEventFormValues) => {
         try {
-           
+            loadingHelper("Creating event")
+            const payload = {
+                ...values,
+                venue_id: selectedVenue!,
+                start_date: values.start_date.toISOString(),
+                end_date: values.end_date.toISOString(),
+                img: values.img ?? null
+            }
+
+            const { message, data } = await postCreateEventRepo(payload)
+
+            await Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: message,
+                confirmButtonText: "See created event",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                if (result.isConfirmed) router.push(`/event/${data.id}`)
+            })
         } catch (err: any) {
             Swal.fire("I'm sorry", err.response?.data?.message ?? "Something went wrong", "error")
         }
@@ -81,7 +105,11 @@ const OrganismAddEventForm: React.FunctionComponent<IOrganismAddEventFormProps> 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <AtomText type='content-title' text='Add Event' extraClass='mb-2'/>
-                    <OrganismEventImagePicker/>
+                    <FormField
+                        control={form.control} name="img" render={({ field }) => (
+                            <OrganismEventImagePicker label="Event Image" maxSize={10} value={field.value} onFileSelect={field.onChange}/>
+                        )}
+                    />
                     <AtomDivider/>
                     <FormField control={form.control} name="event_title" render={({ field }) => (
                         <FormItem>

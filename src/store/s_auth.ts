@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-type Role = "customer" | "event_organizer" | null
+export type Role = "customer" | "event_organizer" | null
 
 interface IAuthStore {
     name: string | null

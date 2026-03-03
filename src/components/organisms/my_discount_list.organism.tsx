@@ -6,9 +6,10 @@ import OrganismEditDiscountForm from './edit_discount_form.organism';
 import { DiscountItem, getMyDiscount } from '@/repositories/r_discount';
 import MoleculeNoDataBox from '../molecules/no_data_box.molecule';
 import Skeleton from 'react-loading-skeleton';
+import { Role } from '@/store/s_auth';
 
 interface IOrganismMyDiscountListProps {
-    role: string
+    role: Role
     refreshKey: number
 }
 

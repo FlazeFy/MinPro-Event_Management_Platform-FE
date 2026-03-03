@@ -9,11 +9,12 @@ import { Badge } from '../ui/badge'
 import Image from 'next/image'
 import { convertUTCToLocal } from '@/helpers/converter.helper'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { Role } from '@/store/s_auth'
 
 interface MoleculeEventBoxProps {
     event: EventItem | MyEventData
     isMyEventOnly?: boolean
-    role: string
+    role: Role
 }
 
 const MoleculeEventBox: React.FC<MoleculeEventBoxProps> = ({ event, isMyEventOnly = false, role }) => {

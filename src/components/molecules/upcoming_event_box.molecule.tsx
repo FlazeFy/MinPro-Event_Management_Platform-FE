@@ -7,10 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faClock, faCoins, faExpand, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { UpcomingEventItem } from '@/repositories/r_event';
 import Link from 'next/link';
+import { Role } from '@/store/s_auth';
 
 interface IMoleculeUpcomingEventBoxProps {
     item: UpcomingEventItem
-    role: string
+    role: Role
 }
 
 const MoleculeUpcomingEventBox: React.FunctionComponent<IMoleculeUpcomingEventBoxProps> = ({ item, role }) => {

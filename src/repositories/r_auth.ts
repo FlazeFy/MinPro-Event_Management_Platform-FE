@@ -1,5 +1,6 @@
 import apiCall from "@/configs/axios"
 import { FilePayload, UserShortInfo } from "./template"
+import { Role } from "@/store/s_auth"
 
 const MODULE_URL = "/api/v1/auths"
 
@@ -10,7 +11,7 @@ export interface LoginPayload {
 export interface LoginResponsePayload {
     name: string
     email: string
-    role: string
+    role: Role
     token: string
 }
 export const loginRepo = async (payload: LoginPayload): Promise<LoginResponsePayload> => {

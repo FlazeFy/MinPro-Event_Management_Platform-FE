@@ -17,9 +17,10 @@ import OrganismCustomerTransactionList from './customer_transaction_list'
 import { Button } from '../ui/button'
 import OrganismAddTransactionReceiptForm from './add_transaction_receipt_form.organism'
 import Link from 'next/link'
+import { Role } from '@/store/s_auth'
 
 interface IOrganismRecentTransactionListProps {
-    role: string
+    role: Role
     action?: () => void
 }
 

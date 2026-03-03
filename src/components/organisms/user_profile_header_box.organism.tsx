@@ -13,6 +13,7 @@ import { MyProfileResponse, postUpdateProfileImageRepo } from '@/repositories/r_
 import OrganismUpdateProfileForm from './update_profile_form.organism'
 import OrganismEditImagePickerPicker from './edit_image_picker.organism'
 import { FilePayload } from '@/repositories/template'
+import { loadingHelper } from '@/helpers/loading.helper'
 
 interface IOrganismUserProfileHeaderBoxProps {
     user: MyProfileResponse
@@ -62,13 +63,7 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
 
     const handleUpdateProfileImage = async (values: FilePayload) => {
         try {
-            Swal.fire({
-                title: "Changing your profile image...",
-                text: "Please wait a moment",
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            })
-
+            loadingHelper("Changing your profile image")
             const payload = { img: values.img ?? null }
             const message = await postUpdateProfileImageRepo(payload)
             fetchMyProfile()
@@ -95,7 +90,7 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
                         { user.role === "customer" && user.birth_date && <AtomText type='sub-content' text={`${convertUTCToLocal(user.birth_date, false, false)} | ${convertAgeFromBornDate(user.birth_date)} y.o`}/> }
                         { user.role === "event_organizer" && user.bio && <AtomText type='sub-content' text={user.bio}/> }
                         <div className="flex gap-3 mt-3">
-                            <Badge className="px-3 py-1 bg-blue-100 text-blue-600 capitalize">{user.role.replace("_"," ")}</Badge>
+                            <Badge className="px-3 py-1 bg-blue-100 text-blue-600 capitalize">{user.role!.replace("_"," ")}</Badge>
                             <Badge className="px-3 py-1 bg-orange-100 text-orange-500 font-medium capitalize">Supporter</Badge>
                         </div>
                     </div>

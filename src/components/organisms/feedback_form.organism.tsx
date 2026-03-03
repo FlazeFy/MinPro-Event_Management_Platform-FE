@@ -10,6 +10,7 @@ import Swal from "sweetalert2"
 import * as Yup from "yup"
 import AtomStarInput from '../atoms/star_input.atom';
 import { createFeedbackRepo } from '@/repositories/r_feedback';
+import { loadingHelper } from '@/helpers/loading.helper';
 
 // Validation
 const feedbackSchema = Yup.object({
@@ -26,12 +27,7 @@ const OrganismFeedbackBox: React.FunctionComponent<IOrganismFeedbackBoxProps> = 
 
     const onSubmit = async (values: FeedbackFormValues) => {
         try {
-            Swal.fire({
-                title: "Sending feedback...",
-                text: "Please wait a moment",
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            })
+            loadingHelper("Sending feedback")
 
             // Call repository for send feedback
             const res = await createFeedbackRepo({

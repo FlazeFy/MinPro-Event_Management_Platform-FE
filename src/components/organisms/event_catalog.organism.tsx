@@ -6,13 +6,14 @@ import MoleculeEventBox from "../molecules/event_box.molecule";
 import { EventItem, getAllEvent } from "@/repositories/r_event";
 import Skeleton from "react-loading-skeleton";
 import MoleculeNoDataBox from "../molecules/no_data_box.molecule";
+import { Role } from "@/store/s_auth";
 
 interface OrganismEventCatalogProps {
   setMaxPrice: React.Dispatch<React.SetStateAction<number>>
   search: string
   category: string
   price: number
-  role: string
+  role: Role
 }
 
 const OrganismEventCatalog: React.FC<OrganismEventCatalogProps> = ({ setMaxPrice, search, category, price, role }) => {

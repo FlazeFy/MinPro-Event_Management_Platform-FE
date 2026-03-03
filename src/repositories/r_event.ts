@@ -168,3 +168,40 @@ export const getMyEventRepo = async (page: number, search: string | null): Promi
     
     return res.data
 }
+
+interface PostEventPayload {
+    event_title: string
+    event_desc: string
+    event_category: any
+    event_price: number
+    maximum_seat: number
+    start_date: string
+    end_date: string
+    description?: string | null
+    img: File | null
+    venue_id: string
+}
+export interface PostEventResponse {
+    data: PostEventPayload & {
+        id: string
+    }
+    message: string
+}
+export const postCreateEventRepo = async (payload: PostEventPayload): Promise<PostEventResponse> => {
+    const formData = new FormData()
+    formData.append("event_title", payload.event_title)
+    formData.append("event_desc", payload.event_desc)
+    formData.append("event_category", payload.event_category)
+    formData.append("venue_id", payload.venue_id)
+    formData.append("event_price", payload.event_price.toString())
+    formData.append("maximum_seat", payload.maximum_seat.toString())
+    formData.append("start_date", payload.start_date)
+    formData.append("end_date", payload.end_date)
+    if (payload.description) formData.append("description", payload.description)
+    if (payload.img) formData.append("img", payload.img) 
+
+    const res = await apiCall.post(`${MODULE_URL}`, formData)
+    const { data, message } = res.data
+
+    return { data, message }
+}
