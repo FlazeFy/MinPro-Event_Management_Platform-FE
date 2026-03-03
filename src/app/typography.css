@@ -39,3 +39,24 @@ label[data-variant] {
 p[data-slot="form-message"] {
     font-style: italic;
 }
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+    h1.title-huge {
+        font-size: calc(var(--textJumbo)*1.5);
+    }
+    h2 {
+        font-size: var(--textLG);
+        letter-spacing: 1.25px;
+    }
+}
+/* Mobile */
+@media (max-width: 575px) {
+    h1.title-huge {
+        font-size: calc(var(--textJumbo)*1.25);
+    }
+    h2 {
+        font-size: var(--textXMD);
+        letter-spacing: 1px;
+    }
+}

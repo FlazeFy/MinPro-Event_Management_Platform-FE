@@ -9,17 +9,16 @@ import OrganismWelcomeBox from "@/components/organisms/welcome_box.organism";
 import useAuthStore from "@/store/s_auth";
 
 export default function Home() {
-  const { role, name } = useAuthStore()
-  const isSignedIn: boolean = role !== null && role !== "" ? true : false
+  const { role, name, isAuthenticated } = useAuthStore()
 
   return (
-    <div className="flex flex-col min-h-[100vh] items-center justify-center py-5 lg:py-10" id='login-section'>
+    <div className="flex flex-col min-h-[100vh] items-center justify-center py-0 lg:py-10" id='login-section'>
       <div className="flex flex-wrap w-full mt-[10vh] p-5 lg:p-10 items-center">
         <div className="w-full md:w-1/2">
-          <OrganismWelcomeBox isSignedIn={isSignedIn} name={name}/>
+          <OrganismWelcomeBox isSignedIn={isAuthenticated} name={name!}/>
         </div>
-        <div className="w-full md:w-1/2">
-          { isSignedIn ? <OrganismUpcomingEventList role={role}/> : <OrganismLoginForm/> }
+        <div className="w-full md:w-1/2 md:ps-4">
+          { isAuthenticated ? <OrganismUpcomingEventList role={role}/> : <OrganismLoginForm/> }
         </div>
       </div>
       <div className="mt-[20vh] bg-orange-100 w-full p-5 lg:p-10">
@@ -32,7 +31,7 @@ export default function Home() {
         <OrganismRandomFeedbackList/>
       </div>
       <div className="my-[20vh] w-full p-5 lg:p-10">
-        <OrganismAskJoinBox isSignedIn={isSignedIn}/>
+        <OrganismAskJoinBox isSignedIn={isAuthenticated}/>
       </div>
     </div>
   )

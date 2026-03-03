@@ -120,6 +120,7 @@ export interface MyProfileResponse extends LoginResponsePayload {
     is_use_ref_code: boolean
     owner_referral_code_histories: OwnerReferralCodeHistory[]
     social_medias: SocialMedia[]
+    tier: string
 }
 export const getMyProfile = async (): Promise<MyProfileResponse> => {
     const res = await apiCall.get(`${MODULE_URL}/profile`)

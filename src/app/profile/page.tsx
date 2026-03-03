@@ -50,11 +50,11 @@ export default function ProfilePage() {
                         <>
                             <OrganismUserProfileHeaderBox user={profileItem} fetchMyProfile={fetchMyProfile}/>
                             <div className="flex flex-wrap mt-5">
-                                <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
+                                <div className="w-full md:w-7/12 lg:w-9/12 p-0 md:pr-4">
                                     <OrganismMyDiscountList role={role!} refreshKey={refreshDiscount}/>
                                     { role === "customer" ? <OrganismRecentTransactionList role={role} action={fetchMyProfile}/> : <OrganismMyEventList/> }
                                 </div>
-                                <div className="w-full md:w-4/12 lg:w-3/12">
+                                <div className="w-full md:w-5/12 lg:w-3/12">
                                     <OrganismUserProfileContactBox fullname={role === "customer" ? profileItem.fullname : profileItem.organizer_name} email={profileItem.email} phone_number={profileItem.phone_number} 
                                         address={profileItem.address} role={role!} social_media={profileItem.social_medias}/>
                                     <br/>

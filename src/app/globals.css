@@ -96,6 +96,12 @@ body {
 .container label {
   color: var(--white);
 }
+/* Mobile */
+@media (max-width: 575px) {
+  .container {
+    padding: var(--spaceXMD);
+  }
+}
 
 .bg-secondary{
   background: var(--secondary);

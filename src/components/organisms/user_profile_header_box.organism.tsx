@@ -75,27 +75,32 @@ const OrganismUserProfileHeaderBox: React.FunctionComponent<IOrganismUserProfile
 
     return (
         <div className="w-full relative rounded-2xl bg-gradient-to-r from-blue-300 via-gray-300 to-orange-300 p-8 shadow-sm">
-            <div className="flex items-center justify-between">                    
-                <div className="flex items-center gap-6">
-                    <div className="relative">
-                        <OrganismEditImagePickerPicker maxSize={10} profilePic={user.profile_pic}
-                            onFileSelect={(file) => {
+            <div className="flex flex-col md:flex-row items-center justify-between gap-2">
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                    <div className="relative mx-auto md:ml-0">
+                        <OrganismEditImagePickerPicker maxSize={10} profilePic={user.profile_pic} onFileSelect={(file) => {
                                 const payload: FilePayload = { img: file }
                                 handleUpdateProfileImage(payload)
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="text-center md:text-left p-4 rounded-xl">
                         <AtomText type='sub-title-small' text={user.username}/>
-                        { user.role === "customer" && user.birth_date && <AtomText type='sub-content' text={`${convertUTCToLocal(user.birth_date, false, false)} | ${convertAgeFromBornDate(user.birth_date)} y.o`}/> }
+                        {
+                            user.role === "customer" && user.birth_date && 
+                                <AtomText
+                                    type='sub-content'
+                                    text={`${convertUTCToLocal(user.birth_date, false, false)} | ${convertAgeFromBornDate(user.birth_date)} y.o`}
+                                />
+                        }
                         { user.role === "event_organizer" && user.bio && <AtomText type='sub-content' text={user.bio}/> }
-                        <div className="flex gap-3 mt-3">
+                        <div className="flex gap-3 mt-3 justify-center md:justify-start">
                             <Badge className="px-3 py-1 bg-blue-100 text-blue-600 capitalize">{user.role!.replace("_"," ")}</Badge>
-                            <Badge className="px-3 py-1 bg-orange-100 text-orange-500 font-medium capitalize">Supporter</Badge>
+                            <Badge className="px-3 py-1 bg-orange-100 text-orange-500 font-medium capitalize">{user.tier}</Badge>
                         </div>
                     </div>
                 </div>
-                <div className='flex gap-2'>
+                <div className="flex gap-2">
                     <OrganismUpdateProfileForm user={user} fetchMyProfile={fetchMyProfile}/>
                     <Button variant="destructive" onClick={handleLogout}><FontAwesomeIcon icon={faSignOut}/></Button>
                 </div>

@@ -52,9 +52,9 @@ const OrganismFeedbackBox: React.FunctionComponent<IOrganismFeedbackBoxProps> = 
             <AtomText type='title-huge' text="Give Us Feedback" extraClass='mb-0'/>
             <AtomText type='content' text="We'd love to hear your thoughts on our app's features and design. Your feedback means a lot to us!" extraClass='mb-10'/>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex flex-col items-center">
                     <Controller control={form.control} name="feedback_rate" render={({ field }) => (
-                        <FormItem>
+                        <FormItem className='text-center'>
                             <FormLabel>Rate us from 1 - 5</FormLabel>
                             <FormControl>
                                 <AtomStarInput id="feedback_rate-input" value={field.value} handleChange={field.onChange} />
@@ -68,7 +68,7 @@ const OrganismFeedbackBox: React.FunctionComponent<IOrganismFeedbackBoxProps> = 
                             <FormItem>
                                 <FormLabel>Feedback</FormLabel>
                                 <FormControl>
-                                    <Textarea style={{minHeight:"160px"}} placeholder="Type your feedback" {...field} />
+                                    <Textarea className='min-h-[160px] min-w-[300px] lg:min-w-[500px]' placeholder="Type your feedback" {...field} />
                                 </FormControl>
                                 <FormMessage>{form.formState.errors.feedback_body?.message}</FormMessage>
                             </FormItem>
