@@ -1,4 +1,5 @@
 import apiCall from "@/configs/axios"
+import { PaginationMeta } from "./template"
 
 const MODULE_URL = "/api/v1/event_organizers"
 
@@ -11,10 +12,16 @@ export interface NewComerEventOrganizerItem {
     total_event: number
     total_attendee: number
 }
-export const getNewComerEventOrganizerRepo = async (page: number, search: string | null): Promise<NewComerEventOrganizerItem[]> => {
-    const res = await apiCall.get(`${MODULE_URL}/new_comer?page=${page}}`)
-    
-    return res.data.data
+export interface EventAttendeeWithMeta {
+    data: NewComerEventOrganizerItem[]
+    meta: PaginationMeta
+}
+export const getNewComerEventOrganizerRepo = async (page: number, search: string | null): Promise<EventAttendeeWithMeta> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const res = await apiCall.get(`${MODULE_URL}/new_comer?page=${page}${searchArgs}`)
+    const { data, meta } = res.data
+
+    return { data, meta }
 }
 
 interface TrendingEventOrganizerItem {
