@@ -1,4 +1,5 @@
 'use client'
+import RoleGuard from "@/components/guards/role.guard";
 import OrganismMyDiscountList from "@/components/organisms/my_discount_list.organism";
 import OrganismMyEventList from "@/components/organisms/my_event_list.organism";
 import OrganismPointRefCodeBox from "@/components/organisms/point_ref_code_box.organism";
@@ -39,37 +40,39 @@ export default function ProfilePage() {
     }, [])
 
     return (
-        <div className="flex flex-col min-h-[100vh] p-5 lg:p-10">
-            {
-                loading && <Skeleton className="h-[200px] w-full rounded-xl" />
-            }
-            {
-                !loading && profileItem && (
-                    <>
-                        <OrganismUserProfileHeaderBox user={profileItem} fetchMyProfile={fetchMyProfile}/>
-                        <div className="flex flex-wrap mt-5">
-                            <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
-                                <OrganismMyDiscountList role={role} refreshKey={refreshDiscount}/>
-                                { role === "customer" ? <OrganismRecentTransactionList role={role} action={fetchMyProfile}/> : <OrganismMyEventList/> }
+        <RoleGuard allowedRoles={["event_organizer","customer"]}>
+            <div className="flex flex-col min-h-[100vh] p-5 lg:p-10">
+                {
+                    loading && <Skeleton className="h-[200px] w-full rounded-xl" />
+                }
+                {
+                    !loading && profileItem && (
+                        <>
+                            <OrganismUserProfileHeaderBox user={profileItem} fetchMyProfile={fetchMyProfile}/>
+                            <div className="flex flex-wrap mt-5">
+                                <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
+                                    <OrganismMyDiscountList role={role!} refreshKey={refreshDiscount}/>
+                                    { role === "customer" ? <OrganismRecentTransactionList role={role} action={fetchMyProfile}/> : <OrganismMyEventList/> }
+                                </div>
+                                <div className="w-full md:w-4/12 lg:w-3/12">
+                                    <OrganismUserProfileContactBox fullname={role === "customer" ? profileItem.fullname : profileItem.organizer_name} email={profileItem.email} phone_number={profileItem.phone_number} 
+                                        address={profileItem.address} role={role!} social_media={profileItem.social_medias}/>
+                                    <br/>
+                                    {
+                                        role === "customer" && (
+                                            <>
+                                                <OrganismPointRefCodeBox points={profileItem.points} is_used={profileItem.is_use_ref_code} referral_code={profileItem.referral_code} action={handleAfterRedeem}/>
+                                                <br/>
+                                                <OrganismRefCodeList customers={profileItem.owner_referral_code_histories}/>
+                                            </>
+                                        )
+                                    }
+                                </div>
                             </div>
-                            <div className="w-full md:w-4/12 lg:w-3/12">
-                                <OrganismUserProfileContactBox fullname={role === "customer" ? profileItem.fullname : profileItem.organizer_name} email={profileItem.email} phone_number={profileItem.phone_number} 
-                                    address={profileItem.address} role={role} social_media={profileItem.social_medias}/>
-                                <br/>
-                                {
-                                    role === "customer" && (
-                                        <>
-                                            <OrganismPointRefCodeBox points={profileItem.points} is_used={profileItem.is_use_ref_code} referral_code={profileItem.referral_code} action={handleAfterRedeem}/>
-                                            <br/>
-                                            <OrganismRefCodeList customers={profileItem.owner_referral_code_histories}/>
-                                        </>
-                                    )
-                                }
-                            </div>
-                        </div>
-                    </>
-                )
-            }
-        </div>
+                        </>
+                    )
+                }
+            </div>
+        </RoleGuard>
     )
 }

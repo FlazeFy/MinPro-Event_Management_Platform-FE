@@ -3,6 +3,9 @@ import { EventOrganizerData, PaginationMeta, UserShortInfo, VenueData } from "./
 
 const MODULE_URL = "/api/v1/events"
 
+interface AttendeeUpcomingEvent {
+    attendees: UserShortInfo[]
+}
 export interface EventHeaderData {
     id: string
     event_title: string
@@ -10,8 +13,10 @@ export interface EventHeaderData {
     maximum_seat: number
     total_profit: number 
     total_seat_remaining: number
+    transactions: AttendeeUpcomingEvent[]
 }
 export interface UpcomingEventItem {
+    id: string
     start_date: string 
     end_date: string
     venue: VenueData

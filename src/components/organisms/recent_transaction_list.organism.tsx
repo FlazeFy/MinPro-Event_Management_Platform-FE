@@ -20,7 +20,7 @@ import Link from 'next/link'
 
 interface IOrganismRecentTransactionListProps {
     role: string
-    action: () => void
+    action?: () => void
 }
 
 const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTransactionListProps> = ({ role, action }) => {
@@ -153,7 +153,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                             dt.status === "pending" ? 
                                                 <OrganismAddTransactionReceiptForm id={dt.id} action={() => {
                                                     fetchAllTransaction(page, null, null)
-                                                    action()
+                                                    if (action) action()
                                                 }}/> 
                                             : dt.status !== "pending" ?
                                                 <div className='flex gap-2'>

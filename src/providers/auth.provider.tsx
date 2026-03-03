@@ -7,23 +7,31 @@ type AuthProviderProps = {
   children: React.ReactNode
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderProps) => {
-  const { onLoginStore, onLogOutStore } = useAuthStore()
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const { onLoginStore, onLogOutStore, setHydrated } = useAuthStore()
 
   useEffect(() => {
-    refreshAuthToken()
-      .then((res: LoginResponsePayload) => {
-        // Store local data
-        localStorage.setItem('token_key', res.token)
+    const initAuth = async () => {
+      try {
+        const res: LoginResponsePayload = await refreshAuthToken()
 
-        // Store global state data
-        onLoginStore({ name: res.name, email: res.email, role: res.role })
-      })
-      .catch(() => {
+        localStorage.setItem("token_key", res.token)
+
+        onLoginStore({
+          name: res.name,
+          email: res.email,
+          role: res.role as any,
+        })
+      } catch {
         onLogOutStore()
         localStorage.removeItem("token_key")
-      })
-  }, [onLoginStore, onLogOutStore])
+      } finally {
+        setHydrated(true)
+      }
+    }
+
+    initAuth()
+  }, [onLoginStore, onLogOutStore, setHydrated])
 
   return <>{children}</>
 }

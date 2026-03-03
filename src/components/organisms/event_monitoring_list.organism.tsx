@@ -115,7 +115,7 @@ const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitor
                                         <OrganismEventAttendee eventId={dt.id} eventTitle={dt.event_title}/>
                                         <OrganismDashboardList eventId={dt.id} eventTitle={dt.event_title}/>
                                     </TableCell>
-                                    <TableCell><FontAwesomeIcon icon={faUser}/> {dt.maximum_seat} / {dt.total_booked_seat}</TableCell>
+                                    <TableCell><FontAwesomeIcon icon={faUser}/> {dt.total_booked_seat} / {dt.maximum_seat}</TableCell>
                                 </TableRow>
                             )
                         })

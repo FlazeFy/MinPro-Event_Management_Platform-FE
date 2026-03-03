@@ -3,17 +3,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import AtomText from '../atoms/text.atom'
 
+const colorVariants = {
+    red: 'bg-red-100',
+    green: 'bg-green-100',
+    blue: 'bg-blue-100',
+    gray: 'bg-gray-100',
+} as const
+
+type ColorVariant = keyof typeof colorVariants
+
 interface IMoleculesNoDataBoxProps {
     title: string
-    style?: any
-    color?: string
+    style?: React.CSSProperties
+    color?: ColorVariant
 }
 
-const MoleculeNoDataBox: React.FunctionComponent<IMoleculesNoDataBoxProps> = ({ title, style, color = 'red' }) => {
-    return (    
-        <div className={`bg-${color}-100 my-2 rounded-xl py-10 w-full mx-auto flex flex-col items-center justify-center text-center`} style={style}>
-            <AtomText type='content-title' text={<><FontAwesomeIcon icon={faTriangleExclamation}/> Oops!</>}/>
-            <AtomText type='content' text={title}/>
+const MoleculeNoDataBox: React.FC<IMoleculesNoDataBoxProps> = ({title, style, color = 'red'}) => {
+    const bgColor = colorVariants[color]
+
+    return (
+        <div className={`${bgColor} my-2 rounded-xl py-10 w-full mx-auto flex flex-col items-center justify-center text-center`} style={style}>
+            <AtomText type="content-title" text={<><FontAwesomeIcon icon={faTriangleExclamation} /> Oops!</>}/>
+            <AtomText type="content" text={title} />
         </div>
     )
 }

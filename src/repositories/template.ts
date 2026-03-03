@@ -1,6 +1,7 @@
 export interface UserShortInfo {
     id: string
     username: string
+    fullname: string
     created_at: string
     profile_pic: string
 }
