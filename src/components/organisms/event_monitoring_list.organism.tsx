@@ -78,7 +78,7 @@ const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitor
                         (!loading && error) || (!loading && item?.length === 0) && (
                             <TableRow>
                                 <TableCell colSpan={6}>
-                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/>
+                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/>
                                 </TableCell>
                             </TableRow>
                         )
@@ -115,7 +115,7 @@ const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitor
                                         <OrganismEventAttendee eventId={dt.id} eventTitle={dt.event_title}/>
                                         <OrganismDashboardList eventId={dt.id} eventTitle={dt.event_title}/>
                                     </TableCell>
-                                    <TableCell><FontAwesomeIcon icon={faUser}/> {dt.maximum_seat} / {dt.total_booked_seat}</TableCell>
+                                    <TableCell><FontAwesomeIcon icon={faUser}/> {dt.total_booked_seat} / {dt.maximum_seat}</TableCell>
                                 </TableRow>
                             )
                         })

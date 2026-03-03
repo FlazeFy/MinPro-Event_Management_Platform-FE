@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google"
 import "./typography.css"
-import "./form.css"
 import "./globals.css"
 import MoleculeFooterBar from "@/components/molecules/footer_bar.molecule";
 import MoleculeNavigationBar from "@/components/molecules/navigation_bar.molecule";

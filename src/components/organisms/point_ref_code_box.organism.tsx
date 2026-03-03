@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '../ui/input'
 import { useForm } from 'react-hook-form'
 import { createUseRefCodeRepo } from '@/repositories/r_ref_code'
+import { loadingHelper } from '@/helpers/loading.helper'
 
 interface IOrganismPointRefCodeBoxProps {
     points: number
@@ -33,12 +34,7 @@ const OrganismPointRefCodeBox: React.FunctionComponent<IOrganismPointRefCodeBoxP
 
     const onSubmit = async (values: RefCodeFormValues) => {
         try {
-            Swal.fire({
-                title: "Sending request...",
-                text: "Please wait a moment",
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            })
+            loadingHelper("Sending request")
 
             // Call repository for send redeem
             const res = await createUseRefCodeRepo({

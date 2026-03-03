@@ -1,4 +1,5 @@
 'use client'
+import RoleGuard from '@/components/guards/role.guard'
 import OrganismEventMonitoringList from '@/components/organisms/event_monitoring_list.organism'
 import OrganismPeriodicGrowthBox from '@/components/organisms/periodic_growth.organism'
 import OrganismRecentTransactionList from '@/components/organisms/recent_transaction_list.organism'
@@ -10,13 +11,15 @@ export default function TransactionPage() {
     const { role } = useAuthStore()
 
     return (
-        <div className="flex flex-col min-h-[100vh] p-5 lg:p-10">
-            <OrganismSummaryEventList isFull={true}/>
-            <br/>
-            <OrganismPeriodicGrowthBox/>
-            <br/>
-            <OrganismRecentTransactionList role={role}/>
-            <OrganismEventMonitoringList/>
-        </div>
+        <RoleGuard allowedRoles={["event_organizer"]}>
+            <div className="flex flex-col min-h-[100vh] p-5 lg:p-10">
+                <OrganismSummaryEventList isFull={true}/>
+                <br/>
+                <OrganismPeriodicGrowthBox/>
+                <br/>
+                <OrganismRecentTransactionList role={role!}/>
+                <OrganismEventMonitoringList/>
+            </div>
+        </RoleGuard>
     )
 }

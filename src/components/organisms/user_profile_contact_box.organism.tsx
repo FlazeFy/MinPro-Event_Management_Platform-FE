@@ -8,13 +8,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../ui/button';
 import { SocialMedia } from '@/repositories/r_auth';
 import Link from 'next/link';
+import MoleculeNoDataBox from '../molecules/no_data_box.molecule';
+import { Role } from '@/store/s_auth';
 
 interface IOrganismUserProfileContactBoxProps {
     fullname: string 
     email: string 
     phone_number: string
     address: string | null
-    role: string
+    role: Role
     social_media: SocialMedia[]
 }
 
@@ -38,16 +40,19 @@ const OrganismUserProfileContactBox: React.FunctionComponent<IOrganismUserProfil
                     <AtomDivider/>
                     <div className='flex gap-2'>
                         {
-                            social_media?.map((item) => {
-                                const icon = socialIconMap[item.social_media_platform]
-                                if (!icon) return null
+                            social_media && social_media.length > 0 ? 
+                                social_media?.map((item) => {
+                                    const icon = socialIconMap[item.social_media_platform]
+                                    if (!icon) return null
 
-                                return (
-                                    <Link key={item.social_media_platform} href={item.social_media_url}>
-                                        <Button variant="secondary"><FontAwesomeIcon icon={icon}/></Button>
-                                    </Link>
-                                )
-                            })
+                                    return (
+                                        <Link key={item.social_media_platform} href={item.social_media_url}>
+                                            <Button variant="secondary"><FontAwesomeIcon icon={icon}/></Button>
+                                        </Link>
+                                    )
+                                })
+                            : 
+                                <MoleculeNoDataBox title='No social media accounts are connected' color='gray'/>
                         }
                     </div>
                 </>

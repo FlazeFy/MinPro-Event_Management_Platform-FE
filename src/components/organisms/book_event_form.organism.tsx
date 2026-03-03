@@ -188,7 +188,7 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                                     action={() => handleSelectItem(dt)} 
                                                     selected={selectedDiscount?.id === dt.id || selectedPoints?.id === dt.id}/>)
                                             :
-                                                <MoleculeNoDataBox title={'No discount found'}/>
+                                                <MoleculeNoDataBox title={'No discount found'} color='gray'/>
                                         }
                                     </div>
                                 : 
@@ -212,31 +212,37 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                                 <Badge className='bg-success py-1 px-3'>{`- Rp. ${selectedPoints.point?.toLocaleString()}`}</Badge>
                                             </div>
                                     }
-                                    <AtomText type='content-title' text={`Total Price : Rp. ${totalPrice.toLocaleString()}`}/>
+                                    {
+                                        !isFree && <AtomText type='content-title' text={`Total Price : Rp. ${totalPrice.toLocaleString()}`}/>
+                                    }
                                 </div>
                                 <div className='flex flex-wrap gap-4 items-center'>
-                                    <div>
-                                        <AtomText text="Payment Method" type="label"/>
-                                        <Select onValueChange={(value) => form.setValue("payment_method", value)} defaultValue={form.getValues("payment_method")}>
-                                            <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Select payment method" />
-                                            </SelectTrigger>
-                                            <SelectContent>
+                                    {
+                                        !isFree && 
+                                            <div>
+                                                <AtomText text="Payment Method" type="label"/>
+                                                <Select onValueChange={(value) => form.setValue("payment_method", value)} defaultValue={form.getValues("payment_method")}>
+                                                    <SelectTrigger className="w-full">
+                                                        <SelectValue placeholder="Select payment method" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {
+                                                            !isFree ?
+                                                                <>
+                                                                    <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                                                                    <SelectItem value="virtual_account">Virtual Account</SelectItem>
+                                                                    <SelectItem value="e-payment">E-Payment</SelectItem>
+                                                                </>
+                                                            :
+                                                                <SelectItem value="free">Free</SelectItem>
+                                                        }
+                                                    </SelectContent>
+                                                </Select>
                                                 {
-                                                    !isFree && 
-                                                        <>
-                                                            <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                                                            <SelectItem value="virtual_account">Virtual Account</SelectItem>
-                                                            <SelectItem value="e-payment">E-Payment</SelectItem>
-                                                        </>
+                                                    form.formState.errors.payment_method && <p className="text-red-500 text-sm mt-1">{form.formState.errors.payment_method.message}</p>
                                                 }
-                                                <SelectItem value="free">Free</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        {
-                                            form.formState.errors.payment_method && <p className="text-red-500 text-sm mt-1">{form.formState.errors.payment_method.message}</p>
-                                        }
-                                    </div>
+                                            </div>
+                                    }
                                     <Button type="submit" disabled={form.formState.isSubmitting}>
                                         { form.formState.isSubmitting ? "Sending..." : "Book this Event" }
                                     </Button>

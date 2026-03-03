@@ -1,6 +1,7 @@
 export interface UserShortInfo {
     id: string
     username: string
+    fullname: string
     created_at: string
     profile_pic: string
 }
@@ -21,6 +22,7 @@ export interface DatasetTemplate {
 }
 
 export interface VenueData {
+    id: string
     venue_name: string
     venue_coordinate: string
     venue_address: string
@@ -48,4 +50,8 @@ export interface PaginationMeta {
 export interface StatsData {
     context: string
     total: number
+}
+
+export interface FilePayload {
+    img: File | null
 }

@@ -32,7 +32,7 @@ const OrganismSummaryEventList: React.FunctionComponent<IOrganismSummaryEventLis
     }, [])
 
     if (loading) return <Skeleton style={{height:"400px"}}/>
-    if (error || item === null) return <MoleculeNoDataBox title="No enough data to show" style={{height:"400px"}}/>
+    if (error || item === null) return <MoleculeNoDataBox title="No enough data to show" style={{height:"400px"}} color='gray'/>
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

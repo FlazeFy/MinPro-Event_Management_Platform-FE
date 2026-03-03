@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from '../ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faImage, faLocationDot, faReceipt, faTicket } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../ui/input'
 import MoleculeTransactionBox from '../molecules/transaction_molecule'
 import { AllTransactionResponse, getAllTransaction } from '@/repositories/r_transaction'
@@ -14,12 +14,17 @@ import MoleculeCopyBox from '../molecules/copy_box.molecule'
 import Skeleton from 'react-loading-skeleton'
 import MoleculeNoDataBox from '../molecules/no_data_box.molecule'
 import OrganismCustomerTransactionList from './customer_transaction_list'
+import { Button } from '../ui/button'
+import OrganismAddTransactionReceiptForm from './add_transaction_receipt_form.organism'
+import Link from 'next/link'
+import { Role } from '@/store/s_auth'
 
 interface IOrganismRecentTransactionListProps {
-    role: string
+    role: Role
+    action?: () => void
 }
 
-const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTransactionListProps> = ({ role }) => {
+const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTransactionListProps> = ({ role, action }) => {
     // For repo fetching
     const [item, setItem] = useState<AllTransactionResponse>()
     const [loading, setLoading] = useState(true)
@@ -88,26 +93,25 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                         <TableHead>{ role === "event_organizer" ? <>Customer</> : <>Status</> }</TableHead>
                         <TableHead>{ role === "event_organizer" ? <>History</> : <>Method</> }</TableHead>
                         <TableHead>Amount</TableHead>
+                        <TableHead>Action</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     { 
-                        loading && (
+                        loading && 
                             <TableRow>
                                 <TableCell colSpan={6}>
                                     <Skeleton style={{ height: "100px" }} />
                                 </TableCell>
                             </TableRow>
-                        )
                     }
                     {
-                        (!loading && error) || (!loading && item?.data.length === 0) && (
+                        (!loading && error) || (!loading && item?.data.length === 0) && 
                             <TableRow>
                                 <TableCell colSpan={6}>
-                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/>
+                                    <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/>
                                 </TableCell>
                             </TableRow>
-                        )
                     }
                     {
                         !loading && !error && item?.data.map((dt, idx) => {
@@ -142,8 +146,31 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                     <TableCell>
                                         <div className='flex gap-2'>
                                             <AtomText type='sub-content' text={<>Rp. {dt.amount.toLocaleString()}</>}/>
-                                            { role === "customer" && dt.amount > 0 && <Badge className='bg-green-200 text-green-700'>+{Math.floor(dt.amount / 10000)} Pts</Badge> } 
+                                            { role === "customer" && dt.amount > 0 && dt.status !== "pending" && <Badge className='bg-green-200 text-green-700'>+{Math.floor(dt.amount / 1000)} Pts</Badge> } 
                                         </div>  
+                                    </TableCell>
+                                    <TableCell>
+                                        {
+                                            dt.status === "pending" ? 
+                                                <OrganismAddTransactionReceiptForm id={dt.id} action={() => {
+                                                    fetchAllTransaction(page, null, null)
+                                                    if (action) action()
+                                                }}/> 
+                                            : dt.status !== "pending" ?
+                                                <div className='flex gap-2'>
+                                                    {
+                                                        dt.transaction_pic &&  
+                                                            <Link href={dt.transaction_pic}>
+                                                                <Button className='h-full'><FontAwesomeIcon icon={faImage}/></Button>
+                                                            </Link>
+                                                    }
+                                                    {
+                                                        dt.ticket_token && <MoleculeCopyBox value={dt.ticket_token} context={'Ticket token'}/>
+                                                    }
+                                                </div>
+                                            :
+                                                <></>
+                                        }
                                     </TableCell>
                                 </TableRow>
                             )
@@ -152,7 +179,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={5}>Average Transaction Amount</TableCell>
+                        <TableCell colSpan={6}>Average Transaction Amount</TableCell>
                         <TableCell>Rp. {average.toLocaleString()}</TableCell>
                     </TableRow>
                 </TableFooter>

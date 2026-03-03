@@ -1,5 +1,6 @@
 import apiCall from "@/configs/axios"
-import { UserShortInfo } from "./template"
+import { FilePayload, UserShortInfo } from "./template"
+import { Role } from "@/store/s_auth"
 
 const MODULE_URL = "/api/v1/auths"
 
@@ -10,7 +11,7 @@ export interface LoginPayload {
 export interface LoginResponsePayload {
     name: string
     email: string
-    role: string
+    role: Role
     token: string
 }
 export const loginRepo = async (payload: LoginPayload): Promise<LoginResponsePayload> => {
@@ -51,10 +52,7 @@ export const registerCustomerRepo = async (payload: RegisterCustomerPayload): Pr
     return res.data
 }
 
-export interface PostUpdateProfileImagePayload {
-    img: File | null
-}
-export const postUpdateProfileImageRepo = async (payload: PostUpdateProfileImagePayload): Promise<string> => {
+export const postUpdateProfileImageRepo = async (payload: FilePayload): Promise<string> => {
     const formData = new FormData()
     if (payload.img) formData.append("img", payload.img) 
 
@@ -134,10 +132,13 @@ export interface UpdateProfilePayload {
     username: string,
     organizer_name: string | null | undefined,
     address: string | null | undefined,
-    bio: string | null | undefined,
+    bio: string,
     phone_number: string
     fullname: string | null | undefined
     birth_date: string | null | undefined
+    instagram: string | null | undefined
+    tiktok: string | null | undefined
+    facebook: string | null | undefined
 }
 export const putUpdateProfileRepo = async (payload: any): Promise<string> => {
     const res = await apiCall.put(`${MODULE_URL}/profile`, payload)

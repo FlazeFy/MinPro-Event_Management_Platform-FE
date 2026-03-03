@@ -13,6 +13,7 @@ import Swal from "sweetalert2"
 import { registerEventOrganizerRepo } from '@/repositories/r_auth'
 import OrganismTermsAndConditionsBox from './terms_conditions_box.organism'
 import OrganismProfileImagePicker from './profile_image_picker.organism'
+import { loadingHelper } from '@/helpers/loading.helper'
 
 // Validation
 const registerSchema = Yup.object({
@@ -58,13 +59,7 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
                 return
             }
 
-            Swal.fire({
-                title: "Creating account...",
-                text: "Please wait a moment",
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            })
-
+            loadingHelper("Creating account")
             const payload = {
                 ...values,
                 img: values.img ?? null,

@@ -11,9 +11,8 @@ import { usePathname } from "next/navigation"
 interface MoleculeNavigationBarProps {}
 
 const MoleculeNavigationBar: React.FC<MoleculeNavigationBarProps> = () => {
-    const { email, role } = useAuthStore()
+    const { email, role, isAuthenticated } = useAuthStore()
     const currentPage: string = usePathname()
-    const isSignedIn = email !== ""
 
     return (
         <nav className="sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-between items-center border-b border-gray-400 pt-5 text-center md:text-left p-5">
@@ -21,14 +20,14 @@ const MoleculeNavigationBar: React.FC<MoleculeNavigationBarProps> = () => {
                 <AtomText type='content-title' text='EventKu' extraClass='font-bold text-primary'/>
             </Link>
             <div className='flex gap-10'>
-                <Link href={ isSignedIn ? '/' : '#feature-section' }>
-                    <AtomText type='content-title' text={ isSignedIn ? "Home" : "Features" }/>
+                <Link href={ isAuthenticated ? '/' : '#feature-section' }>
+                    <AtomText type='content-title' text={ isAuthenticated ? "Home" : "Features" }/>
                 </Link>
                 <Link href={'/event'}>
                     <AtomText type='content-title' text='Event'/>
                 </Link>
                 {
-                    isSignedIn && 
+                    isAuthenticated && 
                     <>
                         {
                             role === "event_organizer" &&
@@ -47,7 +46,7 @@ const MoleculeNavigationBar: React.FC<MoleculeNavigationBarProps> = () => {
             </div>
             <Button>
                 { 
-                    isSignedIn ? 
+                    isAuthenticated ? 
                         <Link href='/profile'>
                             <FontAwesomeIcon icon={faUser}/> {email}
                         </Link> 

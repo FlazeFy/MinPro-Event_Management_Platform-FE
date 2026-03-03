@@ -114,6 +114,10 @@ footer {
   background: var(--white);
 }
 
+.container button {
+  background: var(--secondary);
+}
+
 .box-bordered {
   padding: var(--spaceLG);
   border: 1.5px solid var(--grey);

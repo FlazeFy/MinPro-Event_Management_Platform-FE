@@ -5,9 +5,10 @@ import MoleculeUpcomingEventBox from '../molecules/upcoming_event_box.molecule';
 import { getUpcomingEventRepo, UpcomingEventItem } from '@/repositories/r_event';
 import Skeleton from 'react-loading-skeleton';
 import MoleculeNoDataBox from '../molecules/no_data_box.molecule';
+import { Role } from '@/store/s_auth';
 
 interface IOrganismUpcomingEventListProps {
-    role: string
+    role: Role
 }
 
 const OrganismUpcomingEventList: React.FunctionComponent<IOrganismUpcomingEventListProps> = ({ role }) => {

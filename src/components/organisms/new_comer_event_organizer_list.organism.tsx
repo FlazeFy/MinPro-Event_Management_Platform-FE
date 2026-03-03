@@ -8,6 +8,7 @@ import MoleculeNewComerEventOrganizerBox from '../molecules/new_comer_event_orga
 import { getNewComerEventOrganizerRepo, NewComerEventOrganizerItem } from '@/repositories/r_event_organizer';
 import Skeleton from 'react-loading-skeleton';
 import MoleculeNoDataBox from '../molecules/no_data_box.molecule';
+import Link from 'next/link';
 
 interface IOrganismNewComerEventOrganizerListProps {}
 
@@ -19,7 +20,7 @@ const OrganismNewComerEventOrganizerList: React.FunctionComponent<IOrganismNewCo
     const fetchNewComer = async () => {
         try {
             const data = await getNewComerEventOrganizerRepo(1, null)
-            setItem(data)
+            setItem(data.data)
         } catch (err: any) {
             setError(err?.response?.data?.message || "Something went wrong")
         } finally {
@@ -31,10 +32,6 @@ const OrganismNewComerEventOrganizerList: React.FunctionComponent<IOrganismNewCo
         fetchNewComer()
     }, [])
 
-    if (loading) return <Skeleton style={{height:"400px"}}/>
-    if (error) return <MoleculeNoDataBox title="Something went wrong" style={{height:"400px"}}/>
-    if (!item) return <MoleculeNoDataBox title={`There's no new event organizer for past 30 days`} style={{height:"400px"}}/>
-
     return (
         <>
             <div className='flex flex-wrap gap-2 justify-between w-full mb-2'>
@@ -42,10 +39,19 @@ const OrganismNewComerEventOrganizerList: React.FunctionComponent<IOrganismNewCo
                     <AtomText type='content-title' text='New Comer Event Organizer' extraClass="text-primary font-bold"/>
                     <AtomText type='content' text='These organizers are just getting started, show them some support!' extraClass='text-gray-400'/>
                 </div>
-                <Button><FontAwesomeIcon icon={faArrowRight}/> See More</Button>
+                <Link href="/event_organizer">
+                    <Button><FontAwesomeIcon icon={faArrowRight}/> See More</Button>
+                </Link>
             </div>
             <div className='flex gap-2 overflow-x-auto w-full py-5'>
-                { item.map((dt, idx) => <MoleculeNewComerEventOrganizerBox item={dt} key={idx}/>) }
+                { error && <MoleculeNoDataBox title='Something went wrong'/> }
+                { loading && <Skeleton className="h-[200px] w-full rounded-xl" /> }
+                { 
+                    !loading && !error && item && item.length > 0 ?
+                        item.map((dt, idx) => <MoleculeNewComerEventOrganizerBox item={dt} key={idx}/>) 
+                    :
+                        <MoleculeNoDataBox title={'Event organizer not found'} color='gray'/>
+                }
             </div>
         </>
     )

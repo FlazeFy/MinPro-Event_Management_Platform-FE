@@ -6,9 +6,10 @@ import OrganismEditDiscountForm from './edit_discount_form.organism';
 import { DiscountItem, getMyDiscount } from '@/repositories/r_discount';
 import MoleculeNoDataBox from '../molecules/no_data_box.molecule';
 import Skeleton from 'react-loading-skeleton';
+import { Role } from '@/store/s_auth';
 
 interface IOrganismMyDiscountListProps {
-    role: string
+    role: Role
     refreshKey: number
 }
 
@@ -60,7 +61,7 @@ const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListPro
                                 <OrganismEditDiscountForm key={idx} percentage={dt.percentage ?? 0} description={dt.description} id={dt.id} action={fetchMyDiscount}/>
                         ))
                     :
-                        <MoleculeNoDataBox title={'Discount not found'}/>
+                        <MoleculeNoDataBox title={'Discount not found'} color='gray'/>
                 }
             </div>
         </div>

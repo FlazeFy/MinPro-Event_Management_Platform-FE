@@ -5,6 +5,7 @@ import OrganismTrendingNow from "@/components/organisms/trending_now.organism";
 import OrganismNewComerEventOrganizerList from "@/components/organisms/new_comer_event_organizer_list.organism";
 import OrganismTrendingEventOrganizer from "@/components/organisms/trending_event_organizer_box.organism";
 import { useState } from "react";
+import useAuthStore from "@/store/s_auth";
 
 export default function EventPage() {
   // For filtering
@@ -12,6 +13,7 @@ export default function EventPage() {
   const [search, setSearch] = useState<string>("")
   const [category, setCategory] = useState<string>("")
   const [price, setPrice] = useState<number>(0)
+  const { role } = useAuthStore()
 
   return (
     <div className="flex flex-col min-h-screen p-5 lg:p-10">
@@ -31,7 +33,7 @@ export default function EventPage() {
             <OrganismTrendingNow/>
           </div>
           <div className="mb-5">
-            <OrganismEventCatalog setMaxPrice={setMaxPrice} search={search} category={category} price={price}/>
+            <OrganismEventCatalog setMaxPrice={setMaxPrice} search={search} category={category} price={price} role={role}/>
           </div>
           <OrganismNewComerEventOrganizerList/>
         </div>

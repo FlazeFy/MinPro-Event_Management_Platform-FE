@@ -70,7 +70,7 @@ const OrganismEventAttendee: React.FunctionComponent<IOrganismEventAttendeeProps
                     <Input type="text" placeholder="Search by fullname or username" value={search} onChange={(e) => setSearch(e.target.value)} onBlur={handleSearch}/>
                     <AtomDivider/>
                     { loading && <Skeleton style={{ height: "100px" }}/> }
-                    { (!loading && error) || (!loading && item?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }}/> }
+                    { (!loading && error) || (!loading && item?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/> }
                     {
                         !loading && !error && item?.map((dt, idx) => (
                             <MoleculeTransactionBox key={idx} title={dt.fullname} desc={

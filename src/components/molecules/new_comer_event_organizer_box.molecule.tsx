@@ -7,11 +7,14 @@ import { convertUTCToLocal } from '@/helpers/converter.helper';
 
 interface IMoleculeNewComerEventOrganizerBoxProps {
     item: NewComerEventOrganizerItem
+    isFlexible?: boolean
 }
 
-const MoleculeNewComerEventOrganizerBox: React.FunctionComponent<IMoleculeNewComerEventOrganizerBoxProps> = ({ item }) => {
+const MoleculeNewComerEventOrganizerBox: React.FunctionComponent<IMoleculeNewComerEventOrganizerBoxProps> = ({ item, isFlexible = false }) => {
+    const extraClass = !isFlexible && 'w-[280px] flex-shrink-0'
+    
     return (
-        <div className="bg-gray-100 p-5 border border-gray-300 rounded-xl bg-white hover:shadow-lg text-center w-[280px] flex-shrink-0">
+        <div className={`bg-gray-100 p-5 border border-gray-300 rounded-xl bg-white hover:shadow-lg text-center ${extraClass}`}>
             <Image src={item.profile_pic ?? `/images/user.png`} alt={item.profile_pic ?? `/images/user.png`} width={60} height={60} className="object-cover rounded-full mx-auto mb-2"/>
             <AtomText type='content-title' text={item.organizer_name}/>
             <AtomText type='content' text={item.bio} extraClass='text-gray-400 line-clamp-2'/>
