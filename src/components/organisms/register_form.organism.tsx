@@ -15,12 +15,12 @@ const OrganismRegisterForm: React.FunctionComponent<IOrganismRegisterFormProps> 
     const isCustomer = registerType === "customer"
 
     return (
-        <div className="box-bordered w-[1080px]">
+        <div className="md:border md:border-gray-200 p-5 md:p-7 lg:p-10 md:rounded-xl max-w-[1080px] md:mx-4">
             <AtomText type="title" text="Welcome to EventKu" extraClass="mb-0"/>
             <AtomText type="sub-title-small" text="Create your account and start your journey 😉"/>
             <hr className="mt-2 mb-6"/>
             <div className="flex flex-wrap w-full mt-2">
-                <div className="w-full md:w-1/2 px-5 bg-gray-100 rounded-2xl">
+                <div className="w-full md:w-1/2 p-3 lg:p-5 bg-gray-100 rounded-2xl mb-4 md:mb-0">
                     { 
                         registerType === "customer" ? 
                             <div className='text-center'>
@@ -36,18 +36,14 @@ const OrganismRegisterForm: React.FunctionComponent<IOrganismRegisterFormProps> 
                             </div>
                     }
                 </div>
-                <div className="w-full md:w-1/2 px-5">
-                    <div className="mb-8">
+                <div className="w-full md:w-1/2 p-0 md:ps-5">
+                    <div className="mb-8 text-center md:text-start">
                         <AtomText type="content" text={<>I'm registering as a <b>{registerType}</b></>}/>
-                        <div className="grid grid-cols-1 md:grid-cols-6 gap-x-5 w-full mt-2">
-                            <div className="col-span-1 md:col-span-3">
-                                <Button onClick={() => setRegisterType("customer")}
-                                    className={`relative w-full py-2 rounded-lg ${isCustomer ? "text-blue-600" : "text-gray-500"}`}>Customer</Button>
-                            </div>
-                            <div className="col-span-1 md:col-span-3">
-                                <Button onClick={() => setRegisterType("event organizer")}
-                                    className={`relative w-full py-2 rounded-lg ${!isCustomer ? "text-blue-600" : "text-gray-500"}`}>Event Organizer</Button>
-                            </div>
+                        <div className="grid grid-cols-2 gap-2 w-full mt-2">
+                            <Button onClick={() => setRegisterType("customer")}
+                                className={`rounded-lg bg-white border-2 text-black ${isCustomer ? "border-gray-600" : ""}`}>Customer</Button>
+                            <Button onClick={() => setRegisterType("event organizer")}
+                                className={`rounded-lg bg-white border-2 text-black ${!isCustomer ? "border-gray-600" : ""}`}>Event Organizer</Button>
                         </div>
                     </div>
                     { registerType === "customer" ? <OrganismRegisterCustomerForm/> : <OrganismRegisterEventOrganizerForm/> }

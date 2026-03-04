@@ -18,23 +18,19 @@ export default function EventPage() {
   return (
     <div className="flex flex-col min-h-screen p-5 lg:p-10">
       <div className="flex flex-wrap mt-5">
-        <div className="w-full md:w-4/12 lg:w-3/12 lg:pr-5">
-          <div className="mb-5">
+        <div className="w-full lg:w-3/12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 lg:sticky lg:top-30">
             <OrganismSearchEventFilter maxPrice={maxPrice} onApply={(filters) => {
               setSearch(filters.search)
               setCategory(filters.category)
               setPrice(filters.price)
             }}/> 
+            <OrganismTrendingEventOrganizer/>
           </div>
-          <OrganismTrendingEventOrganizer/>
         </div>
-        <div className="w-full md:w-8/12 lg:w-9/12 p-0 md:pr-4">
-          <div className="mb-5">
-            <OrganismTrendingNow/>
-          </div>
-          <div className="mb-5">
-            <OrganismEventCatalog setMaxPrice={setMaxPrice} search={search} category={category} price={price} role={role}/>
-          </div>
+        <div className="w-full lg:w-9/12 p-0 md:ps-4 space-y-4">
+          <OrganismTrendingNow/>
+          <OrganismEventCatalog setMaxPrice={setMaxPrice} search={search} category={category} price={price} role={role}/>
           <OrganismNewComerEventOrganizerList/>
         </div>
       </div>

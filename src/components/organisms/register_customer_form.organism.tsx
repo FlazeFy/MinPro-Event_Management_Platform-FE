@@ -184,7 +184,7 @@ const OrganismRegisterCustomerForm: React.FunctionComponent<IOrganismRegisterCus
                         )}/>
                     <AtomText text='If you have a referral code from your relative, you can use that right now and get free 10% discount cuopon' type='content' extraClass='mt-2'/>
                 </div>
-                <Button type="submit" className='mt-3' disabled={form.formState.isSubmitting}>
+                <Button type="submit" className='mt-3 w-full' disabled={form.formState.isSubmitting}>
                     { form.formState.isSubmitting ? "Creating your account..." : "Create My Account!" }
                 </Button>
             </form>

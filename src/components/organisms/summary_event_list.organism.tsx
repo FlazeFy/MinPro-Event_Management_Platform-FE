@@ -58,7 +58,7 @@ const OrganismSummaryEventList: React.FunctionComponent<IOrganismSummaryEventLis
                 )
             }
             <div className='bg-green-100 p-5 pb-3 rounded-2xl flex items-center'>
-                <MoleculeIdentityBox icon={faStar} label='Average Rate' value={item?.average_review_rate.toString() ?? '-'} color='green'/>
+                <MoleculeIdentityBox icon={faStar} label='Average Rate' value={item?.average_review_rate.toFixed(2) ?? '-'} color='green'/>
             </div>
         </div>
     )

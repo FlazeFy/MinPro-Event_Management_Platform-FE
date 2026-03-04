@@ -29,6 +29,7 @@ const MoleculeLineChart: React.FunctionComponent<IMoleculeLineChartProps> = ({ l
 
     const options: ChartOptions<'line'> = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 position: 'top',
@@ -45,7 +46,11 @@ const MoleculeLineChart: React.FunctionComponent<IMoleculeLineChartProps> = ({ l
         },
     }
 
-    return <Line data={data} options={options}/>
+    return (
+        <div className="min-h-[300px] w-full">
+            <Line data={data} options={options}/>
+        </div>
+    )
 }
 
 export default MoleculeLineChart
