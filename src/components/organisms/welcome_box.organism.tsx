@@ -10,7 +10,7 @@ interface IOrganismWelcomeBoxProps {
 
 const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = ({ isSignedIn, name }) => {
     return (
-        <div>
+        <div className='text-center lg:text-start'>
             {
                 isSignedIn ? 
                     <>
@@ -25,7 +25,7 @@ const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = ({
                     </>
             }
             <AtomText type='content-title' text='Explore trending events, secure your tickets instantly, and create unforgettable memories with EventKu'/>
-            <div className='my-5 flex gap-2'>
+            <div className='my-5 flex gap-2 flex justify-center lg:justify-start'>
                 {
                     !isSignedIn &&
                         <Link href={'/register'}>
@@ -36,7 +36,7 @@ const OrganismWelcomeBox: React.FunctionComponent<IOrganismWelcomeBoxProps> = ({
                     <Button>Browse Event Now</Button>
                 </Link>
             </div>
-            <AtomText type='content' text="Over 1,000 Events and 6,500+ Transactions Completed" extraClass='italic text-gray-500'/>
+            <AtomText type='content' text="Over 1,000 Events and 6,500+ Transactions Completed" extraClass='italic text-gray-500 mb-20 md:mb-0'/>
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import apiCall from "@/configs/axios"
-import { PaginationMeta } from "./template"
+import { EventData, PaginationMeta } from "./template"
+import { EventItem } from "./r_event"
 
 const MODULE_URL = "/api/v1/event_organizers"
 
@@ -39,4 +40,28 @@ export const getTrendingEventOrganizer = async (): Promise<TrendingEventOrganize
     const res = await apiCall.get(`${MODULE_URL}/trend`)
 
     return res.data.data
+}
+
+export interface EventOrganizerDetailItem {
+    organizer_name: string
+    email: string
+    address: string | null
+    phone_number: string
+    bio: string
+    created_at: string 
+    profile_pic: string | null
+    events: EventItem[]
+    total_event: number
+}
+export interface EventOrganizerDetailWithMeta {
+    data: EventOrganizerDetailItem
+    meta: PaginationMeta
+}
+export const getEventOrganizerDetailByIdRepo = async (page: number, search: string | null, category: string | null, id: string): Promise<EventOrganizerDetailWithMeta> => {
+    const searchArgs = search ? `&search=${search}` : ''
+    const categoryArgs = category && category !== "all" ? `&category=${category}` : ''
+    const res = await apiCall.get(`${MODULE_URL}/detail/${id}?page=${page}${searchArgs}${categoryArgs}`)
+    const { data, meta } = res.data
+
+    return { data, meta }
 }

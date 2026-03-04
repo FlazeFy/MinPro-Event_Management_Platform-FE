@@ -34,7 +34,7 @@ const OrganismTrendingEventOrganizerBox: React.FunctionComponent<IOrganismTrendi
     if (error || !item) return <MoleculeNoDataBox title="Something went wrong" style={{height:"400px"}}/>
 
     return (
-        <div className="container">
+        <div className="container mb-5 md:mb-0">
             <AtomText type='content-title' text='Trending EO'/>
             <AtomDivider/>
             <MoleculeTrendingEventOrganizerBox icon={faCalendar} label='Most Event' val={item.most_events.organizer_name} color='blue' subval={`${item.most_events.value} Event`} id={item.most_events.id}/>

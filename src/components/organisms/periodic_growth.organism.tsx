@@ -43,13 +43,13 @@ const OrganismPeriodicGrowthBox: React.FunctionComponent<IOrganismPeriodicGrowth
     }, [])
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-            <div className="col-span-1 md:col-span-3 box-bordered">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="box-bordered">
                 <AtomText text='Revenue Monthly' type='content-title'/>
                 { loadingRevenue && <Skeleton className="h-[200px] w-full rounded-xl"/> }
                 { !loadingRevenue && itemRevenue && <MoleculeLineChart labels={itemRevenue?.labels} datasets={itemRevenue.datasets}/> }
             </div>
-            <div className="col-span-1 md:col-span-3 box-bordered">
+            <div className="box-bordered">
                 <AtomText text='Total Attendee' type='content-title'/>
                 { loadingAttendee && <Skeleton className="h-[200px] w-full rounded-xl"/> }
                 { !loadingAttendee && itemAttendee && <MoleculeLineChart labels={itemAttendee?.labels} datasets={itemAttendee.datasets}/> }

@@ -153,13 +153,13 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                     Book Tickets Now!
                 </Button>            
             </DialogTrigger>
-            <DialogContent style={{minWidth: isFree ? "auto" : "1080px"}}>
+            <DialogContent className='w-full lg:min-w-[1080px]'>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <DialogHeader>
                             <DialogTitle>Book Event</DialogTitle>
                         </DialogHeader>
-                        <div className={`${!isFree ? 'grid grid-cols-1 md:grid-cols-2' : '' } gap-6 max-h-[75vh] overflow-y-auto`}>
+                        <div className={`${!isFree ? 'grid grid-cols-1 lg:grid-cols-2' : '' } gap-6 max-h-[75vh] overflow-y-auto`}>
                             <div>
                                 <div className='flex flex-wrap gap-2 justify-between items-center my-5'>
                                     <AtomText text='Attendee' type='content-title'/>
@@ -177,7 +177,7 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                 }
                             </div>
                             {
-                                !isFree ?
+                                !isFree &&
                                     <div>
                                         <AtomText type='content-title' text='Available Discount' extraClass='mb-2'/>
                                         { error && <MoleculeNoDataBox title='Something went wrong'/> }
@@ -191,8 +191,6 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                                 <MoleculeNoDataBox title={'No discount found'} color='gray'/>
                                         }
                                     </div>
-                                : 
-                                    <></>
                             }
                         </div>
                         <DialogFooter>

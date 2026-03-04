@@ -60,13 +60,13 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
     }
 
     return (
-        <div className="box-bordered">
+        <div className="box-bordered mb-5">
             <AtomText type='sub-title-small' text='Recent Transaction'/>
-            <div className='flex mb-5 justify-end gap-2'>
+            <div className='flex mb-5 justify-between lg:justify-end gap-2'>
                 <div>
                     <AtomText type='content' text='Filter by Status'/>
                     <Select value={status} onValueChange={handleStatusChange}>
-                        <SelectTrigger className="w-[200px] text-foreground">
+                        <SelectTrigger className="w-[120px] text-foreground">
                             <SelectValue placeholder="Status" />
                         </SelectTrigger>
                         <SelectContent>
@@ -79,7 +79,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                 </div>
                 <div>
                     <AtomText type='content' text='Search transaction'/>
-                    <Input type="text" placeholder="Search by event title or venue name" style={{minWidth:"340px"}}
+                    <Input type="text" placeholder="Search by event title or venue name" className='lg:w-[300px]'
                         value={search} onChange={(e) => setSearch(e.target.value)} onBlur={handleSearch}
                     />
                 </div>

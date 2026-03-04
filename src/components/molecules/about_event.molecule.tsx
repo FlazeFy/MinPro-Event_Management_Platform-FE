@@ -9,6 +9,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { EventDetailItem } from '@/repositories/r_event';
 import { Badge } from '../ui/badge';
+import AtomDivider from '../atoms/divider.atom';
 
 const MoleculeAboutEvent: React.FC<EventDetailItem> = ({ event_pic, event_category, event_title, event_organizer, event_desc, transactions }) => {
     let reviews = 0
@@ -39,15 +40,16 @@ const MoleculeAboutEvent: React.FC<EventDetailItem> = ({ event_pic, event_catego
                 <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent pointer-events-none" />
             </div>
             <div>
-                <div className='flex flex-wrap gap-2 justify-between items-center'>
-                    <AtomText type="title-huge" text={event_title} extraClass="text-2xl md:text-5xl font-bold text-primary mb-4"/>
-                    <Badge variant="default" className='capitalize py-2 px-4 text-sm'>{event_category.replaceAll("_", " ")}</Badge>
+                <div className='grid grid-cols-1 md:grid-cols-2 items-center'>
+                    <AtomText type="title-huge" text={event_title} extraClass="text-2xl md:text-5xl font-bold text-primary"/>
+                    <Badge variant="default" className='capitalize py-1 px-3 text-sm justify-self-start md:justify-self-end'>{event_category.replaceAll("_", " ")}</Badge>
                 </div>
-                <div className="flex flex-col md:flex-row gap-6 md:items-center mt-4 justify-between">
+                <AtomDivider/>
+                <div className="flex flex-col md:flex-row gap-3 md:items-center mt-4 justify-between">
                     <div className="min-w-50">
                         <MoleculeShortProfileBox title={event_organizer.organizer_name} image={event_organizer.profile_pic}/>
                     </div>
-                    <div className="flex items-center gap-3 bg-secondary/10 px-4 py-2 rounded-full border border-secondary/20">
+                    <div className="flex items-center gap-3 bg-secondary/10 px-4 py-2 rounded-full border border-secondary/20 max-w-[180px]">
                         <Star className="w-5 h-5 fill-primary text-primary" />
                         <div className="flex items-baseline gap-1">
                             <span className="text-xl font-bold text-primary">{rating}</span>

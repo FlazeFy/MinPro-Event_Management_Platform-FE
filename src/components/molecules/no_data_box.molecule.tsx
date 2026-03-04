@@ -22,8 +22,8 @@ const MoleculeNoDataBox: React.FC<IMoleculesNoDataBoxProps> = ({title, style, co
     const bgColor = colorVariants[color]
 
     return (
-        <div className={`${bgColor} my-2 rounded-xl py-10 w-full mx-auto flex flex-col items-center justify-center text-center`} style={style}>
-            <AtomText type="content-title" text={<><FontAwesomeIcon icon={faTriangleExclamation} /> Oops!</>}/>
+        <div className={`${bgColor} my-2 rounded-xl py-10 w-full mx-auto flex flex-col items-center justify-center text-center p-2`} style={style}>
+            <AtomText type="content-title" text="Oops!"/>
             <AtomText type="content" text={title} />
         </div>
     )

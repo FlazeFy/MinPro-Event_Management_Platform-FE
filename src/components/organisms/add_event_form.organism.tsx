@@ -10,11 +10,10 @@ import { useRouter } from "next/navigation"
 import Swal from "sweetalert2"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faPaperPlane, faTicket, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { Textarea } from '../ui/textarea'
 import { Checkbox } from "@/components/ui/checkbox"
 import AtomText from '../atoms/text.atom'
-import Link from 'next/link'
 import AtomDivider from '../atoms/divider.atom'
 import OrganismEventImagePicker from './event_image_picker.organism'
 import { loadingHelper } from '@/helpers/loading.helper'
@@ -98,131 +97,124 @@ const OrganismAddEventForm: React.FunctionComponent<IOrganismAddEventFormProps> 
     }
     
     return (
-        <div>
-            <Link href="/profile">
-                <Button className='mb-4 bg-danger'><FontAwesomeIcon icon={faArrowLeft}/>Back</Button>
-            </Link>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <AtomText type='content-title' text='Add Event' extraClass='mb-2'/>
-                    <FormField
-                        control={form.control} name="img" render={({ field }) => (
-                            <OrganismEventImagePicker label="Event Image" maxSize={10} value={field.value} onFileSelect={field.onChange}/>
-                        )}
-                    />
-                    <AtomDivider/>
-                    <FormField control={form.control} name="event_title" render={({ field }) => (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <AtomText type='content-title' text='Add Event' extraClass='mb-2'/>
+                <FormField
+                    control={form.control} name="img" render={({ field }) => (
+                        <OrganismEventImagePicker label="Event Image" maxSize={10} value={field.value} onFileSelect={field.onChange}/>
+                    )}
+                />
+                <AtomDivider/>
+                <FormField control={form.control} name="event_title" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Event Title</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Enter event title" {...field} />
+                        </FormControl>
+                        <FormMessage>{form.formState.errors.event_title?.message}</FormMessage>
+                    </FormItem>
+                )}/>
+                <FormField control={form.control} name="event_desc" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Event Description</FormLabel>
+                        <FormControl>
+                            <Textarea placeholder="Describe your event" {...field} />
+                        </FormControl>
+                        <FormMessage>{form.formState.errors.event_desc?.message}</FormMessage>
+                    </FormItem>
+                )}/>
+                <div className='grid grid-cols-2 gap-2'>
+                    <FormField control={form.control} name="event_category" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Event Title</FormLabel>
+                            <FormLabel>Event Category</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter event title" {...field} />
+                                <Select onValueChange={field.onChange}>
+                                    <SelectTrigger className='w-full me-2'>
+                                        <SelectValue placeholder="Select category" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="concert">Concert</SelectItem>
+                                        <SelectItem value="live_music">Live Music</SelectItem>
+                                        <SelectItem value="theater">Theater</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </FormControl>
-                            <FormMessage>{form.formState.errors.event_title?.message}</FormMessage>
+                            <FormMessage>{form.formState.errors.event_category?.message}</FormMessage>
                         </FormItem>
                     )}/>
-                    <FormField control={form.control} name="event_desc" render={({ field }) => (
+                    <FormField control={form.control} name="maximum_seat" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Event Description</FormLabel>
+                            <FormLabel>Maximum Seats</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Describe your event" {...field} />
+                                <Input type="number" min={1} onChange={e => field.onChange(Number(e.target.value))} value={field.value ?? 0} />
                             </FormControl>
-                            <FormMessage>{form.formState.errors.event_desc?.message}</FormMessage>
+                            <FormMessage>{form.formState.errors.maximum_seat?.message}</FormMessage>
                         </FormItem>
                     )}/>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-                        <FormField control={form.control} name="event_category" render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Event Category</FormLabel>
-                                <FormControl>
-                                    <Select onValueChange={field.onChange}>
-                                        <SelectTrigger className='w-full me-2'>
-                                            <SelectValue placeholder="Select category" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="concert">Concert</SelectItem>
-                                            <SelectItem value="live_music">Live Music</SelectItem>
-                                            <SelectItem value="theater">Theater</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormMessage>{form.formState.errors.event_category?.message}</FormMessage>
-                            </FormItem>
-                        )}/>
-                        <FormField control={form.control} name="maximum_seat" render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Maximum Seats</FormLabel>
-                                <FormControl>
-                                    <Input type="number" min={1} onChange={e => field.onChange(Number(e.target.value))} value={field.value ?? 0} />
-                                </FormControl>
-                                <FormMessage>{form.formState.errors.maximum_seat?.message}</FormMessage>
-                            </FormItem>
-                        )}/>
-                    </div>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-                        <FormField control={form.control} name="is_paid" render={({ field }) => (
-                            <FormItem className="flex items-center justify-between p-3 border rounded-xl">
-                                <FormControl>
-                                    <Checkbox 
-                                        checked={field.value} 
-                                        onCheckedChange={(checked) => {
-                                            field.onChange(checked === true) 
-                                            setIsPaidEvent(checked === true)
-                                        }} 
-                                    />
-                                </FormControl>
-                                <FormLabel>Is this a paid event?</FormLabel>
-                            </FormItem>
-                        )}/>
-                        <FormField control={form.control} name="event_price" render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Event Price</FormLabel>
-                                <FormControl>
-                                    <Input type="number" min={0} disabled={!isPaidEvent} onChange={e => field.onChange(Number(e.target.value))} value={field.value ?? 0}/>
-                                </FormControl>
-                                <FormMessage>{form.formState.errors.event_price?.message}</FormMessage>
-                            </FormItem>
-                        )}/>
-                    </div>
-                    <AtomDivider/>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                        <FormField control={form.control} name="start_date" render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Start Date & Time</FormLabel>
-                                <FormControl>
-                                    <Input type="datetime-local"
-                                        value={field.value ? field.value.toISOString().slice(0, 16) : ""}
-                                        onChange={e => field.onChange(new Date(e.target.value))}/>
-                                </FormControl>
-                                <FormMessage>{form.formState.errors.start_date?.message}</FormMessage>
-                            </FormItem>
-                        )}/>
-                        <FormField control={form.control} name="end_date" render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>End Date & Time</FormLabel>
-                                <FormControl>
-                                    <Input type="datetime-local" 
-                                        value={field.value ? field.value.toISOString().slice(0, 16) : ""}
-                                        onChange={e => field.onChange(new Date(e.target.value))}/>
-                                </FormControl>
-                                <FormMessage>{form.formState.errors.end_date?.message}</FormMessage>
-                            </FormItem>
-                        )}/>
-                    </div>
-                    <FormField control={form.control} name="description" render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Schedule Description</FormLabel>
+                </div>
+                <div className='grid grid-cols-2 gap-2'>
+                    <FormField control={form.control} name="is_paid" render={({ field }) => (
+                        <FormItem className="flex items-center justify-between p-3 border rounded-xl">
                             <FormControl>
-                                <Textarea placeholder="Optional schedule description" {...field} value={field.value ?? ""}/>
+                                <Checkbox 
+                                    checked={field.value} 
+                                    onCheckedChange={(checked) => {
+                                        field.onChange(checked === true) 
+                                        setIsPaidEvent(checked === true)
+                                    }} 
+                                />
                             </FormControl>
-                            <FormMessage>{form.formState.errors.description?.message}</FormMessage>
+                            <FormLabel>Is this a paid event?</FormLabel>
                         </FormItem>
                     )}/>
-                    <Button type="submit" className='w-full'>
-                        <FontAwesomeIcon icon={faPaperPlane}/> Publish Event
-                    </Button>
-                </form>
-            </Form>
-        </div>
+                    <FormField control={form.control} name="event_price" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Event Price</FormLabel>
+                            <FormControl>
+                                <Input type="number" min={0} disabled={!isPaidEvent} onChange={e => field.onChange(Number(e.target.value))} value={field.value ?? 0}/>
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.event_price?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                </div>
+                <AtomDivider/>
+                <div className='grid grid-cols-2 gap-2'>
+                    <FormField control={form.control} name="start_date" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Start Date</FormLabel>
+                            <FormControl>
+                                <Input type="datetime-local" value={field.value ? field.value.toISOString().slice(0, 16) : ""}
+                                    onChange={e => field.onChange(new Date(e.target.value))}/>
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.start_date?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                    <FormField control={form.control} name="end_date" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>End Date</FormLabel>
+                            <FormControl>
+                                <Input type="datetime-local" value={field.value ? field.value.toISOString().slice(0, 16) : ""}
+                                    onChange={e => field.onChange(new Date(e.target.value))}/>
+                            </FormControl>
+                            <FormMessage>{form.formState.errors.end_date?.message}</FormMessage>
+                        </FormItem>
+                    )}/>
+                </div>
+                <FormField control={form.control} name="description" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Schedule Description</FormLabel>
+                        <FormControl>
+                            <Textarea placeholder="Optional schedule description" {...field} value={field.value ?? ""}/>
+                        </FormControl>
+                        <FormMessage>{form.formState.errors.description?.message}</FormMessage>
+                    </FormItem>
+                )}/>
+                <Button type="submit" className='w-full'>
+                    <FontAwesomeIcon icon={faPaperPlane}/> Publish Event
+                </Button>
+            </form>
+        </Form>
     )
 }
 

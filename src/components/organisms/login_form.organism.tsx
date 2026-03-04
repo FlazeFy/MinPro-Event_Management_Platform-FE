@@ -90,7 +90,7 @@ const OrganismLoginForm: React.FunctionComponent<IOrganismLoginFormProps> = (pro
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" className='mt-3' disabled={form.formState.isSubmitting}>
+                    <Button type="submit" className='mt-3 w-full lg:w-auto' disabled={form.formState.isSubmitting}>
                         {
                             form.formState.isSubmitting ? "Let me check first..." : "Sign In"
                         }

@@ -11,13 +11,13 @@ const OrganismBookingStepList: React.FunctionComponent<IOrganismBookingStepListP
             <AtomText type='title-huge' text="Book events" extraClass='mb-0'/>
             <AtomText type='title-huge' text="was never this easy before" extraClass='text-primary'/>
             <div className="flex flex-wrap">
-                <div className="w-full md:w-1/3 p-5">
+                <div className="w-full md:w-1/2 p-3 md:p-6 lg:p-9">
                     <MoleculeStepBox icon={faCalendar} title="Find Your Event" description="Find the event you want to attend, fill out the guest form, and select the date." time={3}/>
                 </div>
-                <div className="w-full md:w-1/3 p-5">
+                <div className="w-full md:w-1/2 p-3 md:p-6 lg:p-9">
                     <MoleculeStepBox icon={faCreditCard} title="Make a Transaction" description="Make a purchase. QR code and bank transfers are accepted." time={5}/>
                 </div>
-                <div className="w-full md:w-1/3 p-5">
+                <div className="w-full md:w-1/2 p-3 md:p-6 lg:p-9 mx-auto">
                     <MoleculeStepBox icon={faTicket} title="Here's Your Ticket!" description="Your ticket will be sent to you, and you can enjoy the event." time={2}/>
                 </div>
             </div>

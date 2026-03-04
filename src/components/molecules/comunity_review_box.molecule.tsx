@@ -25,9 +25,9 @@ const renderStars = (rating: number) => {
 const MoleculeReviewBox: React.FC<TransactionReviewItem> = ({ reviews, customer }) => {
     return (
         <div className="rounded-3xl border border-gray-200 bg-white p-6">
-            <div className="flex items-start justify-between gap-4">
-                <div className="flex items-center gap-4">
-                    <AtomText type="content-title" text={customer.username} extraClass="text-3xl font-semibold text-primary leading-tight"/>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="">
+                    <AtomText type="content-title" text={customer.username} extraClass="font-semibold text-primary mb-1"/>
                     <AtomText type="sub-content" text={convertUTCToLocal(reviews[0].created_at)} extraClass="text-gray-500"/>
                 </div>
                 {renderStars(reviews[0].review_rate)}

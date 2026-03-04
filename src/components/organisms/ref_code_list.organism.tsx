@@ -15,7 +15,7 @@ const OrganismRefCodeList: React.FunctionComponent<IOrganismRefCodeListProps> = 
             <AtomText type='sub-title-small' text='Referral History'/>
             <br/>
             {
-                customers.length > 0 ? 
+                customers && customers.length > 0 ? 
                     customers.map((dt, idx) => (
                         <MoleculeTransactionBox key={idx}
                         title={dt.customer_user.username} desc={`Used at ${convertUTCToLocal(dt.customer_user.created_at, true, false)}`}

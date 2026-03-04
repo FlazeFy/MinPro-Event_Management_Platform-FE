@@ -46,10 +46,10 @@ const OrganismEventMonitoringList: React.FunctionComponent<IOrganismEventMonitor
     return (
         <div className="box-bordered">
             <AtomText type='sub-title-small' text='Recent Event'/>
-            <div className='flex flex-col mb-5 justify-end items-end'>
+            <div className='md:flex md:flex-col md:items-end'>
                 <div>
                     <AtomText type='content' text='Search event'/>
-                    <Input type="text" placeholder="Search by event title or venue name" className='w-full' style={{minWidth:"340px"}}
+                    <Input type="text" placeholder="Search by event title or venue name" className='w-full md:min-w-[300px]'
                         value={search} onChange={(e) => setSearch(e.target.value)} onBlur={handleSearch}/>
                 </div>
             </div>

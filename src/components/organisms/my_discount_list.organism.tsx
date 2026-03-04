@@ -49,7 +49,7 @@ const OrganismMyDiscountList: React.FunctionComponent<IOrganismMyDiscountListPro
                 <AtomText type='sub-title-small' text='My Discount Coupon'/>
                 { role === "event_organizer" && <OrganismAddDiscountForm action={fetchMyDiscount}/> }
             </div>
-            <div className={!loading && !error && items && items.length > 0 ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3" : ""}>
+            <div className={!loading && !error && items && items.length > 0 ? "grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mt-3" : ""}>
                 { error && <MoleculeNoDataBox title='Something went wrong'/> }
                 { loading && <Skeleton className="h-[200px] w-full rounded-xl" /> }
                 {

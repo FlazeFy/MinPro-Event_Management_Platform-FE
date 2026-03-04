@@ -175,7 +175,7 @@ const OrganismRegisterEventOrganizerForm: React.FunctionComponent<IOrganismRegis
                         </FormItem>
                     )}/>
                 <OrganismTermsAndConditionsBox isChecked={isCheckedTNC} action={(e) => setCheckTNC(e)}/>
-                <Button type="submit" className="mt-3" disabled={form.formState.isSubmitting}>
+                <Button type="submit" className="mt-3 w-full" disabled={form.formState.isSubmitting}>
                     {form.formState.isSubmitting ? "Creating your account..." : "Create My Account!"}
                 </Button>
             </form>
