@@ -13,12 +13,9 @@ const OrganismsEventOrganizerShortDetail: React.FunctionComponent<EventOrganizer
             <MoleculeShortProfileBox title={organizer_name}/>
             <AtomText text={bio} type='content' extraClass='text-sm'/>
             <AtomDivider/>
-            <div className='flex gap-2 mt-2'>
-                <Button>Contact</Button>
-                <Link href={`/event_organizer/${id}`}>
-                    <Button>Profile</Button>
-                </Link>
-            </div>
+            <Link href={`/event_organizer/${id}`}>
+                <Button>Profile</Button>
+            </Link>
         </div>
     )
 }

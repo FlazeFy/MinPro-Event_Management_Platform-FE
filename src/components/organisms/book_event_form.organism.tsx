@@ -177,7 +177,7 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                 }
                             </div>
                             {
-                                !isFree ?
+                                !isFree &&
                                     <div>
                                         <AtomText type='content-title' text='Available Discount' extraClass='mb-2'/>
                                         { error && <MoleculeNoDataBox title='Something went wrong'/> }
@@ -191,8 +191,6 @@ const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps
                                                 <MoleculeNoDataBox title={'No discount found'} color='gray'/>
                                         }
                                     </div>
-                                : 
-                                    <></>
                             }
                         </div>
                         <DialogFooter>
