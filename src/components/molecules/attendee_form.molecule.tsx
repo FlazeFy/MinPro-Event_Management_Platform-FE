@@ -6,19 +6,20 @@ import { Button } from '../ui/button'
 import { FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { BookEventFormValues } from '../organisms/book_event_form.organism'
 
-export interface AttendeeFormValues {
-    attendees: {
-        fullname: string
-        phone_number: string
-        birth_date: string
-    }[]
-}
+// export interface AttendeeFormValues {
+//     attendees: {
+//         fullname: string
+//         phone_number: string
+//         birth_date: string
+//     }[]
+// }
 
 interface MoleculeAttendeeFormProps {
     index: number
-    register: UseFormRegister<AttendeeFormValues>
-    errors: FieldErrors<AttendeeFormValues>
+    register: UseFormRegister<BookEventFormValues>
+    errors: FieldErrors<BookEventFormValues>
     onDelete: () => void
 }
 

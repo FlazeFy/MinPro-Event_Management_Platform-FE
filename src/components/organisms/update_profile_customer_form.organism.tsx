@@ -6,11 +6,12 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { MyProfileResponse, putUpdateProfileRepo } from "@/repositories/r_auth"
+import { Role } from "@/store/s_auth"
 
 interface Props {
     user: MyProfileResponse
     fetchMyProfile: () => void
-    onLoginStore: (data: { email: string; name: string }) => void
+    onLoginStore: (data: { email: string; name: string, role: Role }) => void
     setOpen: (val: boolean) => void
 }
 
@@ -49,7 +50,7 @@ const OrganismCustomerProfileForm: React.FC<Props> = ({ user, fetchMyProfile, on
                 title: "Done",
                 text: res,
             }).then(() => {
-                onLoginStore({ email: values.email, name: values.username })
+                onLoginStore({ email: values.email, name: values.username, role: 'customer' })
                 fetchMyProfile()
             })
         } catch (err: any) {
