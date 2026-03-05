@@ -87,8 +87,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">ID</TableHead>
-                        <TableHead>Event</TableHead>
+                        <TableHead>Transaction Code & Event</TableHead>
                         <TableHead>Date</TableHead>
                         <TableHead>{ role === "event_organizer" ? <>Customer</> : <>Status</> }</TableHead>
                         <TableHead>{ role === "event_organizer" ? <>History</> : <>Method</> }</TableHead>
@@ -115,16 +114,33 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                     }
                     {
                         !loading && !error && item?.data.map((dt, idx) => {
-                            const statusColor = dt.status === 'paid' ? 'green' : dt.status === 'attended' ? 'blue' : 'red'
+                            const statusColor = dt.status === 'paid' ? 'bg-green-200 text-green-700' 
+                                : dt.status === 'attended' ? 'bg-blue-200 text-blue-700' 
+                                : 'bg-orange-200 text-orange-700' 
 
                             return (
                                 <TableRow key={idx}>
-                                    <TableCell className="font-medium">
-                                        <MoleculeCopyBox value={dt.id} context='Transaction ID' isWithGrid={false}/>
-                                    </TableCell>
                                     <TableCell>
-                                        <AtomText type='content' text={dt.event.event_title} extraClass='mb-1'/>
-                                        <Badge variant="outline"><FontAwesomeIcon icon={faLocationDot}/> {dt.event.event_schedule[0].venue.venue_name}</Badge>
+                                        <AtomText type='content' text={dt.transaction_code} extraClass='mb-1 font-semibold'/>
+                                        <Link href={`/event/${dt.event.id}`}>
+                                            <div className='border border-gray-200 cursor-pointer p-2 rounded-xl hover:shadow-lg transition-all duration-300'>
+                                                <AtomText type='content' text={dt.event.event_title} extraClass='mb-1'/>
+                                                <Badge variant="outline"><FontAwesomeIcon icon={faLocationDot}/> {dt.event.event_schedule[0].venue.venue_name}</Badge>
+                                                {
+                                                    role === "customer" &&
+                                                        <div className='flex flex-wrap mt-2 gap-2 justify-between'>
+                                                            <div>
+                                                                <AtomText type='sub-content' text='Event Start At' extraClass='font-semibold'/>
+                                                                <AtomText type='sub-content' text={convertUTCToLocal(dt.event.event_schedule[0].start_date)}/>
+                                                            </div>
+                                                            <div>
+                                                                <AtomText type='sub-content' text='Event End At' extraClass='font-semibold'/>
+                                                                <AtomText type='sub-content' text={convertUTCToLocal(dt.event.event_schedule[0].end_date)}/>
+                                                            </div>
+                                                        </div>
+                                                }
+                                            </div>
+                                        </Link>
                                     </TableCell>
                                     <TableCell><AtomText type='sub-content' text={convertUTCToLocal(dt.created_at)}/></TableCell>
                                     <TableCell>
@@ -134,7 +150,7 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                                 profileImage={dt.customer.profile_pic ?? '/images/user.png'} withPoint={false}/>
                                         }
                                         <div className='flex gap-2'>
-                                            <Badge className={`bg-${statusColor}-200 text-${statusColor}-700 capitalize`}>{dt.status}</Badge>
+                                            <Badge className={`${statusColor} capitalize`}>{dt.status}</Badge>
                                             { dt.is_discount && <Badge className="bg-green-200 text-green-700">Discount</Badge> }
                                         </div>
                                     </TableCell>
@@ -143,11 +159,37 @@ const OrganismRecentTransactionList: React.FunctionComponent<IOrganismRecentTran
                                             role === "customer" ? <div className='capitalize'>{dt.payment_method.replaceAll("_", " ")}</div> : <OrganismCustomerTransactionList customer={dt.customer}/>
                                         }
                                     </TableCell>
-                                    <TableCell>
-                                        <div className='flex gap-2'>
-                                            <AtomText type='sub-content' text={<>Rp. {dt.amount.toLocaleString()}</>}/>
-                                            { role === "customer" && dt.amount > 0 && dt.status !== "pending" && <Badge className='bg-green-200 text-green-700'>+{Math.floor(dt.amount / 1000)} Pts</Badge> } 
-                                        </div>  
+                                    <TableCell style={{minWidth:"220px"}}>
+                                        {
+                                            dt.real_amount === 0 ? 
+                                                <AtomText type='sub-content' text='Rp. 0'/>
+                                            :
+                                                <div className='grid grid-cols-2 gap-10'>
+                                                    <div>
+                                                        <AtomText type='sub-content' text='Real Price' extraClass='font-semibold'/>
+                                                        <AtomText type='sub-content' text={`Rp. ${(dt.real_amount).toLocaleString()}`}/>
+                                                        {
+                                                            dt.discount_cut > 0 &&
+                                                                <>
+                                                                    <AtomText type='sub-content' text='Discount Cut' extraClass='font-semibold'/>
+                                                                    <AtomText type='sub-content' text={`Rp. ${dt.discount_cut.toLocaleString()}`}/>
+                                                                </>
+                                                        }
+                                                        {
+                                                            dt.point_cut > 0 &&
+                                                                <>
+                                                                    <AtomText type='sub-content' text='Point Cut' extraClass='font-semibold'/>
+                                                                    <AtomText type='sub-content' text={`Rp. ${dt.point_cut.toLocaleString()}`}/>
+                                                                </>
+                                                        }
+                                                    </div>  
+                                                    <div className='flex flex-col'>
+                                                        <AtomText type='sub-content' text='Final Price' extraClass='font-semibold'/>
+                                                        <AtomText type='sub-content' text={<>Rp. {dt.final_amount.toLocaleString()}</>}/>
+                                                        { role === "customer" && dt.final_amount > 0 && dt.status !== "pending" && <Badge className='bg-green-200 text-green-700 mt-2'>+{Math.floor(dt.final_amount / 1000)} Pts</Badge> } 
+                                                    </div>  
+                                                </div>
+                                        }
                                     </TableCell>
                                     <TableCell>
                                         {

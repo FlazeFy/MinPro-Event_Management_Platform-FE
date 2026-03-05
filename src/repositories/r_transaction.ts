@@ -1,12 +1,16 @@
 import apiCall from "@/configs/axios"
-import { EventData, FilePayload, PaginationMeta, UserShortInfo } from "./template"
+import { EventData, EventScheduleData, FilePayload, PaginationMeta, UserShortInfo } from "./template"
 
 const MODULE_URL = "/api/v1/transactions"
 
 export interface TransactionData {
     id: string
+    transaction_code: string
     created_at: string
-    amount: number
+    final_amount: number
+    discount_cut: number 
+    point_cut: number 
+    real_amount: number
     payment_method: string
     paid_off_at: string
     event: EventData
@@ -15,6 +19,7 @@ export interface TransactionData {
     status: string
     transaction_pic: string | null
     ticket_token: string | null
+    event_schedule: EventScheduleData[]
 }
 export interface AllTransactionResponse {
     data: TransactionData[]

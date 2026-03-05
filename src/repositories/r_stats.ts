@@ -37,7 +37,7 @@ export const getPeriodicAttendee = async (): Promise<LineChartResponse> => {
 }
 
 export interface CustomerTransactionByEventOrganizer {
-    amount: number
+    final_amount: number
     created_at: string
     event: EventData
 }
