@@ -63,3 +63,13 @@ export const getTransactionDashboardByEventId = async (eventId: string): Promise
 
     return res.data.data
 }
+
+export interface AppsSummaryData {
+    total_event: number
+    total_transaction: number
+}
+export const getAppsSummaryRepo = async (): Promise<AppsSummaryData> => {
+    const res = await apiCall.get(`${MODULE_URL}/summary/apps`)
+    
+    return res.data.data
+}
