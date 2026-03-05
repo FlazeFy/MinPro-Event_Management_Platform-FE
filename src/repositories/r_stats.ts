@@ -37,7 +37,7 @@ export const getPeriodicAttendee = async (): Promise<LineChartResponse> => {
 }
 
 export interface CustomerTransactionByEventOrganizer {
-    amount: number
+    final_amount: number
     created_at: string
     event: EventData
 }
@@ -61,5 +61,15 @@ export interface TransactionDashboardResponse {
 export const getTransactionDashboardByEventId = async (eventId: string): Promise<TransactionDashboardResponse> => {
     const res = await apiCall.get(`${MODULE_URL}/transaction/by_event/${eventId}`)
 
+    return res.data.data
+}
+
+export interface AppsSummaryData {
+    total_event: number
+    total_transaction: number
+}
+export const getAppsSummaryRepo = async (): Promise<AppsSummaryData> => {
+    const res = await apiCall.get(`${MODULE_URL}/summary/apps`)
+    
     return res.data.data
 }

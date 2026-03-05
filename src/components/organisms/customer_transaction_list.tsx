@@ -72,7 +72,7 @@ const OrganismCustomerTransactionList: React.FunctionComponent<IOrganismCustomer
                     { (!loading && error) || (!loading && item?.length === 0) && <MoleculeNoDataBox title="No enough data to show" style={{ height: "100px" }} color='gray'/> }
                     {
                         !loading && !error && item?.map((dt, idx) => (
-                            <MoleculeTransactionBox key={idx} title={`Rp. ${dt.amount.toLocaleString()}`} desc={
+                            <MoleculeTransactionBox key={idx} title={`Rp. ${dt.final_amount.toLocaleString()}`} desc={
                                 <><Badge className='bg-green-100 text-green-700 capitalize'>{dt.event.event_category.replaceAll('_',' ')}</Badge> {dt.event.event_title} at {convertUTCToLocal(dt.created_at)}</>
                             } withPoint={false}/>
                         ))
