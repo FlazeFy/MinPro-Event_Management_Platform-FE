@@ -44,7 +44,7 @@ const bookEventSchema = Yup.object({
         .min(1)
 })
 
-type BookEventFormValues = Yup.InferType<typeof bookEventSchema>
+export type BookEventFormValues = Yup.InferType<typeof bookEventSchema>
 
 const OrganismBookEventForm: React.FunctionComponent<IOrganismBookEventFormProps> = ({ eventOrganizerId, unitPrice, isFree, id }) => {
     const form = useForm<BookEventFormValues>({ resolver: yupResolver(bookEventSchema), defaultValues: { 
